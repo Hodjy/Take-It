@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/welcomeScreenFragment">
+
+    <fragment
+        android:id="@+id/welcomeScreenFragment"
+        android:name="com.hod.finalapp.fragments.WelcomeScreenFragment"
+        android:label="WelcomeScreenFragment" >
+        <action
+            android:id="@+id/action_welcomeScreenFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_welcomeScreenFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.hod.finalapp.fragments.SignInFragment"
+        android:label="SignInFragment" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.hod.finalapp.fragments.RegisterFragment"
+        android:label="RegisterFragment" />
+</navigation>

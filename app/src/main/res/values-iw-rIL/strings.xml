@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Social App</string>
+    <string name="welcome">ברוך הבא</string>
+    <string name="sign_in">התחבר</string>
+    <string name="register">הרשם</string>
+    <string name="enter_user_name">שם משתמש</string>
+    <string name="enter_password">סיסמה</string>
+    <string name="back">חזור</string>
+    <string name="confirm_password">אשר סיסמה</string>
+    <string name="enter_first_name">שם</string>
+</resources>
