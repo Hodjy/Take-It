@@ -34,7 +34,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_user_name"
+        android:hint="@string/enter_user_email"
         android:textColor="?attr/colorOnPrimary"
         app:boxBackgroundColor="?attr/colorPrimaryVariant"
         android:layout_margin="10dp">
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?attr/colorOnPrimary"
-            android:id="@+id/fragment_register_user_name_et"/>
+            android:id="@+id/fragment_register_email_et"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

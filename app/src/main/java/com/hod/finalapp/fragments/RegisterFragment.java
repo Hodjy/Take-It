@@ -13,8 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.hod.finalapp.R;
+import com.hod.finalapp.model.FirebaseHandler;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,22 +35,24 @@ public class RegisterFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
 
         EditText firstNameEt = rootView.findViewById(R.id.fragment_register_first_name_et);
-        EditText userNameEt = rootView.findViewById(R.id.fragment_register_user_name_et);
+        EditText emailEt = rootView.findViewById(R.id.fragment_register_email_et);
         EditText passwordEt = rootView.findViewById(R.id.fragment_register_password_et);
         EditText confirmPasswordEt = rootView.findViewById(R.id.fragment_register_confirm_password_et);
         Button registerBtn = rootView.findViewById(R.id.fragment_register_register_btn);
         Button backBtn = rootView.findViewById(R.id.fragment_register_back_btn);
 
+        //TODO Make the input highlight better: https://youtu.be/TwHmrZxiPA8?t=510
+        //TODO After register press, hide buttons and display loading gif
         registerBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 String firstName = firstNameEt.getText().toString();
-                String userName = userNameEt.getText().toString();
+                String email = emailEt.getText().toString();
                 String password = passwordEt.getText().toString();
                 String confirmPassword = confirmPasswordEt.getText().toString();
-                boolean detailsNotEmpty = !firstName.isEmpty() && !userName.isEmpty() && !password.isEmpty();
+                boolean detailsNotEmpty = !firstName.isEmpty() && !email.isEmpty() && !password.isEmpty();
 
                 if(detailsNotEmpty)
                 {
@@ -53,8 +60,32 @@ public class RegisterFragment extends Fragment
 
                     if(passwordsMatch)
                     {
-                        //TODO register
-                        Toast.makeText(getContext(), "Register!", Toast.LENGTH_SHORT).show();
+                        FirebaseHandler.getInstance().signUpUser(email, password,
+                                new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<AuthResult> task)
+                            {
+                                if(task.isSuccessful())
+                                {
+
+                                    FirebaseHandler.getInstance().updateUserData(new UserProfileChangeRequest
+                                                    .Builder()
+                                                    .setDisplayName(firstName).build(),
+                                            new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull @NotNull Task<Void> task)
+                                                {
+                                                    Toast.makeText(getContext(), "Register!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                                else
+                                {
+                                    Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
                     }
                     else
                     {

@@ -6,14 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
 import com.hod.finalapp.R;
+import com.hod.finalapp.model.FirebaseHandler;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +32,7 @@ public class SignInFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_sign_in, container, false);
 
-        EditText userNameET = rootView.findViewById(R.id.fragment_sign_in_user_name_et);
+        EditText emailET = rootView.findViewById(R.id.fragment_sign_in_email_et);
         EditText passwordET = rootView.findViewById(R.id.fragment_sign_in_password_et);
         Button signInBtn = rootView.findViewById(R.id.fragment_sign_in_sign_in_btn);
         Button backBtn = rootView.findViewById(R.id.fragment_sign_in_back_btn);
@@ -38,13 +42,28 @@ public class SignInFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                String username = userNameET.getText().toString();
+                String email = emailET.getText().toString();
                 String password = passwordET.getText().toString();
 
-                if(!username.isEmpty() && !password.isEmpty())
+                if(!email.isEmpty() && !password.isEmpty())
                 {
-                    //TODO log in user
-                    Toast.makeText(getContext(), "Name:" + username + " Pass: " + password, Toast.LENGTH_SHORT).show();
+                    FirebaseHandler.getInstance().signInUser(email, password,
+                            new OnCompleteListener<AuthResult>()
+                            {
+                                @Override
+                                public void onComplete(@NonNull @NotNull Task<AuthResult> task)
+                                {
+                                    if(task.isSuccessful())
+                                    {
+                                        assert getParentFragment() != null;
+                                        NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_to_userMainScreenFragment);
+                                    }
+                                    else
+                                    {
+                                        Snackbar.make(getView(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                 }
             }
         });

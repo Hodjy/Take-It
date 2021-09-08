@@ -9,18 +9,45 @@
         android:name="com.hod.finalapp.fragments.WelcomeScreenFragment"
         android:label="WelcomeScreenFragment" >
         <action
-            android:id="@+id/action_welcomeScreenFragment_to_signInFragment"
+            android:id="@+id/action_to_signInFragment"
             app:destination="@id/signInFragment" />
         <action
-            android:id="@+id/action_welcomeScreenFragment_to_registerFragment"
+            android:id="@+id/action_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_to_userMainScreenFragment"
+            app:destination="@id/userMainScreenFragment"
+            app:popUpTo="@id/welcomeScreenFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
         android:name="com.hod.finalapp.fragments.SignInFragment"
-        android:label="SignInFragment" />
+        android:label="SignInFragment" >
+        <action
+            android:id="@+id/action_to_userMainScreenFragment"
+            app:destination="@id/userMainScreenFragment"
+            app:popUpTo="@id/welcomeScreenFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.hod.finalapp.fragments.RegisterFragment"
-        android:label="RegisterFragment" />
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_to_userMainScreenFragment"
+            app:destination="@id/userMainScreenFragment"
+            app:popUpTo="@id/welcomeScreenFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/userMainScreenFragment"
+        android:name="com.hod.finalapp.fragments.UserMainScreenFragment"
+        android:label="UserMainScreenFragment" >
+        <action
+            android:id="@+id/action_to_welcomeScreenFragment"
+            app:destination="@id/welcomeScreenFragment"
+            app:popUpTo="@id/userMainScreenFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

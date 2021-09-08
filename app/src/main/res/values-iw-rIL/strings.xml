@@ -4,9 +4,11 @@
     <string name="welcome">ברוך הבא</string>
     <string name="sign_in">התחבר</string>
     <string name="register">הרשם</string>
-    <string name="enter_user_name">שם משתמש</string>
+    <string name="enter_user_email">אימייל</string>
     <string name="enter_password">סיסמה</string>
     <string name="back">חזור</string>
     <string name="confirm_password">אשר סיסמה</string>
     <string name="enter_first_name">שם</string>
+    <string name="header_title">אפשרויות</string>
+    <string name="sign_out">התנתק</string>
 </resources>
