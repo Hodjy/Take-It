@@ -1,23 +1,16 @@
 package com.hod.finalapp.model;
 
-import android.media.MediaPlayer;
-
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import org.jetbrains.annotations.NotNull;
-
 public class FirebaseHandler
 {
-    private static FirebaseHandler m_FirebaseHandler;
+    private static FirebaseHandler mFirebaseHandler;
     private static final String SERVER_KEY = "1";
-    private static FirebaseAuth m_FirebaseAuth;
+    private static FirebaseAuth mFirebaseAuth;
     private static FirebaseAuth.AuthStateListener m_FirebaseAuthListener;
 
 
@@ -25,42 +18,42 @@ public class FirebaseHandler
 
     private FirebaseHandler()
     {
-        m_FirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
     }
 
     public static FirebaseHandler getInstance()
     {
-        if(m_FirebaseHandler == null)
+        if(mFirebaseHandler == null)
         {
-            m_FirebaseHandler = new FirebaseHandler();
+            mFirebaseHandler = new FirebaseHandler();
         }
 
-        return m_FirebaseHandler;
+        return mFirebaseHandler;
     }
 
-    public void signInUser(String i_Email, String i_Password, OnCompleteListener<AuthResult> i_Listener)
+    public void signInUser(String iEmail, String iPassword, OnCompleteListener<AuthResult> iListener)
     {
-        m_FirebaseAuth.signInWithEmailAndPassword(i_Email, i_Password).addOnCompleteListener(i_Listener);
+        mFirebaseAuth.signInWithEmailAndPassword(iEmail, iPassword).addOnCompleteListener(iListener);
     }
 
-    public void signUpUser(String i_Email, String i_Password, OnCompleteListener<AuthResult> i_Listener)
+    public void signUpUser(String iEmail, String iPassword, OnCompleteListener<AuthResult> iListener)
     {
-        m_FirebaseAuth.createUserWithEmailAndPassword(i_Email, i_Password).addOnCompleteListener(i_Listener);
+        mFirebaseAuth.createUserWithEmailAndPassword(iEmail, iPassword).addOnCompleteListener(iListener);
     }
 
     public void updateUserData(UserProfileChangeRequest i_UserProfileChangeRequest,
-                               OnCompleteListener<Void> i_Listener)
+                               OnCompleteListener<Void> iListener)
     {
-        m_FirebaseAuth.getCurrentUser().updateProfile(i_UserProfileChangeRequest).addOnCompleteListener(i_Listener);
+        mFirebaseAuth.getCurrentUser().updateProfile(i_UserProfileChangeRequest).addOnCompleteListener(iListener);
     }
 
     public FirebaseUser getCurrentUser()
     {
-        return m_FirebaseAuth.getCurrentUser();
+        return mFirebaseAuth.getCurrentUser();
     }
 
     public void signUserOut()
     {
-        m_FirebaseAuth.signOut();
+        mFirebaseAuth.signOut();
     }
 }
