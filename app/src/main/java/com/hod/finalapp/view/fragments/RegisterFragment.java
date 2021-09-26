@@ -172,5 +172,18 @@ public class RegisterFragment extends Fragment
                 }
             }
         });
+
+        mViewModel.getCreateUserResult().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(!s.isEmpty())
+                {
+                    Snackbar.make(iRootView, s, Snackbar.LENGTH_LONG).show();
+                }
+                else {
+                    //TODO navigate to the correct fragment
+                }
+            }
+        });
     }
 }

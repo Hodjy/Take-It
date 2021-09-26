@@ -26,12 +26,17 @@ public class UserRepository
 {
     private static UserRepository mUserRepository;
     private final DatabaseReference mUserTable;
+
+    private AuthenticationManager mAuthenticationManager;
+
     private FirebaseAuth mFirebaseAuth;
     private User currentUser;
 
     private UserRepository()
     {
-        mFirebaseAuth = AuthenticationManager.getInstance().getAuth();
+        //mFirebaseAuth = AuthenticationManager.getInstance().getAuth();
+        mAuthenticationManager = AuthenticationManager.getInstance();
+
         mUserTable = DatabaseManager.getInstance().getFirebaseDatabaseInstance()
                 .getReference(eFirebaseDataTypes.USERS.mTypeName);
     }
@@ -47,45 +52,46 @@ public class UserRepository
     }
 
     public void registerNewUser(Context iContext, String iEmail, String iPassword,
-                                  String iFirstName, String iLastName)
+                                  String iFirstName, String iLastName, OnCompleteListener listener)
     {
-        currentUser = new User(iEmail, iPassword,null,
-                iFirstName,iLastName,null);
+//        currentUser = new User(iEmail, iPassword,null,
+//                iFirstName,iLastName,null);
 
-        mFirebaseAuth.createUserWithEmailAndPassword(currentUser.getUsername(), currentUser.getPassword()).addOnCompleteListener(
-                new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<AuthResult> task)
-                    {
-                        if(task.isSuccessful())
-                        {
-                            initUserData();
-                        }
-                        else
-                        {
-                            Toast.makeText(iContext, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        mAuthenticationManager.getAuth().createUserWithEmailAndPassword(iEmail, iPassword).addOnCompleteListener(listener);
     }
 
-    public void initUserData()
-    {
-        FirebaseHandler.getInstance().updateUserData(new UserProfileChangeRequest
-                        .Builder()
-                        .setDisplayName(currentUser.getFirstName()).build(),
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<Void> task)
-                    {
-                        Toast.makeText(iContext, "Registered!", Toast.LENGTH_SHORT).show();
-                        currentUser.setUserId(FirebaseHandler.getInstance().getCurrentUser().getUid());
-                        mUserTable.child(currentUser.getUserId()).setValue(currentUser);
-                    }
-                });
-    }
-    public void finilizeUserRegistration()
-    {
 
+
+
+
+//    public void initUserData()
+//    {
+//        FirebaseHandler.getInstance().updateUserData(new UserProfileChangeRequest
+//                        .Builder()
+//                        .setDisplayName(currentUser.getFirstName()).build(),
+//                new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull @NotNull Task<Void> task)
+//                    {
+//                        Toast.makeText(iContext, "Registered!", Toast.LENGTH_SHORT).show();
+//                        currentUser.setUserId(FirebaseHandler.getInstance().getCurrentUser().getUid());
+//                        mUserTable.child(currentUser.getUserId()).setValue(currentUser);
+//                    }
+//                });
+//    }
+//    public void finilizeUserRegistration()
+//    {
+//
+//    }
+
+    /** Fetch new user instance from firebase **/
+    public void updateCurrentUser() {
+        mAuthenticationManager.updateCurrentUser();
+    }
+
+    /** push user to firebase **/
+    public void pushUserToDatabase(User user){
+        user.setUserId(mAuthenticationManager.getCurrentLoggedInUser().getUid());
+        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).setValue(user);
     }
 }

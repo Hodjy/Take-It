@@ -7,8 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
 import com.hod.finalapp.R;
+import com.hod.finalapp.model.database_objects.User;
 import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,12 +25,14 @@ public class RegisterViewModel extends AndroidViewModel
     private String mConfirmPassword = "";
 
     private MutableLiveData<String> mErrorLiveData;
+    private MutableLiveData<String> mCreateUserResult;
 
     private UserRepository mUserRepository;
 
     public RegisterViewModel(@NonNull @NotNull Application application) {
         super(application);
         mErrorLiveData = new MutableLiveData<String>("");
+        mCreateUserResult = new MutableLiveData<String>("");
         mUserRepository = UserRepository.getInstance();
     }
 
@@ -52,6 +57,10 @@ public class RegisterViewModel extends AndroidViewModel
         mConfirmPassword = iConfirmPassword;
     }
 
+    public MutableLiveData<String> getCreateUserResult() {
+        return mCreateUserResult;
+    }
+
     public MutableLiveData<String> getErrorLiveData() {
         return mErrorLiveData;
     }
@@ -68,7 +77,7 @@ public class RegisterViewModel extends AndroidViewModel
             if(passwordsMatch)
             {
                 mUserRepository.registerNewUser(getApplication().getBaseContext(), mUsername, mPassword,
-                        mFirstname,mLastname);
+                        mFirstname,mLastname, setCreateUserListener());
             }
             else
             {
@@ -81,5 +90,30 @@ public class RegisterViewModel extends AndroidViewModel
             String msg = getApplication().getString(R.string.please_fill_all_the_details);
             mErrorLiveData.postValue(msg);
         }
+    }
+
+
+    public OnCompleteListener setCreateUserListener() {
+        return (OnCompleteListener<AuthResult>) task -> {
+            if(task.isSuccessful()){
+                finishSuccessfulRegister();
+            }
+            else
+            {
+                mCreateUserResult.postValue(task.getException().getMessage());
+            }
+
+        };
+    }
+
+    private void finishSuccessfulRegister() {
+
+        mUserRepository.updateCurrentUser();
+        User user = new User(mUsername, mPassword, null, mFirstname, mLastname, null);
+        //TODO UPDATE DATA BASE
+        mUserRepository.pushUserToDatabase(user);
+
+        mCreateUserResult.postValue("");
+
     }
 }
