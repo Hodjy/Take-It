@@ -5,10 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.ActivityNavigator;
 import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.annotation.SuppressLint;
@@ -17,8 +14,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseUser;
-import com.hod.finalapp.fragments.WelcomeScreenFragment;
 import com.hod.finalapp.model.FirebaseHandler;
 
 import org.jetbrains.annotations.NotNull;

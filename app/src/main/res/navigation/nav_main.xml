@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/welcomeScreenFragment"
-        android:name="com.hod.finalapp.fragments.WelcomeScreenFragment"
+        android:name="com.hod.finalapp.view.fragments.WelcomeScreenFragment"
         android:label="WelcomeScreenFragment" >
         <action
             android:id="@+id/action_to_signInFragment"
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.hod.finalapp.fragments.SignInFragment"
+        android:name="com.hod.finalapp.view.fragments.SignInFragment"
         android:label="SignInFragment" >
         <action
             android:id="@+id/action_to_userMainScreenFragment"
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.hod.finalapp.fragments.RegisterFragment"
+        android:name="com.hod.finalapp.view.fragments.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_to_userMainScreenFragment"
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/userMainScreenFragment"
-        android:name="com.hod.finalapp.fragments.UserMainScreenFragment"
+        android:name="com.hod.finalapp.view.fragments.UserMainScreenFragment"
         android:label="UserMainScreenFragment" >
         <action
             android:id="@+id/action_to_welcomeScreenFragment"

@@ -1,4 +1,4 @@
-package com.hod.finalapp.fragments;
+package com.hod.finalapp.view.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,20 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.hod.finalapp.R;
-import com.hod.finalapp.model.FirebaseHandler;
 import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;

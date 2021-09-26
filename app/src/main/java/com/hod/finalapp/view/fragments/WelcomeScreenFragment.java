@@ -1,4 +1,4 @@
-package com.hod.finalapp.fragments;
+package com.hod.finalapp.view.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
