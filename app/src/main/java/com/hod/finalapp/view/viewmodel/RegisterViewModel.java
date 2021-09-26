@@ -31,8 +31,8 @@ public class RegisterViewModel extends AndroidViewModel
 
     public RegisterViewModel(@NonNull @NotNull Application application) {
         super(application);
-        mErrorLiveData = new MutableLiveData<String>("");
-        mCreateUserResult = new MutableLiveData<String>("");
+        mErrorLiveData = new MutableLiveData<String>();
+        mCreateUserResult = new MutableLiveData<String>();
         mUserRepository = UserRepository.getInstance();
     }
 
@@ -76,8 +76,7 @@ public class RegisterViewModel extends AndroidViewModel
 
             if(passwordsMatch)
             {
-                mUserRepository.registerNewUser(getApplication().getBaseContext(), mUsername, mPassword,
-                        mFirstname,mLastname, setCreateUserListener());
+                mUserRepository.registerNewUser(mUsername, mPassword, setCreateUserListener());
             }
             else
             {
@@ -107,11 +106,9 @@ public class RegisterViewModel extends AndroidViewModel
     }
 
     private void finishSuccessfulRegister() {
-
-        mUserRepository.updateCurrentUser();
         User user = new User(mUsername, mPassword, null, mFirstname, mLastname, null);
-        //TODO UPDATE DATA BASE
         mUserRepository.pushUserToDatabase(user);
+        mUserRepository.updateCurrentUser(user);
 
         mCreateUserResult.postValue("");
 

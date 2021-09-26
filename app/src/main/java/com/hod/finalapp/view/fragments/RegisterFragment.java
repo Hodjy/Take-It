@@ -59,7 +59,7 @@ public class RegisterFragment extends Fragment
             }
         });
 
-        mBackBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());
+        mBackBtn.setOnClickListener(v -> popbackstack());
 
         return rootView;
     }
@@ -181,9 +181,15 @@ public class RegisterFragment extends Fragment
                     Snackbar.make(iRootView, s, Snackbar.LENGTH_LONG).show();
                 }
                 else {
-                    //TODO navigate to the correct fragment
+                    Snackbar.make(iRootView, "Registration Complete", Snackbar.LENGTH_LONG).show();
+                    popbackstack();
                 }
             }
         });
+    }
+
+    private void popbackstack()
+    {
+        NavHostFragment.findNavController(this).popBackStack();
     }
 }

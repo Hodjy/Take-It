@@ -1,20 +1,15 @@
 package com.hod.finalapp.model.repositories;
 
-import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.hod.finalapp.model.FirebaseHandler;
+import com.google.firebase.database.ValueEventListener;
 import com.hod.finalapp.model.database_objects.User;
 import com.hod.finalapp.model.firebase.AuthenticationManager;
 import com.hod.finalapp.model.firebase.DatabaseManager;
@@ -29,12 +24,10 @@ public class UserRepository
 
     private AuthenticationManager mAuthenticationManager;
 
-    private FirebaseAuth mFirebaseAuth;
-    private User currentUser;
+    private User mCurrentUser;
 
     private UserRepository()
     {
-        //mFirebaseAuth = AuthenticationManager.getInstance().getAuth();
         mAuthenticationManager = AuthenticationManager.getInstance();
 
         mUserTable = DatabaseManager.getInstance().getFirebaseDatabaseInstance()
@@ -51,47 +44,56 @@ public class UserRepository
         return  mUserRepository;
     }
 
-    public void registerNewUser(Context iContext, String iEmail, String iPassword,
-                                  String iFirstName, String iLastName, OnCompleteListener listener)
+    public void registerNewUser(String iUsername, String iPassword, OnCompleteListener iListener)
     {
-//        currentUser = new User(iEmail, iPassword,null,
-//                iFirstName,iLastName,null);
-
-        mAuthenticationManager.getAuth().createUserWithEmailAndPassword(iEmail, iPassword).addOnCompleteListener(listener);
+        mAuthenticationManager.getAuth().createUserWithEmailAndPassword(iUsername, iPassword).addOnCompleteListener(iListener);
+        //TODO if we do need the user firstname in the authentication account, check the ver 0.1 "initUserData" method call on UserRepositoryClass.
     }
 
-
-
-
-
-//    public void initUserData()
-//    {
-//        FirebaseHandler.getInstance().updateUserData(new UserProfileChangeRequest
-//                        .Builder()
-//                        .setDisplayName(currentUser.getFirstName()).build(),
-//                new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull @NotNull Task<Void> task)
-//                    {
-//                        Toast.makeText(iContext, "Registered!", Toast.LENGTH_SHORT).show();
-//                        currentUser.setUserId(FirebaseHandler.getInstance().getCurrentUser().getUid());
-//                        mUserTable.child(currentUser.getUserId()).setValue(currentUser);
-//                    }
-//                });
-//    }
-//    public void finilizeUserRegistration()
-//    {
-//
-//    }
-
     /** Fetch new user instance from firebase **/
-    public void updateCurrentUser() {
+    public void updateCurrentUser(User user) {
         mAuthenticationManager.updateCurrentUser();
+        mCurrentUser = user;
     }
 
     /** push user to firebase **/
     public void pushUserToDatabase(User user){
         user.setUserId(mAuthenticationManager.getCurrentLoggedInUser().getUid());
         mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).setValue(user);
+    }
+
+    public User getCurrentUser()
+    {
+        return mCurrentUser;
+    }
+
+    public void fetchLoggedInUser()
+    {
+        mUserTable.child(mAuthenticationManager.getAuth().getCurrentUser().getUid());
+    }
+
+    public void initUserInfo()
+    {
+        mUserTable.child(mAuthenticationManager.getAuth().getCurrentUser().getUid()).addValueEventListener(getUserListener());
+    }
+
+
+    private ValueEventListener getUserListener()
+    {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    mCurrentUser = snapshot.getValue(User.class);
+                    Log.d("UserTest", mCurrentUser.getFirstName());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
     }
 }

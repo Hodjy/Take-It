@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.hod.finalapp.R;
 import com.hod.finalapp.model.FirebaseHandler;
+import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,8 +25,8 @@ public class UserMainScreenFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_user_main_screen, container, false);
 
         TextView firstnameTv = rootView.findViewById(R.id.fragment_user_main_screen_firstname_tv);
-
-        firstnameTv.setText(FirebaseHandler.getInstance().getCurrentUser().getDisplayName());
+        UserRepository.getInstance().initUserInfo();
+        firstnameTv.setText("help");
 
         return rootView;
     }
