@@ -11,4 +11,6 @@
     <string name="header_title">Options</string>
     <string name="sign_out">Sign Out</string>
     <string name="last_name">Last Name</string>
+    <string name="passwords_do_not_match">Passwords do not match.</string>
+    <string name="please_fill_all_the_details">Please fill all the details</string>
 </resources>
