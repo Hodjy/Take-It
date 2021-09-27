@@ -33,16 +33,4 @@ public class WelcomeScreenFragment extends Fragment
 
         return rootView;
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        FirebaseUser user = FirebaseHandler.getInstance().getCurrentUser();
-
-        if(user != null)
-        {
-            NavHostFragment.findNavController(this).navigate(R.id.action_to_userMainScreenFragment);
-        }
-    }
 }
