@@ -1,6 +1,8 @@
 package com.hod.finalapp.view.fragments;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +12,24 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
 import com.hod.finalapp.R;
-import com.hod.finalapp.model.FirebaseHandler;
+import com.hod.finalapp.view.viewmodel.SignInViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 public class SignInFragment extends Fragment
 {
+    private SignInViewModel mViewmodel;
+    private EditText mUsernameET;
+    private EditText mPasswordET;
+    private Button mSignInBtn;
+    private Button mBackBtn;
+
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -31,48 +38,84 @@ public class SignInFragment extends Fragment
                              @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        mViewmodel = new ViewModelProvider(this).get(SignInViewModel.class);
 
-        EditText emailET = rootView.findViewById(R.id.fragment_sign_in_email_et);
-        EditText passwordET = rootView.findViewById(R.id.fragment_sign_in_password_et);
-        Button signInBtn = rootView.findViewById(R.id.fragment_sign_in_sign_in_btn);
-        Button backBtn = rootView.findViewById(R.id.fragment_sign_in_back_btn);
+        initUI(rootView);
+        setObservers(rootView, this);
 
-        signInBtn.setOnClickListener(new View.OnClickListener()
+        mSignInBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                String email = emailET.getText().toString();
-                String password = passwordET.getText().toString();
-
-                if(!email.isEmpty() && !password.isEmpty())
-                {
-                    //TODO now
-                    FirebaseHandler.getInstance().signInUser(email, password,
-                            new OnCompleteListener<AuthResult>()
-                            {
-                                @Override
-                                public void onComplete(@NonNull @NotNull Task<AuthResult> task)
-                                {
-                                    if(task.isSuccessful())
-                                    {
-                                        assert getParentFragment() != null;
-                                        NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_to_userMainScreenFragment);
-                                    }
-                                    else
-                                    {
-                                        Snackbar.make(getView(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                }
+                mViewmodel.signIn();
             }
         });
 
-        backBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());
+        mBackBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());
 
 
 
         return rootView;
+    }
+
+    private void initUI(View iRootView)
+    {
+        mUsernameET = iRootView.findViewById(R.id.fragment_sign_in_email_et);
+        mPasswordET = iRootView.findViewById(R.id.fragment_sign_in_password_et);
+
+        mSignInBtn = iRootView.findViewById(R.id.fragment_sign_in_sign_in_btn);
+        mBackBtn = iRootView.findViewById(R.id.fragment_sign_in_back_btn);
+
+        mUsernameET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mViewmodel.setUsername(s.toString());
+            }
+        });
+
+        mPasswordET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mViewmodel.setPassword(s.toString());
+            }
+        });
+    }
+
+    private void setObservers(View iRootView, Fragment iThisFragment)
+    {
+        mViewmodel.getSignInError().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s.equals("")) // empty = success, else print the error.
+                {
+                    NavHostFragment.findNavController(iThisFragment).navigate(R.id.action_to_userMainScreenFragment);
+                }
+                else
+                {
+                    Snackbar.make(iRootView, s, Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

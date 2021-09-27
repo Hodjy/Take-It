@@ -15,7 +15,7 @@ import com.hod.finalapp.model.FirebaseHandler;
 import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
-
+//TODO Fix sign out fragment.
 public class UserMainScreenFragment extends Fragment
 {
     @Nullable

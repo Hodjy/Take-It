@@ -57,6 +57,11 @@ public class UserRepository
         //TODO if we do need the user firstname in the authentication account, check the ver 0.1 "initUserData" method call on UserRepositoryClass.
     }
 
+    public void signInUser(String iUsername, String iPassword, OnCompleteListener iListener)
+    {
+        mAuthenticationManager.getAuth().signInWithEmailAndPassword(iUsername, iPassword).addOnCompleteListener(iListener);
+    }
+
     /** Fetch new user instance from firebase **/
     public void updateCurrentUser(User user) {
         mAuthenticationManager.updateCurrentUser();
