@@ -25,8 +25,7 @@ public class UserMainScreenFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_user_main_screen, container, false);
 
         TextView firstnameTv = rootView.findViewById(R.id.fragment_user_main_screen_firstname_tv);
-        UserRepository.getInstance().initUserInfo();
-        firstnameTv.setText("help");
+        firstnameTv.setText(UserRepository.getInstance().getCurrentUser().getFirstName());
 
         return rootView;
     }

@@ -1,11 +1,15 @@
 package com.hod.finalapp.model.repositories;
 
+import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,12 +21,15 @@ import com.hod.finalapp.model.firebase.enums.eFirebaseDataTypes;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.Executor;
+
 public class UserRepository
 {
     private static UserRepository mUserRepository;
     private final DatabaseReference mUserTable;
 
     private AuthenticationManager mAuthenticationManager;
+    private OnCompleteListener mUserChangedListener;
 
     private User mCurrentUser;
 
@@ -72,8 +79,21 @@ public class UserRepository
         mUserTable.child(mAuthenticationManager.getAuth().getCurrentUser().getUid());
     }
 
-    public void initUserInfo()
+    public boolean isUserLoggedIn()
     {
+        boolean isLoggedIn = false;
+
+        if(mAuthenticationManager.getAuth().getCurrentUser() != null)
+        {
+            isLoggedIn = true;
+        }
+
+        return  isLoggedIn;
+    }
+
+    public void initUserInfo(OnCompleteListener iOnCompleteListener)
+    {
+        mUserChangedListener = iOnCompleteListener;
         mUserTable.child(mAuthenticationManager.getAuth().getCurrentUser().getUid()).addValueEventListener(getUserListener());
     }
 
@@ -86,6 +106,89 @@ public class UserRepository
                 if(snapshot.exists())
                 {
                     mCurrentUser = snapshot.getValue(User.class);
+                    if(mUserChangedListener != null)
+                    {
+                        mUserChangedListener.onComplete(new Task() {
+                            @Override
+                            public boolean isComplete() {
+                                return true;
+                            }
+
+                            @Override
+                            public boolean isSuccessful() {
+                                return true;
+                            }
+
+                            @Override
+                            public boolean isCanceled() {
+                                return false;
+                            }
+
+                            @Nullable
+                            @org.jetbrains.annotations.Nullable
+                            @Override
+                            public Object getResult() {
+                                return mCurrentUser;
+                            }
+
+                            @Nullable
+                            @org.jetbrains.annotations.Nullable
+                            @Override
+                            public Object getResult(@NonNull @NotNull Class aClass) throws Throwable {
+                                return mCurrentUser;
+                            }
+
+                            @Nullable
+                            @org.jetbrains.annotations.Nullable
+                            @Override
+                            public Exception getException() {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnSuccessListener(@NonNull @NotNull OnSuccessListener onSuccessListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnSuccessListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnSuccessListener onSuccessListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnSuccessListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnSuccessListener onSuccessListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnFailureListener(@NonNull @NotNull OnFailureListener onFailureListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnFailureListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnFailureListener onFailureListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnFailureListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnFailureListener onFailureListener) {
+                                return null;
+                            }
+                        });
+                        mUserChangedListener = null;
+                    }
                     Log.d("UserTest", mCurrentUser.getFirstName());
                 }
             }

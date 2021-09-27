@@ -47,6 +47,7 @@ public class SignInFragment extends Fragment
 
                 if(!email.isEmpty() && !password.isEmpty())
                 {
+                    //TODO now
                     FirebaseHandler.getInstance().signInUser(email, password,
                             new OnCompleteListener<AuthResult>()
                             {

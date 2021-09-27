@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_main"
-    app:startDestination="@id/welcomeScreenFragment">
+    app:startDestination="@id/splashScreenFragment">
 
     <fragment
         android:id="@+id/welcomeScreenFragment"
@@ -49,5 +49,18 @@
             app:destination="@id/welcomeScreenFragment"
             app:popUpTo="@id/userMainScreenFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.hod.finalapp.view.fragments.SplashScreenFragment"
+        android:label="SplashScreenFragment" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_welcomeScreenFragment"
+            app:destination="@id/welcomeScreenFragment"
+            app:popUpTo="@id/splashScreenFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_userMainScreenFragment"
+            app:destination="@id/userMainScreenFragment"
+            app:popUpTo="@id/splashScreenFragment" />
     </fragment>
 </navigation>
