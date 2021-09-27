@@ -14,6 +14,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.hod.finalapp.model.FirebaseHandler;
 import com.hod.finalapp.model.database_objects.User;
 import com.hod.finalapp.model.firebase.AuthenticationManager;
 import com.hod.finalapp.model.firebase.DatabaseManager;
@@ -204,4 +205,17 @@ public class UserRepository
             }
         };
     }
+
+    public void signUserOut()
+    {
+        mAuthenticationManager.getAuth().signOut();
+        setCurrentUserDataNull();
+    }
+
+    private void setCurrentUserDataNull()
+    {
+        mCurrentUser = null;
+        mAuthenticationManager.updateCurrentUser();
+    }
+
 }

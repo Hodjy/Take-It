@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.hod.finalapp.model.FirebaseHandler;
+import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity
             {
                 if(item.getItemId() == R.id.drawer_menu_log_out_item)
                 {
-                    FirebaseHandler.getInstance().signUserOut();
+                    UserRepository.getInstance().signUserOut();
                     navController.navigate(R.id.action_to_welcomeScreenFragment);
                 }
                 m_DrawerLayout.closeDrawers();
