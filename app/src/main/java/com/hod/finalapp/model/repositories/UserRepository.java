@@ -234,4 +234,9 @@ public class UserRepository
         mAuthenticationManager.updateCurrentUser();
     }
 
+    public void updateCurrentUserPhotoPath(String photoPath) {
+        mCurrentUser.setPictureUrl(photoPath);
+        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).child("pictureUrl").setValue(photoPath);
+        mAuthenticationManager.updateCurrentUser();
+    }
 }

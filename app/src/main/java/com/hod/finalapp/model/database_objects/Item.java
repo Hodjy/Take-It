@@ -3,6 +3,8 @@ package com.hod.finalapp.model.database_objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Item implements Parcelable
 {
     private String mItemId;
@@ -11,11 +13,13 @@ public class Item implements Parcelable
     private String mItemDescription;
     private String mLocation; //might be enum, if not then maybe coords?
     private String mLastUpdated;
+    private ArrayList<String> mPicturesUrls;
+
     // private enum(spesific type) mCategory
     // private enum(spesific type) mSubCategory
 
     public Item(String iItemId, String iOwnerId, String iItemName, String iItemDescription,
-                String iLocation, String iLastUpdated)
+                String iLocation, String iLastUpdated, ArrayList<String> iPicturesUrls)
     {
         mItemId = iItemId;
         mOwnerId = iOwnerId;
@@ -23,6 +27,7 @@ public class Item implements Parcelable
         mItemDescription = iItemDescription;
         mLocation = iLocation;
         mLastUpdated = iLastUpdated;
+        mPicturesUrls = iPicturesUrls;
     }
 
     protected Item(Parcel in) {
@@ -32,6 +37,7 @@ public class Item implements Parcelable
         mItemDescription = in.readString();
         mLocation = in.readString();
         mLastUpdated = in.readString();
+        mPicturesUrls = in.createStringArrayList();
     }
 
     @Override
@@ -42,6 +48,7 @@ public class Item implements Parcelable
         dest.writeString(mItemDescription);
         dest.writeString(mLocation);
         dest.writeString(mLastUpdated);
+        dest.writeStringList(mPicturesUrls);
     }
 
     @Override
