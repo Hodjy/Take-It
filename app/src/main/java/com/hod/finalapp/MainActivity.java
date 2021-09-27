@@ -47,8 +47,11 @@ public class MainActivity extends AppCompatActivity
             {
                 if(item.getItemId() == R.id.drawer_menu_log_out_item)
                 {
-                    UserRepository.getInstance().signUserOut();
-                    navController.navigate(R.id.action_to_welcomeScreenFragment);
+                    if(UserRepository.getInstance().isUserLoggedIn())
+                    {
+                        UserRepository.getInstance().signUserOut();
+                        navController.navigate(R.id.action_to_welcomeScreenFragment);
+                    }
                 }
                 m_DrawerLayout.closeDrawers();
                 return false;

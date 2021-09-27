@@ -15,13 +15,15 @@ import com.hod.finalapp.model.FirebaseHandler;
 import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
-//TODO Fix sign out fragment.
+
 public class UserMainScreenFragment extends Fragment
 {
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
-    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull @NotNull LayoutInflater inflater,
+                             @Nullable @org.jetbrains.annotations.Nullable ViewGroup container,
+                             @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_user_main_screen, container, false);
 
         TextView firstnameTv = rootView.findViewById(R.id.fragment_user_main_screen_firstname_tv);
