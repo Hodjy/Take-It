@@ -84,6 +84,7 @@ public class SignInViewModel extends AndroidViewModel
         {
             if(task.isSuccessful())
             {
+                UserRepository.getInstance().updateCurrentUserToken();
                 postError(""); // will post blank thus success.
             }
         };

@@ -14,7 +14,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.hod.finalapp.model.FirebaseHandler;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.hod.finalapp.model.database_objects.User;
 import com.hod.finalapp.model.firebase.AuthenticationManager;
 import com.hod.finalapp.model.firebase.DatabaseManager;
@@ -63,6 +63,25 @@ public class UserRepository
         mAuthenticationManager.getAuth().signInWithEmailAndPassword(iUsername, iPassword).addOnCompleteListener(iListener);
     }
 
+    private void sendRegistrationToServer(String iToken)
+    {
+        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).child("token").setValue(iToken);
+    }
+
+    public void updateCurrentUserToken()
+    {
+        FirebaseMessaging.getInstance().getToken()
+        .addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<String> task) {
+                if(task.isSuccessful())
+                {
+                    sendRegistrationToServer(task.getResult());
+                }
+            }
+        });
+    }
+
     /** Fetch new user instance from firebase **/
     public void updateCurrentUser(User user) {
         mAuthenticationManager.updateCurrentUser();
@@ -80,11 +99,6 @@ public class UserRepository
         return mCurrentUser;
     }
 
-    public void fetchLoggedInUser()
-    {
-        mUserTable.child(mAuthenticationManager.getAuth().getCurrentUser().getUid());
-    }
-
     public boolean isUserLoggedIn()
     {
         boolean isLoggedIn = false;
@@ -100,7 +114,8 @@ public class UserRepository
     public void initUserInfo(OnCompleteListener iOnCompleteListener)
     {
         mUserChangedListener = iOnCompleteListener;
-        mUserTable.child(mAuthenticationManager.getAuth().getCurrentUser().getUid()).addValueEventListener(getUserListener());
+        mAuthenticationManager.updateCurrentUser();
+        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).addValueEventListener(getUserListener());
     }
 
 
@@ -208,6 +223,7 @@ public class UserRepository
 
     public void signUserOut()
     {
+        sendRegistrationToServer("");
         mAuthenticationManager.getAuth().signOut();
         setCurrentUserDataNull();
     }
