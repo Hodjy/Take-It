@@ -17,4 +17,5 @@
     <string name="chats">Chats</string>
     <string name="my_items">My Items</string>
     <string name="confirm">Confirm</string>
+    <string name="no_permissions">No Permissions</string>
 </resources>

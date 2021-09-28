@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,6 +50,20 @@ public class UserProfileFragment extends Fragment
     {
         mFullname = iRootView.findViewById(R.id.fragment_user_profile_fullname_tv);
         mProfilePic = iRootView.findViewById(R.id.fragment_user_profile_user_profile_image);
+
+        mProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChangePictureDialogFragment mChangePictureDialogFragment = new ChangePictureDialogFragment(new ChangePictureDialogFragment.IChangePictureDialogListener() {
+                    @Override
+                    public void onPictureUriReceived(Uri iImageUri) {
+                        Toast.makeText(getActivity(), iImageUri.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                mChangePictureDialogFragment.show(getActivity().getSupportFragmentManager(), "Change picture dialog fragment");
+            }
+
+        });
     }
 
     private void initObservers()

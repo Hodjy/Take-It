@@ -18,4 +18,5 @@
     <string name="chats">שיחות</string>
     <string name="my_items">הפריטים שלי</string>
     <string name="confirm">אישור</string>
+    <string name="no_permissions">אין הרשאות</string>
 </resources>

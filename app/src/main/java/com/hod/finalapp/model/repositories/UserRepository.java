@@ -90,6 +90,7 @@ public class UserRepository
 
     /** push user to firebase **/
     public void pushUserToDatabase(User user){
+        mAuthenticationManager.updateCurrentUser();
         user.setUserId(mAuthenticationManager.getCurrentLoggedInUser().getUid());
         mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).setValue(user);
     }
