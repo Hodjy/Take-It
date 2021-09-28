@@ -13,4 +13,7 @@
     <string name="last_name">Last Name</string>
     <string name="passwords_do_not_match">Passwords do not match.</string>
     <string name="please_fill_all_the_details">Please fill all the details</string>
+    <string name="profile">Profile</string>
+    <string name="chats">Chats</string>
+    <string name="my_items">My Items</string>
 </resources>

@@ -44,8 +44,20 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item)
-            {
-                if(item.getItemId() == R.id.drawer_menu_log_out_item)
+            {//TODO make it better or at least try to (maybe stragey design pattern).
+                if(item.getItemId() == R.id.drawer_menu_profile)
+                {
+                    navController.navigate(R.id.action_userMainScreenFragment_to_userProfileFragment);
+                }
+                else if(item.getItemId() == R.id.drawer_menu_chats)
+                {
+                    navController.navigate(R.id.action_userMainScreenFragment_to_userChatsFragment);
+                }
+                else if(item.getItemId() == R.id.drawer_menu_my_items)
+                {
+                    navController.navigate(R.id.action_userMainScreenFragment_to_userItemsFragment);
+                }
+                else if(item.getItemId() == R.id.drawer_menu_log_out_item)
                 {
                     if(UserRepository.getInstance().isUserLoggedIn())
                     {

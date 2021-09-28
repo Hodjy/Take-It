@@ -14,4 +14,7 @@
     <string name="last_name">שם משפחה</string>
     <string name="passwords_do_not_match">ססמאות לא תואמות.</string>
     <string name="please_fill_all_the_details">בבקשה מלא את כל הפרטים.</string>
+    <string name="profile">משתמש</string>
+    <string name="chats">שיחות</string>
+    <string name="my_items">הפריטים שלי</string>
 </resources>

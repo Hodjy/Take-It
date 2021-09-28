@@ -11,6 +11,6 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif-light"
         android:textSize="30sp"
-        android:id="@+id/fragment_user_main_screen_firstname_tv"/>
+        android:text="Catalog" />
 
 </RelativeLayout>

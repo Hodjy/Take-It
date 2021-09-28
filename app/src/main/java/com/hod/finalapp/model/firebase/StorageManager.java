@@ -41,7 +41,9 @@ public class StorageManager
         return mFirebaseStorage;
     }
 
-    public void uploadUserProfilePicture(Uri imageUri, String CurrentUserID, OnCompleteListener<Uri> urlListener, OnCompleteListener<UploadTask.TaskSnapshot> completeListener){
+    public void uploadUserProfilePicture(Uri imageUri, String CurrentUserID,
+                                         OnCompleteListener<Uri> urlListener,
+                                         OnCompleteListener<UploadTask.TaskSnapshot> completeListener){
         mStorageRef = mFirebaseStorage.getReference(eStorageFolders.USERS_PROFILE_PICTURES.name);
         String path = CurrentUserID + ".png";
 
