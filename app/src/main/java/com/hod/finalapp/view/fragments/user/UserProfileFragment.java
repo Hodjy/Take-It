@@ -60,7 +60,8 @@ public class UserProfileFragment extends Fragment
                         Toast.makeText(getActivity(), iImageUri.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
-                mChangePictureDialogFragment.show(getActivity().getSupportFragmentManager(), "Change picture dialog fragment");
+
+                mChangePictureDialogFragment.show(getChildFragmentManager(), "Change picture dialog fragment");
             }
 
         });
