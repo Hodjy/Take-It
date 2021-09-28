@@ -1,4 +1,4 @@
-package com.hod.finalapp.model.enums;
+package com.hod.finalapp.model.firebase.enums;
 
 public enum eStorageFolders {
     USERS_PROFILE_PICTURES("users_profile_pictures"),

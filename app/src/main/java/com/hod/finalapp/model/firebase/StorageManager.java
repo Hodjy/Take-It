@@ -11,7 +11,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.hod.finalapp.model.enums.eStorageFolders;
+import com.hod.finalapp.model.firebase.enums.eStorageFolders;
 
 import java.util.UUID;
 
