@@ -70,7 +70,7 @@ public class ChangePictureDialogFragment extends DialogFragment
                              @Nullable @org.jetbrains.annotations.Nullable ViewGroup container,
                              @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment_change_picture, container, false);
-
+        
         initUI(rootView);
         initLaunchers();
         setPicSongBtn();
