@@ -38,6 +38,7 @@ import java.net.URI;
 
 public class ChangePictureDialogFragment extends DialogFragment
 {
+    private static final String DIALOG_TAG = "Change picture dialog fragment";
     private IChangePictureDialogListener mCallback;
     private Uri mPictureUri;
     private File m_File;
@@ -77,6 +78,10 @@ public class ChangePictureDialogFragment extends DialogFragment
 
 
         return rootView;
+    }
+
+    public static String getDialogTag(){
+        return DIALOG_TAG;
     }
 
     private void initUI(View iRootView)

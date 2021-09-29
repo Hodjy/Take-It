@@ -1,6 +1,7 @@
 package com.hod.finalapp.model.repositories;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.hod.finalapp.model.database_objects.User;
 import com.hod.finalapp.model.firebase.AuthenticationManager;
 import com.hod.finalapp.model.firebase.DatabaseManager;
+import com.hod.finalapp.model.firebase.StorageManager;
 import com.hod.finalapp.model.firebase.enums.eFirebaseDataTypes;
 
 import org.jetbrains.annotations.NotNull;
@@ -235,9 +237,13 @@ public class UserRepository
         mAuthenticationManager.updateCurrentUser();
     }
 
-    public void updateCurrentUserPhotoPath(String photoPath) {
-        mCurrentUser.setPictureUrl(photoPath);
-        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).child("pictureUrl").setValue(photoPath);
+    public void updateCurrentUserPhotoPath(String path) {
+        mCurrentUser.setPictureUrl(path);
+        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).child("pictureUrl").setValue(path);
         mAuthenticationManager.updateCurrentUser();
+    }
+
+    public void changeUserProfilePicture(Uri iImageUri, OnCompleteListener<Uri> urlListener){
+        StorageManager.getInstance().uploadUserProfilePicture(iImageUri, mAuthenticationManager.getCurrentLoggedInUser().getUid(), urlListener);
     }
 }

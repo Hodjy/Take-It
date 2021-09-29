@@ -57,10 +57,10 @@ public class UserProfileFragment extends Fragment
                 ChangePictureDialogFragment mChangePictureDialogFragment = new ChangePictureDialogFragment(new ChangePictureDialogFragment.IChangePictureDialogListener() {
                     @Override
                     public void onPictureUriReceived(Uri iImageUri) {
-                        Toast.makeText(getActivity(), iImageUri.toString(), Toast.LENGTH_SHORT).show();
+                        mViewModel.changeUserProfilePicture(iImageUri);
                     }
                 });
-                mChangePictureDialogFragment.show(getActivity().getSupportFragmentManager(), "Change picture dialog fragment");
+                mChangePictureDialogFragment.show(getActivity().getSupportFragmentManager(), ChangePictureDialogFragment.getDialogTag());
             }
 
         });

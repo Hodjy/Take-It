@@ -42,29 +42,26 @@ public class StorageManager
     }
 
     public void uploadUserProfilePicture(Uri imageUri, String CurrentUserID,
-                                         OnCompleteListener<Uri> urlListener,
-                                         OnCompleteListener<UploadTask.TaskSnapshot> completeListener){
+                                         OnCompleteListener<Uri> urlListener){
         mStorageRef = mFirebaseStorage.getReference(eStorageFolders.USERS_PROFILE_PICTURES.name);
         String path = CurrentUserID + ".png";
 
-        uploadPicture(imageUri, path, urlListener, completeListener);
+        uploadPicture(imageUri, path, urlListener);
     }
 
-    public void uploadItemPicture(Uri imageUri, String itemID, OnCompleteListener<Uri> urlListener,OnCompleteListener<UploadTask.TaskSnapshot> completeListener){
+    public void uploadItemPicture(Uri imageUri, String itemID, OnCompleteListener<Uri> urlListener){
         mStorageRef = mFirebaseStorage.getReference(eStorageFolders.ITEMS_PICTURES.name).child(itemID);
         String path = itemID + "_" + UUID.randomUUID() + ".png";
 
-        uploadPicture(imageUri, path, urlListener, completeListener);
+        uploadPicture(imageUri, path, urlListener);
     }
 
-    private void uploadPicture(Uri imageUri, String path, OnCompleteListener<Uri> urlListener, OnCompleteListener<UploadTask.TaskSnapshot> completeListener){
+    private void uploadPicture(Uri imageUri, String path, OnCompleteListener<Uri> urlListener){
         StorageMetadata metadata = new StorageMetadata.Builder()
                 .setContentType("image/png")
                 .build();
 
         UploadTask uploadTask = mStorageRef.child(path).putFile(imageUri, metadata);
-
-        uploadTask.addOnCompleteListener(completeListener);
 
         setUriListener(uploadTask, path, urlListener);
     }
