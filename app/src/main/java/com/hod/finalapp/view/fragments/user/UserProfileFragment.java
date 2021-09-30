@@ -63,7 +63,6 @@ public class UserProfileFragment extends Fragment
                 });
                 mChangePictureDialogFragment.show(getActivity().getSupportFragmentManager(), ChangePictureDialogFragment.getDialogTag());
             }
-
         });
     }
 
@@ -81,7 +80,6 @@ public class UserProfileFragment extends Fragment
             public void onChanged(Uri uri) {
                 Glide.with(UserProfileFragment.this)
                         .load(uri)
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                         .circleCrop()
                         .into(mProfilePic);
 

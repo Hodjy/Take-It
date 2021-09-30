@@ -11,6 +11,13 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif-light"
         android:textSize="30sp"
-        android:text="Catalog" />
+        android:text="Catalog"
+        android:id="@+id/fragment_catalog_main_screen_title_tv"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_catalog_main_screen_title_tv"
+        android:id="@+id/fragment_catalog_main_screen_item_list_rv"/>
 
 </RelativeLayout>

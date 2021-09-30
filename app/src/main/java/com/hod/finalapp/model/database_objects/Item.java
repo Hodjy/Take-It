@@ -18,6 +18,63 @@ public class Item implements Parcelable
     // private enum(spesific type) mCategory
     // private enum(spesific type) mSubCategory
 
+
+    public String getItemId() {
+        return mItemId;
+    }
+
+    public void setItemId(String iItemId) {
+        mItemId = iItemId;
+    }
+
+    public String getOwnerId() {
+        return mOwnerId;
+    }
+
+    public void setOwnerId(String iOwnerId) {
+        mOwnerId = iOwnerId;
+    }
+
+    public String getItemName() {
+        return mItemName;
+    }
+
+    public void setItemName(String iItemName) {
+        mItemName = iItemName;
+    }
+
+    public String getItemDescription() {
+        return mItemDescription;
+    }
+
+    public void setItemDescription(String iItemDescription) {
+        mItemDescription = iItemDescription;
+    }
+
+    public String getLocation() {
+        return mLocation;
+    }
+
+    public void setLocation(String iLocation) {
+        mLocation = iLocation;
+    }
+
+    public String getLastUpdated() {
+        return mLastUpdated;
+    }
+
+    public void setLastUpdated(String iLastUpdated) {
+        mLastUpdated = iLastUpdated;
+    }
+
+    public ArrayList<String> getPicturesUrls() {
+        return mPicturesUrls;
+    }
+
+    public void setPicturesUrls(ArrayList<String> iPicturesUrls) {
+        mPicturesUrls = iPicturesUrls;
+    }
+
     public Item(String iItemId, String iOwnerId, String iItemName, String iItemDescription,
                 String iLocation, String iLastUpdated, ArrayList<String> iPicturesUrls)
     {
