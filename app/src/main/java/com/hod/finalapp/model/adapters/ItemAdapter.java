@@ -15,13 +15,14 @@ import com.hod.finalapp.model.database_objects.Item;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
-    private List<Item> items;
+    private ArrayList<Item> items;
 
-    public ItemAdapter(List<Item> items) {
+    public ItemAdapter(ArrayList<Item> items) {
         this.items = items;
     }
 
