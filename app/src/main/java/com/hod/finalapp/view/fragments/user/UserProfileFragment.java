@@ -57,6 +57,7 @@ public class UserProfileFragment extends Fragment
                 ChangePictureDialogFragment mChangePictureDialogFragment = new ChangePictureDialogFragment(new ChangePictureDialogFragment.IChangePictureDialogListener() {
                     @Override
                     public void onPictureUriReceived(Uri iImageUri) {
+                        mProfilePic.setImageResource(R.drawable.ic_baseline_account_circle_24);
                         mViewModel.changeUserProfilePicture(iImageUri);
                     }
                 });
@@ -80,9 +81,13 @@ public class UserProfileFragment extends Fragment
             public void onChanged(Uri uri) {
                 Glide.with(UserProfileFragment.this)
                         .load(uri)
-                        .apply(RequestOptions.skipMemoryCacheOf(true))
                         .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                        .circleCrop()
                         .into(mProfilePic);
+
+//                                        .apply(RequestOptions.skipMemoryCacheOf(true))
+//                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+//                        .circleCrop()
             }
         });
     }
