@@ -20,7 +20,14 @@ public class UserProfileViewModel extends ViewModel
     {
         User user = UserRepository.getInstance().getCurrentUser();
         mFullName = new MutableLiveData<>(user.getFirstName() + " " +  user.getLastName());
-        mProfilePictureUri = new MutableLiveData<>();
+        if(user.getPictureUrl() != null)
+        {
+            mProfilePictureUri = new MutableLiveData<>(Uri.parse(user.getPictureUrl()));
+        }
+        else
+        {
+            mProfilePictureUri = new MutableLiveData<>();
+        }
     }
 
     public MutableLiveData<String> getFullName() {
