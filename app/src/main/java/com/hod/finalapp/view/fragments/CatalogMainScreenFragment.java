@@ -1,5 +1,6 @@
 package com.hod.finalapp.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class CatalogMainScreenFragment extends Fragment
 {
+    private ICatalogMainScreenFragmentListener m_Callback;
+
+    public interface ICatalogMainScreenFragmentListener
+    {
+        public void fragmentActiveStateChanged(boolean iIsActive);
+    }
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -29,5 +36,30 @@ public class CatalogMainScreenFragment extends Fragment
         //firstnameTv.setText(UserRepository.getInstance().getCurrentUser().getFirstName());
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(@NonNull @NotNull Context context) {
+        super.onAttach(context);
+        try
+        {
+            m_Callback = (ICatalogMainScreenFragmentListener)context;
+        }
+        catch(ClassCastException e)
+        {
+            throw new ClassCastException("Activity does not implement ICatalogMainScreenFragmentListener");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        m_Callback.fragmentActiveStateChanged(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        m_Callback.fragmentActiveStateChanged(false);
     }
 }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -14,14 +15,15 @@ import android.view.Gravity;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
-import com.hod.finalapp.model.FirebaseHandler;
 import com.hod.finalapp.model.repositories.UserRepository;
+import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements CatalogMainScreenFragment.ICatalogMainScreenFragmentListener
 {
-    private DrawerLayout m_DrawerLayout;
+    private DrawerLayout mDrawerLayout;
+    private ActionBar mActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        m_DrawerLayout = findViewById(R.id.activity_main_drawer_layout);
+        mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
         NavigationView navigationView = findViewById(R.id.activity_main_navigation_view);
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager()
                                             .findFragmentById(R.id.activity_main_nav_host_fragment);
@@ -38,8 +40,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar appToolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(appToolbar);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar = getSupportActionBar();
+
+        mActionBar.setDisplayHomeAsUpEnabled(false);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity
                         navController.navigate(R.id.action_to_welcomeScreenFragment);
                     }
                 }
-                m_DrawerLayout.closeDrawers();
+                mDrawerLayout.closeDrawers();
                 return false;
             }
         });
@@ -77,8 +81,29 @@ public class MainActivity extends AppCompatActivity
     {
         if(item.getItemId() == android.R.id.home)
         {
-            m_DrawerLayout.openDrawer(Gravity.START);
+            mDrawerLayout.openDrawer(Gravity.START);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void fragmentActiveStateChanged(boolean iIsActive) // toggle hamburger icon if entered or left item catalog fragment.
+    {
+        mActionBar.setDisplayHomeAsUpEnabled(iIsActive);
+
+        if(iIsActive)
+        {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        }
+        else
+        {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+            if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+            {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+        }
     }
 }
