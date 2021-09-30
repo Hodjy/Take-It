@@ -20,4 +20,6 @@
     <string name="no_permissions">No Permissions</string>
     <string name="item_name">Item Name</string>
     <string name="title">Title</string>
+    <string name="item_description">Item Description</string>
+    <string name="create">Create</string>
 </resources>

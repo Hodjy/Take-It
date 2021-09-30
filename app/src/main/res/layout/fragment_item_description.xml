@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/fragment_item_description_photo_iv"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="30dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fragment_item_description_item_name_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColor="?attr/colorOnPrimary"
+            android:layout_below="@id/fragment_item_description_photo_iv"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fragment_item_description_item_description_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/fragment_item_description_item_name_et"
+            android:textColor="?attr/colorOnPrimary" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_item_description_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_item_description_item_description_et"
+            android:layout_centerHorizontal="true"
+            android:text="@string/back" />
+    </RelativeLayout>
+</ScrollView>
