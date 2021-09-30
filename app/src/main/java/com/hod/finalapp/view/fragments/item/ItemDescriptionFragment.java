@@ -13,7 +13,7 @@ import com.hod.finalapp.R;
 
 import org.jetbrains.annotations.NotNull;
 
-public class CreateNewItemFragment extends Fragment
+public class ItemDescriptionFragment extends Fragment
 {
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -22,7 +22,7 @@ public class CreateNewItemFragment extends Fragment
                              @Nullable @org.jetbrains.annotations.Nullable ViewGroup container,
                              @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.fragment_create_new_item, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_item_description, container, false);
 
         return rootView;
     }

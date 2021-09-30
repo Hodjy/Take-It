@@ -20,4 +20,7 @@
     <string name="confirm">אישור</string>
     <string name="no_permissions">אין הרשאות</string>
     <string name="item_name">שם הפריט</string>
+    <string name="item_description">תיאור הפריט</string>
+    <string name="title">תואר</string>
+    <string name="create">צור</string>
 </resources>

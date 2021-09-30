@@ -23,15 +23,48 @@
             android:hint="@string/item_name"
             android:textColor="?attr/colorOnPrimary"
             app:boxBackgroundColor="?attr/colorPrimaryVariant"
-            android:layout_below="@id/fragment_create_new_item_photo_iv">
+            android:layout_below="@id/fragment_create_new_item_photo_iv"
+            android:id="@+id/fragment_create_new_item_name_textfield">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fragment_register_first_name_et"
+                android:id="@+id/fragment_create_new_item_name_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/colorOnPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:hint="@string/item_description"
+            android:textColor="?attr/colorOnPrimary"
+            app:boxBackgroundColor="?attr/colorPrimaryVariant"
+            android:layout_below="@id/fragment_create_new_item_name_textfield"
+            android:id="@+id/fragment_create_new_item_description_textfield">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragment_create_new_item_description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnPrimary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create"
+            android:layout_below="@+id/fragment_create_new_item_description_textfield"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/fragment_create_new_item_create_btn"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:layout_below="@id/fragment_create_new_item_create_btn"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/fragment_create_new_item_back_btn"/>
     </RelativeLayout>
 </ScrollView>
