@@ -19,4 +19,5 @@
     <string name="my_items">הפריטים שלי</string>
     <string name="confirm">אישור</string>
     <string name="no_permissions">אין הרשאות</string>
+    <string name="item_name">שם הפריט</string>
 </resources>

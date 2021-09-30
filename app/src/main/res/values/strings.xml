@@ -18,4 +18,5 @@
     <string name="my_items">My Items</string>
     <string name="confirm">Confirm</string>
     <string name="no_permissions">No Permissions</string>
+    <string name="item_name">Item Name</string>
 </resources>
