@@ -8,12 +8,68 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/fragment_create_new_item_photo_iv"
-            android:layout_width="300dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:orientation="horizontal"
+            android:id="@+id/fragment_create_new_item_pictures_container_LL">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/fragment_create_new_item_photo_1_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:layout_centerHorizontal="true"
-            android:layout_margin="30dp" />
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:src="@color/purple_700"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/fragment_create_new_item_photo_2_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:src="@color/purple_700"/>
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/fragment_create_new_item_photo_3_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:src="@color/purple_700"/>
+                </LinearLayout>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/fragment_create_new_item_photo_4_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:src="@color/purple_700"/>
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -23,7 +79,7 @@
             android:hint="@string/item_name"
             android:textColor="?attr/colorOnPrimary"
             app:boxBackgroundColor="?attr/colorPrimaryVariant"
-            android:layout_below="@id/fragment_create_new_item_photo_iv"
+            android:layout_below="@id/fragment_create_new_item_pictures_container_LL"
             android:id="@+id/fragment_create_new_item_name_textfield">
 
             <com.google.android.material.textfield.TextInputEditText

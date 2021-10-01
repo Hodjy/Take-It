@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ItemDescriptionFragment extends Fragment
 {
+    ////location, type, *subtype*, 4 pictures, description, name and owner name(needs to be fetched realtime).
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
