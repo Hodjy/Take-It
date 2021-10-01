@@ -4,17 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.hod.finalapp.R;
+import com.hod.finalapp.view.viewmodel.item.CreateNewItemViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 public class CreateNewItemFragment extends Fragment
 {
+    private CreateNewItemViewModel mViewModel;
+    Button mCreateItemBtn;
+
     //location, type, *subtype*, 4 pictures, description, name and owner name(needs to be fetched realtime).
     //TODO grid https://youtu.be/k2R38Rv4Vmk maybe be good.(material design)
     @Nullable
@@ -25,7 +31,20 @@ public class CreateNewItemFragment extends Fragment
                              @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_create_new_item, container, false);
+        mViewModel = new ViewModelProvider(this).get(CreateNewItemViewModel.class);
+
+        initUI(rootView);
 
         return rootView;
     }
+
+    private void initUI(View iRootView)
+    {
+        mCreateItemBtn = iRootView.findViewById(R.id.fragment_create_new_item_create_btn);
+
+        mCreateItemBtn.setOnClickListener(v -> {
+            mViewModel.createItem();
+        });
+    }
+
 }

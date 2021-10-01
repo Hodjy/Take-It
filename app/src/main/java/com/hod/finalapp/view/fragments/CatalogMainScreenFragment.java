@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +36,9 @@ public class CatalogMainScreenFragment extends Fragment
     ItemAdapter mItemAdapter;
     CatalogMainScreenViewModel mCatalogMainScreenViewModel;
     ArrayList<Item> mItemsList;
+
+    //TODO remove this button
+    Button mTempButton;
 
     public interface ICatalogMainScreenFragmentListener
     {
@@ -70,6 +75,11 @@ public class CatalogMainScreenFragment extends Fragment
 
         mCatalogMainScreenViewModel.getItemsList();
 
+        //TODO remove this button
+        mTempButton = iRootView.findViewById(R.id.fragment_catalog_main_screen_temp_btn);
+        mTempButton.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.createNewItemFragment);
+        });
     }
 
     private void initObservers() {

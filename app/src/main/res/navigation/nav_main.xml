@@ -86,4 +86,8 @@
         android:id="@+id/userItemsFragment"
         android:name="com.hod.finalapp.view.fragments.user.UserItemsFragment"
         android:label="UserItemsFragment" />
+    <fragment
+        android:id="@+id/createNewItemFragment"
+        android:name="com.hod.finalapp.view.fragments.item.CreateNewItemFragment"
+        android:label="CreateNewItemFragment" />
 </navigation>

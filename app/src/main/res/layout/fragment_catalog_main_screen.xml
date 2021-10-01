@@ -20,4 +20,13 @@
         android:layout_below="@+id/fragment_catalog_main_screen_title_tv"
         android:id="@+id/fragment_catalog_main_screen_item_list_rv"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TempButton"
+        android:id="@+id/fragment_catalog_main_screen_temp_btn"
+        android:layout_below="@id/fragment_catalog_main_screen_item_list_rv"
+        android:layout_centerHorizontal="true"/>
+
+
 </RelativeLayout>

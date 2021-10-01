@@ -75,10 +75,21 @@ public class Item implements Parcelable
         mPicturesUrls = iPicturesUrls;
     }
 
-    public Item(String iItemId, String iOwnerId, String iItemName, String iItemDescription,
+    public Item()
+    {
+        mItemId = null;
+        mOwnerId = null;
+        mItemName = null;
+        mItemDescription = null;
+        mLocation = null;
+        mLastUpdated = null;
+        mPicturesUrls = null;
+    }
+
+    public Item(String iOwnerId, String iItemName, String iItemDescription,
                 String iLocation, String iLastUpdated, ArrayList<String> iPicturesUrls)
     {
-        mItemId = iItemId;
+        mItemId = null;
         mOwnerId = iOwnerId;
         mItemName = iItemName;
         mItemDescription = iItemDescription;

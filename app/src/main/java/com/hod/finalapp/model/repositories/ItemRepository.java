@@ -37,6 +37,7 @@ public class ItemRepository {
     {
         mItemTable = DatabaseManager.getInstance().getFirebaseDatabaseInstance()
                 .getReference(eFirebaseDataTypes.ITEMS.mTypeName);
+        mItemsList = new ArrayList<>();
     }
 
     public static ItemRepository getInstance()
@@ -164,6 +165,13 @@ public class ItemRepository {
 
             }
         };
+    }
+
+    public void uploadNewItem(Item iItem)
+    {
+        String id = mItemTable.push().getKey();
+        iItem.setItemId(id);
+        mItemTable.child(id).setValue(iItem);
     }
 
 }
