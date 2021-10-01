@@ -16,8 +16,6 @@ import java.util.List;
 
 public class CatalogMainScreenViewModel extends ViewModel {
 
-    //TODO ASK HOD AND IMPLEMENT ITEM
-
     private MutableLiveData<ArrayList<Item>> mItemsListLiveData;
 
     public CatalogMainScreenViewModel() {
@@ -29,21 +27,20 @@ public class CatalogMainScreenViewModel extends ViewModel {
     }
 
     public void getItemsList(){
-//        mItemsListLiveData.postValue(ItemRepository.getInstance().getItemsList());
-//        ItemRepository.getInstance().getItemsList();
+        ItemRepository.getInstance().initItemsListInfo(getItemsListListener());
     }
 
 
 
-//    private OnCompleteListener<ArrayList<Item>> getItemsListListener(){
-//        return new OnCompleteListener<ArrayList<Item>>(){
-//            @Override
-//            public void onComplete(@NonNull @NotNull Task<ArrayList<Item>> task) {
-//                if(task.isSuccessful())
-//                {
-//                    mItemsListLiveData.postValue(task.getResult());
-//                }
-//            }
-//        };
-//    }
+    private OnCompleteListener<ArrayList<Item>> getItemsListListener(){
+        return new OnCompleteListener<ArrayList<Item>>(){
+            @Override
+            public void onComplete(@NonNull @NotNull Task<ArrayList<Item>> task) {
+                if(task.isSuccessful())
+                {
+                    mItemsListLiveData.postValue(task.getResult());
+                }
+            }
+        };
+    }
 }

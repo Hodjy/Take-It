@@ -48,19 +48,15 @@ public class CatalogMainScreenFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_catalog_main_screen, container, false);
         mCatalogMainScreenViewModel = new ViewModelProvider(this).get(CatalogMainScreenViewModel.class);
 
-//        mItemsList =
+        mItemsList = new ArrayList<>();
         initUi(rootView);
         initObservers();
-
-        //TextView firstnameTv = rootView.findViewById(R.id.fragment_user_main_screen_firstname_tv);
-        //firstnameTv.setText(UserRepository.getInstance().getCurrentUser().getFirstName());
 
         return rootView;
     }
 
     private void initUi(View iRootView) {
         mItemsListRecyclerView = iRootView.findViewById(R.id.fragment_catalog_main_screen_item_list_rv);
-        //TODO IMPLEMENT VIEWMODEL METHOD GETLIST
         mItemAdapter = new ItemAdapter(mItemsList);
         mItemsListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         mItemsListRecyclerView.setHasFixedSize(true);
@@ -72,6 +68,8 @@ public class CatalogMainScreenFragment extends Fragment
             }
         });
 
+        mCatalogMainScreenViewModel.getItemsList();
+
     }
 
     private void initObservers() {
@@ -79,7 +77,8 @@ public class CatalogMainScreenFragment extends Fragment
         mCatalogMainScreenViewModel.getItemsListLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Item>>() {
             @Override
             public void onChanged(ArrayList<Item> items) {
-
+                mItemsList = items;
+                mItemAdapter.notifyDataSetChanged();
             }
         });
 
