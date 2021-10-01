@@ -1,8 +1,7 @@
-package com.hod.finalapp.view.fragments.user;
+package com.hod.finalapp.view.fragments.dialog;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -34,7 +33,6 @@ import com.hod.finalapp.R;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.net.URI;
 
 public class ChangePictureDialogFragment extends DialogFragment
 {

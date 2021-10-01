@@ -13,10 +13,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hod.finalapp.model.firebase.enums.eStorageFolders;
 
-import java.util.UUID;
-
 public class StorageManager
 {
+    private final int MAX_ITEM_PICTURES = 4;
     private static StorageManager mStorageManager;
     private FirebaseStorage mFirebaseStorage;
     private StorageReference mStorageRef;
@@ -49,11 +48,17 @@ public class StorageManager
         uploadPicture(imageUri, path, urlListener);
     }
 
-    public void uploadItemPicture(Uri imageUri, String itemID, OnCompleteListener<Uri> urlListener){
+    public void uploadItemPicture(Uri imageUri, String itemID, OnCompleteListener<Uri> urlListener, int iPhotoIndex){
         mStorageRef = mFirebaseStorage.getReference(eStorageFolders.ITEMS_PICTURES.name).child(itemID);
-        String path = itemID + "_" + UUID.randomUUID() + ".png";
+        //String path = itemID + "_" + UUID.randomUUID() + ".png"; OLD
+        if(iPhotoIndex >= MAX_ITEM_PICTURES || iPhotoIndex < 0)
+        {
+            throw new IndexOutOfBoundsException("index out of bound, max pictures per items are:" + MAX_ITEM_PICTURES);
+        }
 
+        String path = iPhotoIndex + ".png";
         uploadPicture(imageUri, path, urlListener);
+
     }
 
     private void uploadPicture(Uri imageUri, String path, OnCompleteListener<Uri> urlListener){

@@ -2,13 +2,10 @@ package com.hod.finalapp.view.fragments.user;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.telecom.Connection;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,10 +14,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.hod.finalapp.R;
+import com.hod.finalapp.view.fragments.dialog.ChangePictureDialogFragment;
 import com.hod.finalapp.view.viewmodel.user.UserProfileViewModel;
 
 import org.jetbrains.annotations.NotNull;
