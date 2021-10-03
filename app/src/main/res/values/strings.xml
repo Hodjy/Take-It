@@ -24,4 +24,5 @@
     <string name="create">Create</string>
     <string name="msg_or_edit">Message or edit</string>
     <string name="item_created">Item Created Successfully</string>
+    <string name="a_picture_is_required">A Picture is Required.</string>
 </resources>

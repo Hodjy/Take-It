@@ -25,4 +25,5 @@
     <string name="create">צור</string>
     <string name="item_created">פריט נוצר בהצלחה</string>
     <string name="msg_or_edit">הודאה או עריכה</string>
+    <string name="a_picture_is_required">נדרש לפחות תמונה אחת.</string>
 </resources>

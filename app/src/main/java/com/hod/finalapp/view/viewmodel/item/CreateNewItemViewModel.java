@@ -63,24 +63,41 @@ public class CreateNewItemViewModel extends AndroidViewModel
     public void createItem()
     {
         boolean isAnyFieldEmpty = mItemName.isEmpty() && mItemDescription.isEmpty();
+        boolean isUserPickedPicture = (mPhotoUris.get(0).getValue() == null);
         if(!isAnyFieldEmpty)
         {
-            ArrayList<Uri> uris = new ArrayList<>();
-            for (MutableLiveData<Uri> uri : mPhotoUris) {
-                uris.add(uri.getValue());
+            if(!isUserPickedPicture)
+            {
+                createAndSendItemToUpload();
             }
-
-            Item newItem = new Item(
-                    UserRepository.getInstance().getCurrentUser().getUserId(),
-                    mItemName, mItemDescription, mItemLocation, GregorianCalendar.getInstance().getTime().toString(), null );
-
-            ItemRepository.getInstance().uploadNewItem(newItem, uris, getFinishUploadListener());
+            else
+            {
+                String error = getApplication().getString(R.string.a_picture_is_required);
+                mFinishedUploadError.postValue(error);
+            }
         }
         else
         {
             String error = getApplication().getString(R.string.please_fill_all_the_details);
             mFinishedUploadError.postValue(error);
         }
+    }
+
+    private void createAndSendItemToUpload() {
+        ArrayList<Uri> uris = new ArrayList<>();
+        for (MutableLiveData<Uri> uri : mPhotoUris) {
+            if(uri.getValue() == null)
+            {
+                break;
+            }
+            uris.add(uri.getValue());
+        }
+
+        Item newItem = new Item(
+                UserRepository.getInstance().getCurrentUser().getUserId(),
+                mItemName, mItemDescription, mItemLocation, GregorianCalendar.getInstance().getTime().toString(), null );
+
+        ItemRepository.getInstance().uploadNewItem(newItem, uris, getFinishUploadListener());
     }
     /*
     get current time, help with this documentation:
