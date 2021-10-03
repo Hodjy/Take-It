@@ -32,10 +32,10 @@ public class CatalogMainScreenFragment extends Fragment
 {
     private ICatalogMainScreenFragmentListener m_Callback;
 
-    RecyclerView mItemsListRecyclerView;
-    ItemAdapter mItemAdapter;
-    CatalogMainScreenViewModel mCatalogMainScreenViewModel;
-    ArrayList<Item> mItemsList;
+    private RecyclerView mItemsListRecyclerView;
+    private ItemAdapter mItemAdapter;
+    private CatalogMainScreenViewModel mCatalogMainScreenViewModel;
+    private ArrayList<Item> mItemsList;
 
     //TODO remove this button
     Button mTempButton;
