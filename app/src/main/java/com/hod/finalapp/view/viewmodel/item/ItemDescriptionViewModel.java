@@ -19,7 +19,7 @@ public class ItemDescriptionViewModel extends ViewModel {
     }
 
     public boolean isMyItem(){
-        return UserRepository.getInstance().getCurrentUser().getUserId() == mItem.getOwnerId();
+        return UserRepository.getInstance().getCurrentUser().getUserId().equals(mItem.getOwnerId());
     }
 
     public String getItemName(){

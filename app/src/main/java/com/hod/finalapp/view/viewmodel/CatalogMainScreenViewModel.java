@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.model.repositories.ItemRepository;
+import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,5 +43,9 @@ public class CatalogMainScreenViewModel extends ViewModel {
                 }
             }
         };
+    }
+
+    public boolean isMyItem(Item iItem){
+        return iItem.getOwnerId().equals(UserRepository.getInstance().getCurrentUser().getUserId());
     }
 }
