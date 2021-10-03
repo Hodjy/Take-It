@@ -89,11 +89,14 @@ public class CatalogMainScreenFragment extends Fragment
         mCatalogMainScreenViewModel.getItemsListLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Item>>() {
             @Override
             public void onChanged(ArrayList<Item> items) {
-                mItemsList = items;
+                mItemsList.clear();
+                for(Item item: items){
+                    mItemsList.add(item);
+                }
+                mItemAdapter.setItems(mItemsList);
                 mItemAdapter.notifyDataSetChanged();
             }
         });
-
     }
 
 

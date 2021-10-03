@@ -37,6 +37,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         this.listener = listener;
     }
 
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
     public class ItemViewHolder extends RecyclerView.ViewHolder{
 
         TextView titleTv;
