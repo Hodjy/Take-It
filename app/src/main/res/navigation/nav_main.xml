@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_userMainScreenFragment_to_userItemsFragment"
             app:destination="@id/userItemsFragment" />
+        <action
+            android:id="@+id/action_userMainScreenFragment_to_itemDescriptionFragment"
+            app:destination="@id/itemDescriptionFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -90,4 +93,12 @@
         android:id="@+id/createNewItemFragment"
         android:name="com.hod.finalapp.view.fragments.item.CreateNewItemFragment"
         android:label="CreateNewItemFragment" />
+    <fragment
+        android:id="@+id/itemDescriptionFragment"
+        android:name="com.hod.finalapp.view.fragments.item.ItemDescriptionFragment"
+        android:label="ItemDescriptionFragment" >
+        <argument
+            android:name="item"
+            app:argType="com.hod.finalapp.model.database_objects.Item" />
+    </fragment>
 </navigation>

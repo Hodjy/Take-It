@@ -69,7 +69,9 @@ public class CatalogMainScreenFragment extends Fragment
         mItemAdapter.setListener(new ItemAdapter.ItemListener() {
             @Override
             public void onItemClicked(int position, View view) {
-                //TODO OPEN ITEM DETAILS FRAGMENT
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("item", mItemsList.get(position));
+                NavHostFragment.findNavController(CatalogMainScreenFragment.this).navigate(R.id.itemDescriptionFragment, bundle);
             }
         });
 
