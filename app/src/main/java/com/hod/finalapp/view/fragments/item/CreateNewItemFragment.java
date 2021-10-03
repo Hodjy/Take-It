@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.hod.finalapp.R;
 import com.hod.finalapp.model.firebase.StorageManager;
 import com.hod.finalapp.view.fragments.dialog.ChangePictureDialogFragment;
@@ -50,7 +51,7 @@ public class CreateNewItemFragment extends Fragment
         mViewModel = new ViewModelProvider(this).get(CreateNewItemViewModel.class);
 
         initUI(rootView);
-        initObservers();
+        initObservers(rootView, this);
 
         return rootView;
     }
@@ -113,7 +114,7 @@ public class CreateNewItemFragment extends Fragment
         });
     }
 
-    private void initObservers()
+    private void initObservers(View iRootView, Fragment iThisFragment)
     {
         for(int i = 0; i < StorageManager.MAX_ITEM_PICTURES; i++)
         {
@@ -128,6 +129,22 @@ public class CreateNewItemFragment extends Fragment
                 }
             });
         }
+
+        mViewModel.getFinishedUpLoadError().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s.equals(""))
+                {
+                    String success = getActivity().getString(R.string.item_created);
+                    Snackbar.make(iRootView, success, Snackbar.LENGTH_LONG).show();
+                    NavHostFragment.findNavController(iThisFragment).popBackStack();
+                }
+                else
+                {
+                    Snackbar.make(iRootView, s, Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void setImagesClickListeners()

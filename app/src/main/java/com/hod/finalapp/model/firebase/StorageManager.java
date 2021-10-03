@@ -1,17 +1,27 @@
 package com.hod.finalapp.model.firebase;
 
+import android.app.Activity;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hod.finalapp.model.firebase.enums.eStorageFolders;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.concurrent.Executor;
 
 public class StorageManager
 {
@@ -46,6 +56,189 @@ public class StorageManager
         String path = CurrentUserID + ".png";
 
         uploadPicture(imageUri, path, urlListener);
+    }
+
+    public void uploadItemPicture(ArrayList<Uri> iImageUris, String iItemID,ArrayList<Uri> iStoredImagesUri, OnCompleteListener<ArrayList<Uri>> urlListener)
+    {
+        if(iStoredImagesUri.size() < iImageUris.size())
+        {
+            int index = iStoredImagesUri.size();
+            Uri uri = iImageUris.get(index);
+
+            uploadItemPicture(uri, iItemID, new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<Uri> task) {
+                            if(task.isSuccessful())
+                            {
+                                iStoredImagesUri.add(task.getResult());
+                                uploadItemPicture(iImageUris, iItemID, iStoredImagesUri, urlListener);
+                            }
+                            else
+                            {
+                                urlListener.onComplete(new Task<ArrayList<Uri>>() {
+                                    @Override
+                                    public boolean isComplete() {
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean isSuccessful() {
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean isCanceled() {
+                                        return false;
+                                    }
+
+                                    @Nullable
+                                    @org.jetbrains.annotations.Nullable
+                                    @Override
+                                    public ArrayList<Uri> getResult() {
+                                        return null;
+                                    }
+
+                                    @Nullable
+                                    @org.jetbrains.annotations.Nullable
+                                    @Override
+                                    public <X extends Throwable> ArrayList<Uri> getResult(@NonNull @NotNull Class<X> aClass) throws X {
+                                        return null;
+                                    }
+
+                                    @Nullable
+                                    @org.jetbrains.annotations.Nullable
+                                    @Override
+                                    public Exception getException() {
+                                        return task.getException();
+                                    }
+
+                                    @NonNull
+                                    @NotNull
+                                    @Override
+                                    public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
+                                        return null;
+                                    }
+
+                                    @NonNull
+                                    @NotNull
+                                    @Override
+                                    public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
+                                        return null;
+                                    }
+
+                                    @NonNull
+                                    @NotNull
+                                    @Override
+                                    public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
+                                        return null;
+                                    }
+
+                                    @NonNull
+                                    @NotNull
+                                    @Override
+                                    public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull OnFailureListener onFailureListener) {
+                                        return null;
+                                    }
+
+                                    @NonNull
+                                    @NotNull
+                                    @Override
+                                    public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnFailureListener onFailureListener) {
+                                        return null;
+                                    }
+
+                                    @NonNull
+                                    @NotNull
+                                    @Override
+                                    public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnFailureListener onFailureListener) {
+                                        return null;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    index);
+        }
+
+        urlListener.onComplete(new Task<ArrayList<Uri>>() {
+            @Override
+            public boolean isComplete() {
+                return true;
+            }
+
+            @Override
+            public boolean isSuccessful() {
+                return true;
+            }
+
+            @Override
+            public boolean isCanceled() {
+                return false;
+            }
+
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            public ArrayList<Uri> getResult() {
+                return iStoredImagesUri;
+            }
+
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            public <X extends Throwable> ArrayList<Uri> getResult(@NonNull @NotNull Class<X> aClass) throws X {
+                return iStoredImagesUri;
+            }
+
+            @Nullable
+            @org.jetbrains.annotations.Nullable
+            @Override
+            public Exception getException() {
+                return null;
+            }
+
+            @NonNull
+            @NotNull
+            @Override
+            public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
+                return null;
+            }
+
+            @NonNull
+            @NotNull
+            @Override
+            public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
+                return null;
+            }
+
+            @NonNull
+            @NotNull
+            @Override
+            public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
+                return null;
+            }
+
+            @NonNull
+            @NotNull
+            @Override
+            public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull OnFailureListener onFailureListener) {
+                return null;
+            }
+
+            @NonNull
+            @NotNull
+            @Override
+            public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnFailureListener onFailureListener) {
+                return null;
+            }
+
+            @NonNull
+            @NotNull
+            @Override
+            public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnFailureListener onFailureListener) {
+                return null;
+            }
+        });
     }
 
     public void uploadItemPicture(Uri imageUri, String itemID, OnCompleteListener<Uri> urlListener, int iPhotoIndex){

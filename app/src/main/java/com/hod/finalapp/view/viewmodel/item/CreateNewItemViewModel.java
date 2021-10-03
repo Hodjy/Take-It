@@ -1,14 +1,17 @@
 package com.hod.finalapp.view.viewmodel.item;
 
+import android.app.Application;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.hod.finalapp.R;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.model.firebase.StorageManager;
 import com.hod.finalapp.model.repositories.ItemRepository;
@@ -19,12 +22,24 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class CreateNewItemViewModel extends ViewModel
+public class CreateNewItemViewModel extends AndroidViewModel
 {
     private String mItemName = "";
     private String mItemDescription = "";
     private String mItemLocation = "";
+    private MutableLiveData<String> mFinishedUploadError;
     private ArrayList<MutableLiveData<Uri>> mPhotoUris;
+
+    public CreateNewItemViewModel(@NonNull @NotNull Application application) {
+        super(application);
+
+        mFinishedUploadError = new MutableLiveData<>();
+        mPhotoUris = new ArrayList<>();
+        for(int i = 0; i < StorageManager.MAX_ITEM_PICTURES; i++)
+        {
+            mPhotoUris.add(new MutableLiveData<>());
+        }
+    }
 
     public void setItemName(String mItemName) {
         this.mItemName = mItemName;
@@ -38,45 +53,39 @@ public class CreateNewItemViewModel extends ViewModel
         this.mItemLocation = mItemLocation;
     }
 
-    public CreateNewItemViewModel()
+    public MutableLiveData<String> getFinishedUpLoadError()
     {
-        mPhotoUris = new ArrayList<>();
-        for(int i = 0; i < StorageManager.MAX_ITEM_PICTURES; i++)
-        {
-            mPhotoUris.add(new MutableLiveData<>());
-        }
+        return mFinishedUploadError;
     }
+
+
 
     public void createItem()
     {
-        Item newItem = new Item(
-                UserRepository.getInstance().getCurrentUser().getUserId(),
-                mItemName, mItemDescription, mItemLocation, GregorianCalendar.getInstance().getTime().toString(), new ArrayList<>()
-                );
+        boolean isAnyFieldEmpty = mItemName.isEmpty() && mItemDescription.isEmpty();
+        if(!isAnyFieldEmpty)
+        {
+            ArrayList<Uri> uris = new ArrayList<>();
+            for (MutableLiveData<Uri> uri : mPhotoUris) {
+                uris.add(uri.getValue());
+            }
 
-        ItemRepository.getInstance().uploadNewItem(newItem);
+            Item newItem = new Item(
+                    UserRepository.getInstance().getCurrentUser().getUserId(),
+                    mItemName, mItemDescription, mItemLocation, GregorianCalendar.getInstance().getTime().toString(), null );
+
+            ItemRepository.getInstance().uploadNewItem(newItem, uris, getFinishUploadListener());
+        }
+        else
+        {
+            String error = getApplication().getString(R.string.please_fill_all_the_details);
+            mFinishedUploadError.postValue(error);
+        }
     }
     /*
     get current time, help with this documentation:
     https://developer.android.com/reference/java/util/GregorianCalendar
      */
-
-    private OnCompleteListener getOnItemCreateListener()
-    {
-        return new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task task) {
-                if(task.isSuccessful())
-                {
-                    //success
-                }
-                else
-                {
-                    //failed
-                }
-            }
-        };
-    }
 
     public void setUri(Uri iUri, int iPressedImageIndex)
     {
@@ -115,4 +124,22 @@ public class CreateNewItemViewModel extends ViewModel
     {
         return mPhotoUris.get(iIndex);
     }
+
+    private OnCompleteListener getFinishUploadListener()
+    {
+        return new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task task) {
+                if(task.isSuccessful())
+                {
+                    mFinishedUploadError.postValue("");
+                }
+                else
+                {
+                    mFinishedUploadError.postValue(task.getException().getMessage());
+                }
+            }
+        };
+    }
+
 }

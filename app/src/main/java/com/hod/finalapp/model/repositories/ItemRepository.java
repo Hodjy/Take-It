@@ -1,6 +1,7 @@
 package com.hod.finalapp.model.repositories;
 
 import android.app.Activity;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.model.firebase.AuthenticationManager;
 import com.hod.finalapp.model.firebase.DatabaseManager;
+import com.hod.finalapp.model.firebase.StorageManager;
 import com.hod.finalapp.model.firebase.enums.eFirebaseDataTypes;
 
 import org.jetbrains.annotations.NotNull;
@@ -167,11 +169,201 @@ public class ItemRepository {
         };
     }
 
-    public void uploadNewItem(Item iItem)
+    public void uploadNewItem(Item iItem, ArrayList<Uri> iItemPhotoUris, OnCompleteListener iFinishedUploadListener)
     {
         String id = mItemTable.push().getKey();
         iItem.setItemId(id);
-        mItemTable.child(id).setValue(iItem);
+
+        StorageManager.getInstance().uploadItemPicture(iItemPhotoUris,
+                iItem.getItemId(), new ArrayList<>(),
+                getMultiphotoUploadListener(iItem, iFinishedUploadListener));
     }
+
+    private OnCompleteListener<ArrayList<Uri>> getMultiphotoUploadListener(Item iItem, OnCompleteListener iFinishedUploadListener)
+    {
+        return new OnCompleteListener<ArrayList<Uri>>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<ArrayList<Uri>> task)
+            {
+                if(task.isSuccessful())
+                {
+                    ArrayList<String> uriStrings = new ArrayList<>();
+                    ArrayList<Uri> receivedUris = task.getResult();
+
+                    for (Uri uri : receivedUris)
+                    {
+                        uriStrings.add(uri.toString());
+                    }
+
+                    iItem.setPicturesUrls(uriStrings);
+                    mItemTable.child(iItem.getItemId()).setValue(iItem);
+
+                    iFinishedUploadListener.onComplete(new Task() {
+                        @Override
+                        public boolean isComplete() {
+                            return true;
+                        }
+
+                        @Override
+                        public boolean isSuccessful() {
+                            return true;
+                        }
+
+                        @Override
+                        public boolean isCanceled() {
+                            return false;
+                        }
+
+                        @Nullable
+                        @org.jetbrains.annotations.Nullable
+                        @Override
+                        public Object getResult() {
+                            return null;
+                        }
+
+                        @Nullable
+                        @org.jetbrains.annotations.Nullable
+                        @Override
+                        public Object getResult(@NonNull @NotNull Class aClass) throws Throwable {
+                            return null;
+                        }
+
+                        @Nullable
+                        @org.jetbrains.annotations.Nullable
+                        @Override
+                        public Exception getException() {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnSuccessListener(@NonNull @NotNull OnSuccessListener onSuccessListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnSuccessListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnSuccessListener onSuccessListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnSuccessListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnSuccessListener onSuccessListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnFailureListener(@NonNull @NotNull OnFailureListener onFailureListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnFailureListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnFailureListener onFailureListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnFailureListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnFailureListener onFailureListener) {
+                            return null;
+                        }
+                    });
+                }
+                else
+                {
+                    mItemTable.child(iItem.getItemId()).setValue(null);
+                    iFinishedUploadListener.onComplete(new Task() {
+                        @Override
+                        public boolean isComplete() {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean isSuccessful() {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean isCanceled() {
+                            return false;
+                        }
+
+                        @Nullable
+                        @org.jetbrains.annotations.Nullable
+                        @Override
+                        public Object getResult() {
+                            return null;
+                        }
+
+                        @Nullable
+                        @org.jetbrains.annotations.Nullable
+                        @Override
+                        public Object getResult(@NonNull @NotNull Class aClass) throws Throwable {
+                            return null;
+                        }
+
+                        @Nullable
+                        @org.jetbrains.annotations.Nullable
+                        @Override
+                        public Exception getException() {
+                            return task.getException();
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnSuccessListener(@NonNull @NotNull OnSuccessListener onSuccessListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnSuccessListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnSuccessListener onSuccessListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnSuccessListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnSuccessListener onSuccessListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnFailureListener(@NonNull @NotNull OnFailureListener onFailureListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnFailureListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnFailureListener onFailureListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @NotNull
+                        @Override
+                        public Task addOnFailureListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnFailureListener onFailureListener) {
+                            return null;
+                        }
+                    });
+                }
+            }
+        };
+    }
+
 
 }
