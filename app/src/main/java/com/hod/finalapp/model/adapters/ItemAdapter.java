@@ -16,7 +16,6 @@ import com.hod.finalapp.model.database_objects.Item;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
@@ -74,8 +73,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void onBindViewHolder(@NonNull @NotNull ItemAdapter.ItemViewHolder holder, int position) {
         Item item = items.get(position);
         holder.titleTv.setText(item.getItemName());
+        loadUriImage(holder, item);
+    }
+
+    private void loadUriImage(@NotNull ItemViewHolder holder, Item item) {
         Glide.with(holder.itemView.getContext())
                 .load(item.getPicturesUrls().get(0))
+                .error(R.drawable.ic_baseline_photo_24)
                 .into(holder.itemPictureIv);
     }
 
