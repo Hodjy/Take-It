@@ -68,7 +68,14 @@ public class Item implements Parcelable
     }
 
     public ArrayList<String> getPicturesUrls() {
-        return mPicturesUrls;
+        ArrayList<String> array = mPicturesUrls;
+        if(array == null)
+        {
+            array = new ArrayList<>();
+            array.add("");
+        }
+
+        return array;
     }
 
     public void setPicturesUrls(ArrayList<String> iPicturesUrls) {
