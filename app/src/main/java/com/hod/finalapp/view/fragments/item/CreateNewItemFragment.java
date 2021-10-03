@@ -1,6 +1,5 @@
 package com.hod.finalapp.view.fragments.item;
 
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,58 +13,29 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.snackbar.Snackbar;
 import com.hod.finalapp.R;
+import com.hod.finalapp.model.firebase.StorageManager;
 import com.hod.finalapp.view.fragments.dialog.ChangePictureDialogFragment;
 import com.hod.finalapp.view.viewmodel.item.CreateNewItemViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class CreateNewItemFragment extends Fragment
 {
     private CreateNewItemViewModel mViewModel;
-    private ArrayList<ImageViewUriPair> mItemImages;
+    private ArrayList<ImageView> mItemImages;
     private EditText mItemName;
     private EditText mItemDescription;
     private Button mCreateItemBtn;
     private Button mBackButton;
-
-    private class ImageViewUriPair
-    {
-        private ImageView mImageView;
-        private Uri mUri;
-
-        ImageViewUriPair(ImageView iImageView, Uri iUri)
-        {
-            mImageView = iImageView;
-            mUri = iUri;
-        }
-
-        public ImageView getImageView() {
-            return mImageView;
-        }
-
-        public void setImageView(ImageView mImageView) {
-            this.mImageView = mImageView;
-        }
-
-        public Uri getUri() {
-            return mUri;
-        }
-
-        public void setUri(Uri mUri) {
-            this.mUri = mUri;
-        }
-    }
 
     //location, type, *subtype*, 4 pictures, description, name and owner name(needs to be fetched realtime).
     //TODO grid https://youtu.be/k2R38Rv4Vmk maybe be good.(material design)
@@ -80,6 +50,7 @@ public class CreateNewItemFragment extends Fragment
         mViewModel = new ViewModelProvider(this).get(CreateNewItemViewModel.class);
 
         initUI(rootView);
+        initObservers();
 
         return rootView;
     }
@@ -87,10 +58,10 @@ public class CreateNewItemFragment extends Fragment
     private void initUI(View iRootView)
     {
         mItemImages  = new ArrayList<>();
-        mItemImages.add(new ImageViewUriPair((iRootView.findViewById(R.id.fragment_create_new_item_photo_1_iv)), null));
-        mItemImages.add(new ImageViewUriPair((iRootView.findViewById(R.id.fragment_create_new_item_photo_2_iv)), null));
-        mItemImages.add(new ImageViewUriPair((iRootView.findViewById(R.id.fragment_create_new_item_photo_3_iv)), null));
-        mItemImages.add(new ImageViewUriPair((iRootView.findViewById(R.id.fragment_create_new_item_photo_4_iv)), null));
+        mItemImages.add((iRootView.findViewById(R.id.fragment_create_new_item_photo_1_iv)));
+        mItemImages.add((iRootView.findViewById(R.id.fragment_create_new_item_photo_2_iv)));
+        mItemImages.add((iRootView.findViewById(R.id.fragment_create_new_item_photo_3_iv)));
+        mItemImages.add((iRootView.findViewById(R.id.fragment_create_new_item_photo_4_iv)));
 
         mItemName = iRootView.findViewById(R.id.fragment_create_new_item_name_et);
         mItemDescription = iRootView.findViewById(R.id.fragment_create_new_item_description_et);
@@ -142,73 +113,50 @@ public class CreateNewItemFragment extends Fragment
         });
     }
 
+    private void initObservers()
+    {
+        for(int i = 0; i < StorageManager.MAX_ITEM_PICTURES; i++)
+        {
+            int finalIndex = i;
+
+            mViewModel.getPhotoUris(finalIndex).observe(getViewLifecycleOwner(), new Observer<Uri>() {
+                @Override
+                public void onChanged(Uri uri)
+                {
+                    if(uri != null || uri != Uri.EMPTY)
+                    loadImageToIv(mItemImages.get(finalIndex), uri);
+                }
+            });
+        }
+    }
+
     private void setImagesClickListeners()
     {
-        for(ImageViewUriPair pair : mItemImages)
+        int i = 0;
+        for(ImageView imageView : mItemImages)
         {
+            int finalIndex = i;
             // set On click:
-            pair.getImageView().setOnClickListener(v -> {
+            imageView.setOnClickListener(v -> {
                 new ChangePictureDialogFragment(new ChangePictureDialogFragment.IChangePictureDialogListener() {
                     @Override
                     public void onPictureUriReceived(Uri iImageUri)
                     {
-                        if(pair.getUri() == null)
-                        {
-                            if(!loadImageOnFirstEmptyIV(iImageUri))// if all images already got an image, load on the currently pressed one.
-                            {
-                                pair.setUri(iImageUri);
-                                loadSelectedPicture(pair);
-                            }
-                        }
-                        else
-                        {
-                            pair.setUri(iImageUri);
-                            loadSelectedPicture(pair);
-                        }
+                        mViewModel.setUri(iImageUri, finalIndex);
                     }
                 })
                         .show(getParentFragmentManager(),ChangePictureDialogFragment.getDialogTag());
             });
+
+            i++;
         }
     }
-    //TODO the photo system is a bit messed up, will change this tomorrow.
 
-    /***
-     * Checks if a pair has a null for uri, then displays the picture on the first that has one.
-     * @param iImageUri
-     * @return
-     */
-    private boolean loadImageOnFirstEmptyIV(Uri iImageUri)
-    {
-        boolean iIsLoadedOnFirstEmpty = false;
-
-        for(ImageViewUriPair pair : mItemImages)
-        {
-            if(pair.getUri() == null)//if imageview does not have a picture
-            {
-                pair.setUri(iImageUri);
-                loadSelectedPicture(pair);
-                iIsLoadedOnFirstEmpty = true;
-
-                break;
-            }
-        }
-
-        return iIsLoadedOnFirstEmpty;
-    }
-
-    private void loadSelectedPicture(ImageViewUriPair iPair) {
-        loadImageToIv(iPair);
-
-    }
-
-    private void loadImageToIv(ImageViewUriPair iPair)
+    private void loadImageToIv(ImageView iImageView, Uri iUri)
     {
         Glide.with(this)
-                .load(iPair.getUri())
-                .into(iPair.getImageView());
-
-        Snackbar.make(getView(),mItemImages.get(0).mUri.toString() + "=" + iPair.mUri, Snackbar.LENGTH_LONG).show();
+                .load(iUri)
+                .into(iImageView);
     }
 
 }

@@ -15,7 +15,7 @@ import com.hod.finalapp.model.firebase.enums.eStorageFolders;
 
 public class StorageManager
 {
-    private final int MAX_ITEM_PICTURES = 4;
+    public final static int MAX_ITEM_PICTURES = 4;
     private static StorageManager mStorageManager;
     private FirebaseStorage mFirebaseStorage;
     private StorageReference mStorageRef;
