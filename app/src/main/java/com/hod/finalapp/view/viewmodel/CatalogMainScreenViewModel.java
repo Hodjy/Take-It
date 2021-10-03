@@ -31,8 +31,6 @@ public class CatalogMainScreenViewModel extends ViewModel {
         ItemRepository.getInstance().initItemsListInfo(getItemsListListener());
     }
 
-
-
     private OnCompleteListener<ArrayList<Item>> getItemsListListener(){
         return new OnCompleteListener<ArrayList<Item>>(){
             @Override
@@ -45,7 +43,4 @@ public class CatalogMainScreenViewModel extends ViewModel {
         };
     }
 
-    public boolean isMyItem(Item iItem){
-        return iItem.getOwnerId().equals(UserRepository.getInstance().getCurrentUser().getUserId());
-    }
 }

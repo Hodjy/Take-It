@@ -20,6 +20,7 @@ import com.hod.finalapp.R;
 import com.hod.finalapp.model.adapters.ItemAdapter;
 import com.hod.finalapp.model.adapters.PictureAdapter;
 import com.hod.finalapp.model.database_objects.Item;
+import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
 import com.hod.finalapp.view.viewmodel.item.ItemDescriptionViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -102,5 +103,11 @@ public class ItemDescriptionFragment extends Fragment
         mItemPicturesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
         mItemPicturesRecyclerView.setHasFixedSize(true);
         mItemPicturesRecyclerView.setAdapter(mPictureAdapter);
+        mPictureAdapter.setListener(new PictureAdapter.PictureListener() {
+            @Override
+            public void onItemClicked(int position, View view) {
+
+            }
+        });
     }
 }

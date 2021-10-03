@@ -91,9 +91,7 @@ public class CatalogMainScreenFragment extends Fragment
             public void onChanged(ArrayList<Item> items) {
                 mItemsList.clear();
                 for(Item item: items){
-                    if(!mCatalogMainScreenViewModel.isMyItem(item)){
-                        mItemsList.add(item);
-                    }
+                    mItemsList.add(item);
                 }
                 mItemAdapter.setItems(mItemsList);
                 mItemAdapter.notifyDataSetChanged();
