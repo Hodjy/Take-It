@@ -23,4 +23,6 @@
     <string name="item_description">תיאור הפריט</string>
     <string name="title">תואר</string>
     <string name="create">צור</string>
+    <string name="item_created">פריט נוצר בהצלחה</string>
+    <string name="msg_or_edit">הודאה או עריכה</string>
 </resources>
