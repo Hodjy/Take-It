@@ -15,6 +15,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.model.firebase.enums.eStorageFolders;
 
 import org.jetbrains.annotations.NotNull;
@@ -278,9 +279,13 @@ public class StorageManager
         uri.addOnCompleteListener(urlListener);
     }
 
-    public void deleteItemPictures(String iItemID){
-        mStorageRef = mFirebaseStorage.getReference(eStorageFolders.USERS_PROFILE_PICTURES.name);
-        mStorageRef.child(iItemID).delete();
+    public void deleteItemPictures(Item iItem){
+        StorageReference tempRef;
+        ArrayList<String> itemsPictureUrls = iItem.getPicturesUrls();
+        for(String url : itemsPictureUrls)
+        {
+            mFirebaseStorage.getReferenceFromUrl(url).delete();
+        }
     }
 
     //TODO PROGRESSBAR LISTENER

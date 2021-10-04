@@ -366,7 +366,7 @@ public class ItemRepository {
 
     public void deleteItem(@NonNull Item iItem)
     {
-        StorageManager.getInstance().deleteItemPictures(iItem.getItemId());
+        StorageManager.getInstance().deleteItemPictures(iItem);
         mItemTable.child(iItem.getItemId()).removeValue();
     }
 }
