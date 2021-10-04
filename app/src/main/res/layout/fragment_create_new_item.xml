@@ -112,7 +112,7 @@
             android:layout_below="@id/fragment_create_new_item_description_textfield"
             android:layout_alignParentStart="true"
             android:layout_margin="10dp"
-            android:text="@string/category"
+            android:text="@string/region"
             android:textSize="20sp" />
 
         <Spinner
@@ -130,7 +130,7 @@
             android:layout_below="@id/fragment_create_new_item_region_tv"
             android:layout_alignParentStart="true"
             android:layout_margin="10dp"
-            android:text="@string/region"
+            android:text="@string/category"
             android:textSize="20sp" />
 
         <Spinner
