@@ -31,4 +31,24 @@
     <string name="are_you_sure_you_want_to_delete">למחוק פריט?</string>
     <string name="yes">כן</string>
     <string name="no">לא</string>
+    <string name="category_electric_product">מוצרי חשמל</string>
+    <string name="category_furniture">ריהוט</string>
+    <string name="category_books">ספרים ותרבות</string>
+    <string name="category_media">מדיה</string>
+    <string name="category_clothes">ביגוד ואופנה</string>
+    <string name="category_hobbies">תחביבים</string>
+    <string name="category_childcare">לתינוקות וילדים</string>
+    <string name="category_social_assistance">סיוע חברתי</string>
+    <string name="category_food">מוצרי אוכל</string>
+    <string name="category_animals">חיות</string>
+    <string name="category_other">אחר</string>
+    <string name="region_center">מחוז מרכז</string>
+    <string name="region_north">מחוז צפון</string>
+    <string name="region_haifa">מחוז חיפה</string>
+    <string name="region_jerusalem">מחוז ירושלים</string>
+    <string name="region_south">מחוז דרום</string>
+    <string name="region_tel_aviv">מחוז תל אביב</string>
+    <string name="category">קטגוריה:</string>
+    <string name="please_wait_for_item_creation">בבקשה חכה עד לסיום יצירת הפריט.</string>
+    <string name="region">מחוז</string>
 </resources>

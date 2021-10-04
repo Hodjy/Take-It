@@ -30,4 +30,24 @@
     <string name="are_you_sure_you_want_to_delete">Delete Item?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="category_electric_product">Electric Product</string>
+    <string name="category_furniture">Furniture</string>
+    <string name="category_books">Books and literature</string>
+    <string name="category_media">Media</string>
+    <string name="category_clothes">Clothes and fashion</string>
+    <string name="category_hobbies">Hobbies</string>
+    <string name="category_childcare">Childcare</string>
+    <string name="category_social_assistance">Social Assistance</string>
+    <string name="category_food">Food Product</string>
+    <string name="category_animals">Animals</string>
+    <string name="category_other">Other</string>
+    <string name="region_center">Center Region</string>
+    <string name="region_north">North Region</string>
+    <string name="region_haifa">Haifa Region</string>
+    <string name="region_jerusalem">Jerusalem Region</string>
+    <string name="region_south">South Region</string>
+    <string name="region_tel_aviv">Tel Aviv Region</string>
+    <string name="category">Category:</string>
+    <string name="please_wait_for_item_creation">Please Wait For Item Creation.</string>
+    <string name="region">Region</string>
 </resources>

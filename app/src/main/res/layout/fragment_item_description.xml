@@ -22,12 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:textSize="30sp"
+            android:gravity="center_horizontal"
             android:textColor="?attr/colorOnPrimary"
             android:layout_below="@id/fragment_item_description_picture_rv"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/fragment_item_description_item_location_tv"
-            android:layout_width="match_parent"
+            android:id="@+id/fragment_item_description_item_region_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_below="@+id/fragment_item_description_item_name_tv"
@@ -35,10 +37,10 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/fragment_item_description_item_description_tv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_below="@+id/fragment_item_description_item_location_tv"
+            android:layout_below="@+id/fragment_item_description_item_region_tv"
             android:textColor="?attr/colorOnPrimary" />
 
 

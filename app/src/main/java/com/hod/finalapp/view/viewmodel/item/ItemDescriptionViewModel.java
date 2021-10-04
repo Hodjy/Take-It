@@ -1,20 +1,31 @@
 package com.hod.finalapp.view.viewmodel.item;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.hod.finalapp.R;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.model.firebase.StorageManager;
 import com.hod.finalapp.model.repositories.ItemRepository;
 import com.hod.finalapp.model.repositories.UserRepository;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
-public class ItemDescriptionViewModel extends ViewModel {
+public class ItemDescriptionViewModel extends AndroidViewModel {
 
     private Item mItem;
 
-    public ItemDescriptionViewModel(Item iItem)
+    public ItemDescriptionViewModel(@NonNull @NotNull Application application) {
+        super(application);
+    }
+
+    public void setItem(Item iItem)
     {
         mItem = iItem;
     }
@@ -31,17 +42,20 @@ public class ItemDescriptionViewModel extends ViewModel {
         return mItem.getItemDescription();
     }
 
-    //TODO implement
-    public String getItemLocation(){
-        return mItem.getLocation();
-    }
-
     public ArrayList<String> getItemPicturesList(){
         return mItem.getPicturesUrls();
     }
 
     public void deleteThisItem(){
         ItemRepository.getInstance().deleteItem(mItem);
+    }
+
+    public String getItemRegion()
+    {
+        String[] regions = getApplication().getResources().getStringArray(R.array.regions);
+        String itemRegion = regions[mItem.getmItemRegion()];
+
+        return itemRegion;
     }
 
 }

@@ -6,65 +6,63 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/fragment_create_new_item_pictures_container_LL"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:orientation="horizontal"
-            android:id="@+id/fragment_create_new_item_pictures_container_LL">
+            android:orientation="horizontal">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/fragment_create_new_item_photo_1_iv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:src="@color/purple_700"/>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/fragment_create_new_item_photo_1_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                android:src="@color/purple_700" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/fragment_create_new_item_photo_2_iv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:src="@color/purple_700"/>
+                        android:scaleType="fitXY"
+                        android:src="@color/purple_700" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/fragment_create_new_item_photo_3_iv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:src="@color/purple_700"/>
+                        android:scaleType="fitXY"
+                        android:src="@color/purple_700" />
                 </LinearLayout>
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/fragment_create_new_item_photo_4_iv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:src="@color/purple_700"/>
-
-
+                    android:scaleType="fitXY"
+                    android:src="@color/purple_700" />
 
 
             </LinearLayout>
@@ -72,15 +70,15 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_create_new_item_name_textfield"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_create_new_item_pictures_container_LL"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:hint="@string/item_name"
             android:textColor="?attr/colorOnPrimary"
-            app:boxBackgroundColor="?attr/colorPrimaryVariant"
-            android:layout_below="@id/fragment_create_new_item_pictures_container_LL"
-            android:id="@+id/fragment_create_new_item_name_textfield">
+            app:boxBackgroundColor="?attr/colorPrimaryVariant">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fragment_create_new_item_name_et"
@@ -90,15 +88,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_create_new_item_description_textfield"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_create_new_item_name_textfield"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:hint="@string/item_description"
             android:textColor="?attr/colorOnPrimary"
-            app:boxBackgroundColor="?attr/colorPrimaryVariant"
-            android:layout_below="@id/fragment_create_new_item_name_textfield"
-            android:id="@+id/fragment_create_new_item_description_textfield">
+            app:boxBackgroundColor="?attr/colorPrimaryVariant">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fragment_create_new_item_description_et"
@@ -107,20 +105,56 @@
                 android:textColor="?attr/colorOnPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fragment_create_new_item_region_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/create"
-            android:layout_below="@+id/fragment_create_new_item_description_textfield"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/fragment_create_new_item_create_btn"/>
+            android:layout_below="@id/fragment_create_new_item_description_textfield"
+            android:layout_alignParentStart="true"
+            android:layout_margin="10dp"
+            android:text="@string/category"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/fragment_create_new_item_region_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_create_new_item_description_textfield"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fragment_create_new_item_category_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_create_new_item_region_tv"
+            android:layout_alignParentStart="true"
+            android:layout_margin="10dp"
+            android:text="@string/region"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/fragment_create_new_item_category_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_create_new_item_region_spinner"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_create_new_item_create_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/back"
+            android:layout_below="@+id/fragment_create_new_item_category_tv"
+            android:layout_centerHorizontal="true"
+            android:text="@string/create" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_create_new_item_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/fragment_create_new_item_create_btn"
             android:layout_centerHorizontal="true"
-            android:id="@+id/fragment_create_new_item_back_btn"/>
+            android:text="@string/back" />
     </RelativeLayout>
 </ScrollView>

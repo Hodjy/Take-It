@@ -24,9 +24,11 @@ import java.util.GregorianCalendar;
 
 public class CreateNewItemViewModel extends AndroidViewModel
 {
+    private boolean mIsCreating = false;
+    private int mItemRegion = 0;
+    private int mItemCategory = 0;
     private String mItemName = "";
     private String mItemDescription = "";
-    private String mItemLocation = "";
     private MutableLiveData<String> mFinishedUploadError;
     private ArrayList<MutableLiveData<Uri>> mPhotoUris;
 
@@ -49,10 +51,6 @@ public class CreateNewItemViewModel extends AndroidViewModel
         this.mItemDescription = mItemDescription;
     }
 
-    public void setItemLocation(String mItemLocation) {
-        this.mItemLocation = mItemLocation;
-    }
-
     public MutableLiveData<String> getFinishedUpLoadError()
     {
         return mFinishedUploadError;
@@ -62,25 +60,39 @@ public class CreateNewItemViewModel extends AndroidViewModel
 
     public void createItem()
     {
-        boolean isAnyFieldEmpty = mItemName.isEmpty() && mItemDescription.isEmpty();
-        boolean isUserPickedPicture = (mPhotoUris.get(0).getValue() == null);
-        if(!isAnyFieldEmpty)
+        if(!mIsCreating)
         {
-            if(!isUserPickedPicture)
+            boolean isAnyFieldEmpty = mItemName.isEmpty() && mItemDescription.isEmpty();
+            boolean isUserPickedPicture = (mPhotoUris.get(0).getValue() == null);
+            if(!isAnyFieldEmpty)
             {
-                createAndSendItemToUpload();
+                if(!isUserPickedPicture)
+                {
+                    mIsCreating = true;
+                    createAndSendItemToUpload();
+                }
+                else
+                {
+                    String error = getApplication().getString(R.string.a_picture_is_required);
+                    postError(error);
+                }
             }
             else
             {
-                String error = getApplication().getString(R.string.a_picture_is_required);
-                mFinishedUploadError.postValue(error);
+                String error = getApplication().getString(R.string.please_fill_all_the_details);
+                postError(error);
             }
         }
         else
         {
-            String error = getApplication().getString(R.string.please_fill_all_the_details);
-            mFinishedUploadError.postValue(error);
+            String error = getApplication().getString(R.string.please_wait_for_item_creation);
+            postError(error);
         }
+
+    }
+
+    private void postError(String error) {
+        mFinishedUploadError.postValue(error);
     }
 
     private void createAndSendItemToUpload() {
@@ -95,7 +107,7 @@ public class CreateNewItemViewModel extends AndroidViewModel
 
         Item newItem = new Item(
                 UserRepository.getInstance().getCurrentUser().getUserId(),
-                mItemName, mItemDescription, mItemLocation, GregorianCalendar.getInstance().getTime().toString(), null );
+                mItemName, mItemDescription, mItemRegion, mItemCategory, GregorianCalendar.getInstance().getTime().toString(), null );
 
         ItemRepository.getInstance().uploadNewItem(newItem, uris, getFinishUploadListener());
     }
@@ -149,14 +161,24 @@ public class CreateNewItemViewModel extends AndroidViewModel
             public void onComplete(@NonNull @NotNull Task task) {
                 if(task.isSuccessful())
                 {
-                    mFinishedUploadError.postValue("");
+                    postError("");
                 }
                 else
                 {
-                    mFinishedUploadError.postValue(task.getException().getMessage());
+                    postError(task.getException().getMessage());
                 }
+                mIsCreating = false;
             }
         };
     }
 
+    public void setItemCategory(int iCategoryNumber)
+    {
+        mItemCategory = iCategoryNumber;
+    }
+
+    public void setItemRegion(int iRegionNumber)
+    {
+        mItemRegion = iRegionNumber;
+    }
 }

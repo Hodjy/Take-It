@@ -7,12 +7,16 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,6 +32,7 @@ import com.hod.finalapp.view.viewmodel.item.CreateNewItemViewModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CreateNewItemFragment extends Fragment
 {
@@ -112,6 +117,16 @@ public class CreateNewItemFragment extends Fragment
         mBackButton.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
         });
+
+        initSpinner(iRootView,
+                R.array.categories,
+                R.id.fragment_create_new_item_category_spinner,
+                "category");
+
+        initSpinner(iRootView,
+                R.array.regions,
+                R.id.fragment_create_new_item_region_spinner,
+                "region");
     }
 
     private void initObservers(View iRootView, Fragment iThisFragment)
@@ -176,4 +191,37 @@ public class CreateNewItemFragment extends Fragment
                 .into(iImageView);
     }
 
+
+    private void initSpinner(View iRootView, int iSpinnerItemsArrayResource, int iSpinnerViewId, String iSpinnerType) {
+        ArrayList<String> items = new ArrayList<>(Arrays.asList(getActivity().getResources().getStringArray(iSpinnerItemsArrayResource)));
+        Spinner categorySpinner = (Spinner) iRootView.findViewById(iSpinnerViewId);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, items);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(adapter);
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               userPickedFromSpinner(iSpinnerType, position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void userPickedFromSpinner(String iSpinnerType, int iPosition)
+    {
+        switch(iSpinnerType)
+        {
+            case "category":
+                mViewModel.setItemCategory(iPosition);
+                break;
+            case "region":
+                mViewModel.setItemRegion(iPosition);
+        }
+
+    }
 }

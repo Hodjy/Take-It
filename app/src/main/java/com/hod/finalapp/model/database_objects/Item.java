@@ -7,11 +7,12 @@ import java.util.ArrayList;
 
 public class Item implements Parcelable
 {
+    private int mItemCategory; //category are sorted by the array in the strings_array_category xml.
+    private int mItemRegion; // region are sorted by the array in the strings_array_region xml.
     private String mItemId;
     private String mOwnerId;
     private String mItemName;
     private String mItemDescription;
-    private String mLocation; //might be enum, if not then maybe coords?
     private String mLastUpdated;
     private ArrayList<String> mPicturesUrls;
 
@@ -51,20 +52,28 @@ public class Item implements Parcelable
         mItemDescription = iItemDescription;
     }
 
-    public String getLocation() {
-        return mLocation;
-    }
-
-    public void setLocation(String iLocation) {
-        mLocation = iLocation;
-    }
-
     public String getLastUpdated() {
         return mLastUpdated;
     }
 
     public void setLastUpdated(String iLastUpdated) {
         mLastUpdated = iLastUpdated;
+    }
+
+    public int getmItemCategory() {
+        return mItemCategory;
+    }
+
+    public void setmItemCategory(int mItemCategory) {
+        this.mItemCategory = mItemCategory;
+    }
+
+    public int getmItemRegion() {
+        return mItemRegion;
+    }
+
+    public void setmItemRegion(int mItemRegion) {
+        this.mItemRegion = mItemRegion;
     }
 
     public ArrayList<String> getPicturesUrls() {
@@ -84,44 +93,48 @@ public class Item implements Parcelable
 
     public Item()
     {
+        mItemCategory = 0;
+        mItemRegion = 0;
         mItemId = null;
         mOwnerId = null;
         mItemName = null;
         mItemDescription = null;
-        mLocation = null;
         mLastUpdated = null;
         mPicturesUrls = null;
     }
 
     public Item(String iOwnerId, String iItemName, String iItemDescription,
-                String iLocation, String iLastUpdated, ArrayList<String> iPicturesUrls)
+                int iRegion, int iCategory, String iLastUpdated, ArrayList<String> iPicturesUrls)
     {
         mItemId = null;
         mOwnerId = iOwnerId;
         mItemName = iItemName;
         mItemDescription = iItemDescription;
-        mLocation = iLocation;
         mLastUpdated = iLastUpdated;
         mPicturesUrls = iPicturesUrls;
+        mItemRegion = iRegion;
+        mItemCategory = iCategory;
     }
 
     protected Item(Parcel in) {
+        mItemCategory = in.readInt();
+        mItemRegion = in.readInt();
         mItemId = in.readString();
         mOwnerId = in.readString();
         mItemName = in.readString();
         mItemDescription = in.readString();
-        mLocation = in.readString();
         mLastUpdated = in.readString();
         mPicturesUrls = in.createStringArrayList();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mItemCategory);
+        dest.writeInt(mItemRegion);
         dest.writeString(mItemId);
         dest.writeString(mOwnerId);
         dest.writeString(mItemName);
         dest.writeString(mItemDescription);
-        dest.writeString(mLocation);
         dest.writeString(mLastUpdated);
         dest.writeStringList(mPicturesUrls);
     }

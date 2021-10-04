@@ -1,6 +1,5 @@
 package com.hod.finalapp.view.fragments.item;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,31 +10,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hod.finalapp.R;
-import com.hod.finalapp.model.adapters.ItemAdapter;
 import com.hod.finalapp.model.adapters.PictureAdapter;
 import com.hod.finalapp.model.database_objects.Item;
-import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
-import com.hod.finalapp.view.fragments.dialog.ChangePictureDialogFragment;
 import com.hod.finalapp.view.fragments.dialog.YesNoDialogFragment;
 import com.hod.finalapp.view.viewmodel.item.ItemDescriptionViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 public class ItemDescriptionFragment extends Fragment
 {
-    private ItemDescriptionViewModel mItemDescriptionViewModel;
+    private ItemDescriptionViewModel mViewModel;
 
     private RecyclerView mItemPicturesRecyclerView;
     private TextView mItemNameTv;
-    private TextView mItemLocationTv;
+    private TextView mItemRegionTv;
     private TextView mItemDescriptionTv;
     private Button mBackBtn;
     private FloatingActionButton mFloatingActionButton;
@@ -62,26 +57,27 @@ public class ItemDescriptionFragment extends Fragment
 
     private void initViewModel() {
         Item item = getArguments().getParcelable("item");
-        mItemDescriptionViewModel = new ItemDescriptionViewModel(item);
+        mViewModel = new ViewModelProvider(this).get(ItemDescriptionViewModel.class);
+        mViewModel.setItem(item);
     }
 
     private void initUI(View iRootView) {
 
         mItemNameTv = iRootView.findViewById(R.id.fragment_item_description_item_name_tv);
-        mItemNameTv.setText(mItemDescriptionViewModel.getItemName());
+        mItemNameTv.setText(mViewModel.getItemName());
 
-        mItemLocationTv = iRootView.findViewById(R.id.fragment_item_description_item_location_tv);
-        mItemLocationTv.setText(mItemDescriptionViewModel.getItemLocation());
+        mItemRegionTv = iRootView.findViewById(R.id.fragment_item_description_item_region_tv);
+        mItemRegionTv.setText(mViewModel.getItemRegion());
 
         mItemDescriptionTv = iRootView.findViewById(R.id.fragment_item_description_item_description_tv);
-        mItemDescriptionTv.setText(mItemDescriptionViewModel.getItemDescription());
+        mItemDescriptionTv.setText(mViewModel.getItemDescription());
 
         mBackBtn = iRootView.findViewById(R.id.fragment_item_description_back_btn);
         mBackBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());
 
         mFloatingActionButton = iRootView.findViewById(R.id.fragment_item_description_fab);
 
-        if(mItemDescriptionViewModel.isMyItem()){
+        if(mViewModel.isMyItem()){
             mFloatingActionButton.setImageDrawable(iRootView.getResources().getDrawable(R.drawable.ic_baseline_delete_24, this.getActivity().getTheme()));
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,7 +86,7 @@ public class ItemDescriptionFragment extends Fragment
                         @Override
                         public void userResponse(boolean iIsUserAccepted) {
                             if(iIsUserAccepted){
-                                mItemDescriptionViewModel.deleteThisItem();
+                                mViewModel.deleteThisItem();
                                 NavHostFragment.findNavController(ItemDescriptionFragment.this).popBackStack();
                             }
                         }
@@ -110,7 +106,7 @@ public class ItemDescriptionFragment extends Fragment
         }
 
         mItemPicturesRecyclerView = iRootView.findViewById(R.id.fragment_item_description_picture_rv);
-        mPictureAdapter = new PictureAdapter(mItemDescriptionViewModel.getItemPicturesList());
+        mPictureAdapter = new PictureAdapter(mViewModel.getItemPicturesList());
         mItemPicturesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
         mItemPicturesRecyclerView.setHasFixedSize(true);
         mItemPicturesRecyclerView.setAdapter(mPictureAdapter);
