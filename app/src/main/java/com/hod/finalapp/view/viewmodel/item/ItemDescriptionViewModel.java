@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.model.firebase.StorageManager;
+import com.hod.finalapp.model.repositories.ItemRepository;
 import com.hod.finalapp.model.repositories.UserRepository;
 
 import java.util.ArrayList;
@@ -37,6 +38,10 @@ public class ItemDescriptionViewModel extends ViewModel {
 
     public ArrayList<String> getItemPicturesList(){
         return mItem.getPicturesUrls();
+    }
+
+    public void deleteThisItem(){
+        ItemRepository.getInstance().deleteItem(mItem);
     }
 
 }

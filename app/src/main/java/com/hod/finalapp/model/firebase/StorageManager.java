@@ -278,5 +278,10 @@ public class StorageManager
         uri.addOnCompleteListener(urlListener);
     }
 
+    public void deleteItemPictures(String iItemID){
+        mStorageRef = mFirebaseStorage.getReference(eStorageFolders.USERS_PROFILE_PICTURES.name);
+        mStorageRef.child(iItemID).delete();
+    }
+
     //TODO PROGRESSBAR LISTENER
 }

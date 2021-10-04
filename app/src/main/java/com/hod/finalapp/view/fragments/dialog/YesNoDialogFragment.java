@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class YesNoDialogFragment extends DialogFragment
 {
+    private static final String DIALOG_TAG = "Yes No Dialog Fragment";
     private String mDialogMessage;
     private IYesNoDialogFragmentListener mCallback;
 
@@ -23,6 +24,10 @@ public class YesNoDialogFragment extends DialogFragment
     {
         mDialogMessage = iDialogMessage;
         mCallback = iCallback;
+    }
+
+    public static String getDialogTag(){
+        return DIALOG_TAG;
     }
 
     public interface IYesNoDialogFragmentListener

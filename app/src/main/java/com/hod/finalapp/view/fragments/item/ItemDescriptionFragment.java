@@ -21,6 +21,8 @@ import com.hod.finalapp.model.adapters.ItemAdapter;
 import com.hod.finalapp.model.adapters.PictureAdapter;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
+import com.hod.finalapp.view.fragments.dialog.ChangePictureDialogFragment;
+import com.hod.finalapp.view.fragments.dialog.YesNoDialogFragment;
 import com.hod.finalapp.view.viewmodel.item.ItemDescriptionViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -80,11 +82,20 @@ public class ItemDescriptionFragment extends Fragment
         mFloatingActionButton = iRootView.findViewById(R.id.fragment_item_description_fab);
 
         if(mItemDescriptionViewModel.isMyItem()){
-            mFloatingActionButton.setImageDrawable(iRootView.getResources().getDrawable(R.drawable.ic_baseline_edit_24, this.getActivity().getTheme()));
+            mFloatingActionButton.setImageDrawable(iRootView.getResources().getDrawable(R.drawable.ic_baseline_delete_24, this.getActivity().getTheme()));
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO OPEN EDIT FRAGMENT
+                    YesNoDialogFragment yesNoDialogFragment = new YesNoDialogFragment(getResources().getString(R.string.are_you_sure_you_want_to_delete), new YesNoDialogFragment.IYesNoDialogFragmentListener() {
+                        @Override
+                        public void userResponse(boolean iIsUserAccepted) {
+                            if(iIsUserAccepted){
+                                mItemDescriptionViewModel.deleteThisItem();
+                                NavHostFragment.findNavController(ItemDescriptionFragment.this).popBackStack();
+                            }
+                        }
+                    });
+                    yesNoDialogFragment.show(getActivity().getSupportFragmentManager(), YesNoDialogFragment.getDialogTag());
                 }
             });
         }
