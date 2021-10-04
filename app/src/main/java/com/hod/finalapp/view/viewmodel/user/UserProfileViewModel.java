@@ -40,10 +40,9 @@ public class UserProfileViewModel extends ViewModel
         mMyItemsList = new ArrayList<>();
     }
 
-    public ArrayList<Item> getMyItemsList(){
-        ArrayList<Item> tempItemsList = ItemRepository.getInstance().getItemsList();
+    public ArrayList<Item> getMyItemsList(ArrayList<Item> iMyItemsList){
         mMyItemsList.clear();
-        for(Item item: tempItemsList)
+        for(Item item: iMyItemsList)
         {
             if(item.getOwnerId().equals(UserRepository.getInstance().getCurrentUser().getUserId())){
                 mMyItemsList.add(item);

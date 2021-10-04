@@ -24,6 +24,7 @@ import com.hod.finalapp.model.adapters.ItemAdapter;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
 import com.hod.finalapp.view.fragments.dialog.ChangePictureDialogFragment;
+import com.hod.finalapp.view.viewmodel.CatalogMainScreenViewModel;
 import com.hod.finalapp.view.viewmodel.user.UserProfileViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,9 +32,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 //TODO use material design shapes and this https://www.youtube.com/watch?v=QDp8X43oFy8 for all app design.
-public class UserProfileFragment extends Fragment
-{
-    private UserProfileViewModel mViewModel;
+public class UserProfileFragment extends Fragment {
+    private UserProfileViewModel mUserProfileViewModel;
+    private CatalogMainScreenViewModel mCatalogMainScreenViewModel;
     private TextView mFullname;
     private TextView mUsername;
     private ShapeableImageView mProfilePic;
@@ -48,24 +49,25 @@ public class UserProfileFragment extends Fragment
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater,
                              @Nullable @org.jetbrains.annotations.Nullable ViewGroup container,
                              @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_user_profile,container,false);
-        mViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
+        View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        mUserProfileViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
+        mCatalogMainScreenViewModel = new ViewModelProvider(this).get(CatalogMainScreenViewModel.class);
 
-        mItemsList = mViewModel.getMyItemsList();
+        mItemsList = new ArrayList<>();
         initUI(rootView);
         initObservers();
 
         return rootView;
     }
 
-    private void initUI(View iRootView)
-    {
+    private void initUI(View iRootView) {
         mFullname = iRootView.findViewById(R.id.fragment_user_profile_fullname_tv);
         mUsername = iRootView.findViewById(R.id.fragment_user_profile_username_tv);
         mProfilePic = iRootView.findViewById(R.id.fragment_user_profile_user_profile_image);
         mBackBtn = iRootView.findViewById(R.id.fragment_user_profile_back_btn);
         mMyItemsListRecyclerView = iRootView.findViewById(R.id.fragment_user_profile_my_items_rv);
 
+        mCatalogMainScreenViewModel.getItemsList();
 
         mProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +76,7 @@ public class UserProfileFragment extends Fragment
                     @Override
                     public void onPictureUriReceived(Uri iImageUri) {
                         mProfilePic.setImageResource(R.drawable.ic_baseline_account_circle_24);
-                        mViewModel.changeUserProfilePicture(iImageUri);
+                        mUserProfileViewModel.changeUserProfilePicture(iImageUri);
                     }
                 });
                 mChangePictureDialogFragment.show(getActivity().getSupportFragmentManager(), ChangePictureDialogFragment.getDialogTag());
@@ -82,7 +84,7 @@ public class UserProfileFragment extends Fragment
         });
 
         mItemAdapter = new ItemAdapter(mItemsList);
-        mMyItemsListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+        mMyItemsListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mMyItemsListRecyclerView.setHasFixedSize(true);
         mMyItemsListRecyclerView.setAdapter(mItemAdapter);
         mItemAdapter.setListener(new ItemAdapter.ItemListener() {
@@ -98,23 +100,22 @@ public class UserProfileFragment extends Fragment
 
     }
 
-    private void initObservers()
-    {
-        mViewModel.getFullName().observe(getViewLifecycleOwner(), new Observer<String>() {
+    private void initObservers() {
+        mUserProfileViewModel.getFullName().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 mFullname.setText(s);
             }
         });
 
-        mViewModel.getUserName().observe(getViewLifecycleOwner(), new Observer<String>() {
+        mUserProfileViewModel.getUserName().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 mUsername.setText(s);
             }
         });
 
-        mViewModel.getProfilePictureUri().observe(getViewLifecycleOwner(), new Observer<Uri>() {
+        mUserProfileViewModel.getProfilePictureUri().observe(getViewLifecycleOwner(), new Observer<Uri>() {
             @Override
             public void onChanged(Uri uri) {
                 Glide.with(UserProfileFragment.this)
@@ -127,14 +128,14 @@ public class UserProfileFragment extends Fragment
 //                        .circleCrop()
             }
         });
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        mItemsList = mViewModel.getMyItemsList();
-        mItemAdapter.setItems(mItemsList);
-        mItemAdapter.notifyDataSetChanged();
+        mCatalogMainScreenViewModel.getItemsListLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Item>>() {
+            @Override
+            public void onChanged(ArrayList<Item> items) {
+                mItemsList = mUserProfileViewModel.getMyItemsList(items);
+                mItemAdapter.setItems(mItemsList);
+                mItemAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
