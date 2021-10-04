@@ -160,86 +160,87 @@ public class StorageManager
                     },
                     index);
         }
+        else{
+            urlListener.onComplete(new Task<ArrayList<Uri>>() {
+                @Override
+                public boolean isComplete() {
+                    return true;
+                }
 
-        urlListener.onComplete(new Task<ArrayList<Uri>>() {
-            @Override
-            public boolean isComplete() {
-                return true;
-            }
+                @Override
+                public boolean isSuccessful() {
+                    return true;
+                }
 
-            @Override
-            public boolean isSuccessful() {
-                return true;
-            }
+                @Override
+                public boolean isCanceled() {
+                    return false;
+                }
 
-            @Override
-            public boolean isCanceled() {
-                return false;
-            }
+                @Nullable
+                @org.jetbrains.annotations.Nullable
+                @Override
+                public ArrayList<Uri> getResult() {
+                    return iStoredImagesUri;
+                }
 
-            @Nullable
-            @org.jetbrains.annotations.Nullable
-            @Override
-            public ArrayList<Uri> getResult() {
-                return iStoredImagesUri;
-            }
+                @Nullable
+                @org.jetbrains.annotations.Nullable
+                @Override
+                public <X extends Throwable> ArrayList<Uri> getResult(@NonNull @NotNull Class<X> aClass) throws X {
+                    return iStoredImagesUri;
+                }
 
-            @Nullable
-            @org.jetbrains.annotations.Nullable
-            @Override
-            public <X extends Throwable> ArrayList<Uri> getResult(@NonNull @NotNull Class<X> aClass) throws X {
-                return iStoredImagesUri;
-            }
+                @Nullable
+                @org.jetbrains.annotations.Nullable
+                @Override
+                public Exception getException() {
+                    return null;
+                }
 
-            @Nullable
-            @org.jetbrains.annotations.Nullable
-            @Override
-            public Exception getException() {
-                return null;
-            }
+                @NonNull
+                @NotNull
+                @Override
+                public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
+                    return null;
+                }
 
-            @NonNull
-            @NotNull
-            @Override
-            public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
-                return null;
-            }
+                @NonNull
+                @NotNull
+                @Override
+                public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
+                    return null;
+                }
 
-            @NonNull
-            @NotNull
-            @Override
-            public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
-                return null;
-            }
+                @NonNull
+                @NotNull
+                @Override
+                public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
+                    return null;
+                }
 
-            @NonNull
-            @NotNull
-            @Override
-            public Task<ArrayList<Uri>> addOnSuccessListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnSuccessListener<? super ArrayList<Uri>> onSuccessListener) {
-                return null;
-            }
+                @NonNull
+                @NotNull
+                @Override
+                public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull OnFailureListener onFailureListener) {
+                    return null;
+                }
 
-            @NonNull
-            @NotNull
-            @Override
-            public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull OnFailureListener onFailureListener) {
-                return null;
-            }
+                @NonNull
+                @NotNull
+                @Override
+                public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnFailureListener onFailureListener) {
+                    return null;
+                }
 
-            @NonNull
-            @NotNull
-            @Override
-            public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnFailureListener onFailureListener) {
-                return null;
-            }
-
-            @NonNull
-            @NotNull
-            @Override
-            public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnFailureListener onFailureListener) {
-                return null;
-            }
-        });
+                @NonNull
+                @NotNull
+                @Override
+                public Task<ArrayList<Uri>> addOnFailureListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnFailureListener onFailureListener) {
+                    return null;
+                }
+            });
+        }
     }
 
     public void uploadItemPicture(Uri imageUri, String itemID, OnCompleteListener<Uri> urlListener, int iPhotoIndex){
