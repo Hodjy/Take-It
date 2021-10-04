@@ -27,4 +27,7 @@
     <string name="a_picture_is_required">A Picture is Required.</string>
     <string name="name">Name</string>
     <string name="username">Username</string>
+    <string name="are_you_sure_you_want_to_delete">Delete Item?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

@@ -28,4 +28,7 @@
     <string name="a_picture_is_required">נדרש לפחות תמונה אחת.</string>
     <string name="name">שם</string>
     <string name="username">שם משתמש</string>
+    <string name="are_you_sure_you_want_to_delete">למחוק פריט?</string>
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
 </resources>
