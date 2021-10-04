@@ -26,4 +26,6 @@
     <string name="item_created">פריט נוצר בהצלחה</string>
     <string name="msg_or_edit">הודאה או עריכה</string>
     <string name="a_picture_is_required">נדרש לפחות תמונה אחת.</string>
+    <string name="name">שם</string>
+    <string name="username">שם משתמש</string>
 </resources>

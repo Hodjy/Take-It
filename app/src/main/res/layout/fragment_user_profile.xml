@@ -6,7 +6,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:src="?attr/colorPrimary"
         android:layout_alignParentStart="true"
         android:id="@+id/fragment_user_profile_background_image"/>
@@ -23,22 +23,54 @@
         android:scaleType="fitXY"
         />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/name"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/fragment_user_profile_user_profile_image"
+        android:textSize="30sp"
+        android:id="@+id/fragment_user_profile_fullname_tv"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/username"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/fragment_user_profile_fullname_tv"
+        android:textSize="25sp"
+        android:id="@+id/fragment_user_profile_username_tv"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/my_items"
+        android:layout_centerInParent="true"
+        android:layout_above="@+id/fragment_user_profile_my_items_rv"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:id="@+id/fragment_user_profile_my_items_tv"/>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fragment_user_profile_user_profile_image"
-        android:orientation="vertical">
+        android:id="@+id/fragment_user_profile_my_items_rv"
+        android:layout_above="@+id/fragment_user_profile_back_btn"
+        android:layout_margin="15dp"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="name"
-            android:layout_gravity="center_horizontal"
-            android:textSize="30sp"
-            android:id="@+id/fragment_user_profile_fullname_tv"/>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_user_profile_back_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/back"/>
 
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>

@@ -63,7 +63,6 @@ public class ItemRepository {
         mItemTable.addValueEventListener(getItemsListListener());
     }
 
-
     private ValueEventListener getItemsListListener() {
         return new ValueEventListener() {
             @Override

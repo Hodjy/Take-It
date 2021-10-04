@@ -80,7 +80,11 @@
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="com.hod.finalapp.view.fragments.user.UserProfileFragment"
-        android:label="UserProfileFragment" />
+        android:label="UserProfileFragment">
+    <action
+        android:id="@+id/action_userProfileFragment_to_itemDescriptionFragment"
+        app:destination="@id/itemDescriptionFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/userChatsFragment"
         android:name="com.hod.finalapp.view.fragments.user.UserChatsFragment"
