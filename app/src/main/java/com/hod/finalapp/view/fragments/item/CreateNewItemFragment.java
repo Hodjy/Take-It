@@ -23,6 +23,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.hod.finalapp.R;
 import com.hod.finalapp.model.firebase.StorageManager;
@@ -188,6 +190,8 @@ public class CreateNewItemFragment extends Fragment
     {
         Glide.with(this)
                 .load(iUri)
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(iImageView);
     }
 

@@ -285,7 +285,10 @@ public class StorageManager
         ArrayList<String> itemsPictureUrls = iItem.getPicturesUrls();
         for(String url : itemsPictureUrls)
         {
+            if(!url.equals(""))
+            {
             mFirebaseStorage.getReferenceFromUrl(url).delete();
+            }
         }
     }
 

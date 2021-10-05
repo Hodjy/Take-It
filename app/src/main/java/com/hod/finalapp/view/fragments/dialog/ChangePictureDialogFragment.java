@@ -33,6 +33,7 @@ import com.hod.finalapp.R;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.UUID;
 
 public class ChangePictureDialogFragment extends DialogFragment
 {
@@ -167,7 +168,7 @@ public class ChangePictureDialogFragment extends DialogFragment
 
     private void takePic() {
         //TODO MAY BE A BUG
-        m_File = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+        m_File = new File(getActivity().getExternalFilesDir(null), UUID.randomUUID() +".jpg");
         //TODO MAY BE A BUG
         Uri imageUri = FileProvider.getUriForFile(getActivity(),
                 "com.hod.finalapp.provider", //(use your app signature + ".provider" )
