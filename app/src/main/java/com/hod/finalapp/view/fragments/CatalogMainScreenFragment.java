@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -18,24 +18,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hod.finalapp.R;
-import com.hod.finalapp.model.adapters.ItemAdapter;
 import com.hod.finalapp.model.database_objects.Item;
-import com.hod.finalapp.model.repositories.UserRepository;
+import com.hod.finalapp.view.adapters.nested_recycler.NestedItemsAdapter;
 import com.hod.finalapp.view.viewmodel.CatalogMainScreenViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CatalogMainScreenFragment extends Fragment
 {
     private ICatalogMainScreenFragmentListener m_Callback;
 
     private RecyclerView mItemsListRecyclerView;
-    private ItemAdapter mItemAdapter;
+    private NestedItemsAdapter mNestedItemAdapter;
     private CatalogMainScreenViewModel mCatalogMainScreenViewModel;
-    private ArrayList<Item> mItemsList;
+    private ArrayList<ArrayList<Item>> mItemsByCategory;
 
     //TODO remove this button
     Button mTempButton;
@@ -53,29 +51,40 @@ public class CatalogMainScreenFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_catalog_main_screen, container, false);
         mCatalogMainScreenViewModel = new ViewModelProvider(this).get(CatalogMainScreenViewModel.class);
 
-        mItemsList = new ArrayList<>();
+        initVars();
         initUi(rootView);
         initObservers();
 
         return rootView;
     }
 
+    private void initVars()
+    {
+        mItemsByCategory = new ArrayList<>();
+        int categories = mCatalogMainScreenViewModel.getCategoriesAmount();
+
+        for(int i = 0; i < categories; i++)
+        {
+            mItemsByCategory.add(new ArrayList<>());
+        }
+    }
+
     private void initUi(View iRootView) {
         mItemsListRecyclerView = iRootView.findViewById(R.id.fragment_catalog_main_screen_item_list_rv);
-        mItemAdapter = new ItemAdapter(mItemsList);
-        mItemsListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        mItemsListRecyclerView.setHasFixedSize(true);
-        mItemsListRecyclerView.setAdapter(mItemAdapter);
-        mItemAdapter.setListener(new ItemAdapter.ItemListener() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mNestedItemAdapter = new NestedItemsAdapter(mItemsByCategory, new NestedItemsAdapter.INestedItemsAdapterListener() {
             @Override
-            public void onItemClicked(int position, View view) {
+            public void onClick(int iCategory, int iItemPosition) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("item", mItemsList.get(position));
+                bundle.putParcelable("item", mItemsByCategory.get(iCategory).get(iItemPosition));
                 NavHostFragment.findNavController(CatalogMainScreenFragment.this).navigate(R.id.itemDescriptionFragment, bundle);
             }
         });
-
-        mCatalogMainScreenViewModel.getItemsList();
+        //mItemsListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        //mItemsListRecyclerView.setHasFixedSize(true);
+        mItemsListRecyclerView.setAdapter(mNestedItemAdapter);
+        mItemsListRecyclerView.setLayoutManager(linearLayoutManager);
+        mCatalogMainScreenViewModel.initItemsListByCategory();
 
         //TODO remove this button
         mTempButton = iRootView.findViewById(R.id.fragment_catalog_main_screen_temp_btn);
@@ -84,17 +93,20 @@ public class CatalogMainScreenFragment extends Fragment
         });
     }
 
-    private void initObservers() {
+    private void initObservers()
+    {
 
-        mCatalogMainScreenViewModel.getItemsListLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Item>>() {
+        mCatalogMainScreenViewModel.getItemsByCategory().observe(getViewLifecycleOwner(), new Observer<ArrayList<ArrayList<Item>>>() {
             @Override
-            public void onChanged(ArrayList<Item> items) {
-                mItemsList.clear();
-                for(Item item: items){
-                    mItemsList.add(item);
+            public void onChanged(ArrayList<ArrayList<Item>> arrayLists) {
+                int i = 0;
+                for (ArrayList<Item> items : arrayLists)
+                {
+                    mItemsByCategory.get(i).clear();
+                    mItemsByCategory.get(i).addAll(items);
+                    i++;
                 }
-                mItemAdapter.setItems(mItemsList);
-                mItemAdapter.notifyDataSetChanged();
+                mNestedItemAdapter.notifyDataSetChanged();
             }
         });
     }

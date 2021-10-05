@@ -22,13 +22,15 @@ public class UserProfileViewModel extends ViewModel
     private MutableLiveData<String> mFullName;
     private MutableLiveData<String> mUserName;
     private MutableLiveData<Uri> mProfilePictureUri;
-    private ArrayList<Item> mMyItemsList;
+    private MutableLiveData<ArrayList<Item>> mMyItemsList;
+    private MutableLiveData<String> mError;
 
     public UserProfileViewModel()
     {
         User user = UserRepository.getInstance().getCurrentUser();
         mFullName = new MutableLiveData<>(user.getFirstName() + " " +  user.getLastName());
         mUserName = new MutableLiveData<>(user.getUsername());
+        mError = new MutableLiveData<>();
         if(user.getPictureUrl() != null)
         {
             mProfilePictureUri = new MutableLiveData<>(Uri.parse(user.getPictureUrl()));
@@ -37,18 +39,34 @@ public class UserProfileViewModel extends ViewModel
         {
             mProfilePictureUri = new MutableLiveData<>();
         }
-        mMyItemsList = new ArrayList<>();
+
+        mMyItemsList = new MutableLiveData<>();
+        ItemRepository.getInstance().subscribeToItemListChanged(getItemsListListener());
     }
 
-    public ArrayList<Item> getMyItemsList(ArrayList<Item> iMyItemsList){
-        mMyItemsList.clear();
+
+
+    private ArrayList<Item> extractMyItems(ArrayList<Item> iMyItemsList)
+    {
+        ArrayList<Item> myItems = new ArrayList<>();
         for(Item item: iMyItemsList)
         {
             if(item.getOwnerId().equals(UserRepository.getInstance().getCurrentUser().getUserId())){
-                mMyItemsList.add(item);
+                myItems.add(item);
             }
         }
 
+        return myItems;
+    }
+
+    public MutableLiveData<ArrayList<Item>> getMyItemsList()
+    {
+        if (mMyItemsList.getValue() == null)
+        {
+            mMyItemsList.postValue(
+                    extractMyItems(
+                            ItemRepository.getInstance().getAllItems()));
+        }
         return mMyItemsList;
     }
 
@@ -79,5 +97,24 @@ public class UserProfileViewModel extends ViewModel
         };
     }
 
+    private OnCompleteListener<ArrayList<Item>> getItemsListListener(){
+        return new OnCompleteListener<ArrayList<Item>>(){
+            @Override
+            public void onComplete(@NonNull @NotNull Task<ArrayList<Item>> task) {
+                if(task.isSuccessful())
+                {
+                    mMyItemsList.postValue(extractMyItems(task.getResult()));
+                }
+                else
+                {
+                    postError(task.getException().getMessage());
+                }
+            }
+        };
+    }
 
+    private void postError(String iError)
+    {
+        mError.postValue(iError);
+    }
 }

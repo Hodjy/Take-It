@@ -20,9 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.hod.finalapp.R;
-import com.hod.finalapp.model.adapters.ItemAdapter;
+import com.hod.finalapp.view.adapters.ItemAdapter;
 import com.hod.finalapp.model.database_objects.Item;
-import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
 import com.hod.finalapp.view.fragments.dialog.ChangePictureDialogFragment;
 import com.hod.finalapp.view.viewmodel.CatalogMainScreenViewModel;
 import com.hod.finalapp.view.viewmodel.user.UserProfileViewModel;
@@ -34,7 +33,6 @@ import java.util.ArrayList;
 //TODO use material design shapes and this https://www.youtube.com/watch?v=QDp8X43oFy8 for all app design.
 public class UserProfileFragment extends Fragment {
     private UserProfileViewModel mUserProfileViewModel;
-    private CatalogMainScreenViewModel mCatalogMainScreenViewModel;
     private TextView mFullname;
     private TextView mUsername;
     private ShapeableImageView mProfilePic;
@@ -51,7 +49,6 @@ public class UserProfileFragment extends Fragment {
                              @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
         mUserProfileViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
-        mCatalogMainScreenViewModel = new ViewModelProvider(this).get(CatalogMainScreenViewModel.class);
 
         mItemsList = new ArrayList<>();
         initUI(rootView);
@@ -66,8 +63,6 @@ public class UserProfileFragment extends Fragment {
         mProfilePic = iRootView.findViewById(R.id.fragment_user_profile_user_profile_image);
         mBackBtn = iRootView.findViewById(R.id.fragment_user_profile_back_btn);
         mMyItemsListRecyclerView = iRootView.findViewById(R.id.fragment_user_profile_my_items_rv);
-
-        mCatalogMainScreenViewModel.getItemsList();
 
         mProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,9 +84,9 @@ public class UserProfileFragment extends Fragment {
         mMyItemsListRecyclerView.setAdapter(mItemAdapter);
         mItemAdapter.setListener(new ItemAdapter.ItemListener() {
             @Override
-            public void onItemClicked(int position, View view) {
+            public void onItemClicked(int iItemPosition, View view) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("item", mItemsList.get(position));
+                bundle.putParcelable("item", mItemsList.get(iItemPosition));
                 NavHostFragment.findNavController(UserProfileFragment.this).navigate(R.id.itemDescriptionFragment, bundle);
             }
         });
@@ -129,10 +124,11 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-        mCatalogMainScreenViewModel.getItemsListLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Item>>() {
+        mUserProfileViewModel.getMyItemsList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Item>>() {
             @Override
             public void onChanged(ArrayList<Item> items) {
-                mItemsList = mUserProfileViewModel.getMyItemsList(items);
+                mItemsList.clear();
+                mItemsList = items;
                 mItemAdapter.setItems(mItemsList);
                 mItemAdapter.notifyDataSetChanged();
             }

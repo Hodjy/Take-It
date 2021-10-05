@@ -15,7 +15,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.hod.finalapp.model.database_objects.Item;
-import com.hod.finalapp.model.firebase.AuthenticationManager;
 import com.hod.finalapp.model.firebase.DatabaseManager;
 import com.hod.finalapp.model.firebase.StorageManager;
 import com.hod.finalapp.model.firebase.enums.eFirebaseDataTypes;
@@ -23,15 +22,15 @@ import com.hod.finalapp.model.firebase.enums.eFirebaseDataTypes;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executor;
 
 public class ItemRepository {
 
     private static ItemRepository mItemRepository;
     private final DatabaseReference mItemTable;
+    private ArrayList<Item> mItems;
 
-    private OnCompleteListener mItemsListChangedListener;
+    private ArrayList<OnCompleteListener> mItemsListChangedListeners;
 
     private ArrayList<Item> mItemsList;
 
@@ -40,6 +39,17 @@ public class ItemRepository {
         mItemTable = DatabaseManager.getInstance().getFirebaseDatabaseInstance()
                 .getReference(eFirebaseDataTypes.ITEMS.mTypeName);
         mItemsList = new ArrayList<>();
+        mItemsListChangedListeners = new ArrayList<>();
+        mItemsListChangedListeners.add(new OnCompleteListener<ArrayList<Item>>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<ArrayList<Item>> task)
+            {
+                if(task.isSuccessful())
+                {
+                    mItems = task.getResult();
+                }
+            }
+        });
     }
 
     public static ItemRepository getInstance()
@@ -57,10 +67,14 @@ public class ItemRepository {
     }
 
 
-    public void initItemsListInfo(OnCompleteListener iOnCompleteListener)
+    public void initItemsListInfo()
     {
-        mItemsListChangedListener = iOnCompleteListener;
         mItemTable.addValueEventListener(getItemsListListener());
+    }
+
+    public void subscribeToItemListChanged(OnCompleteListener iOnCompleteListener)
+    {
+        mItemsListChangedListeners.add(iOnCompleteListener);
     }
 
     private ValueEventListener getItemsListListener() {
@@ -76,9 +90,9 @@ public class ItemRepository {
                         mItemsList.add(item);
                     }
 
-                    if(mItemsListChangedListener != null)
+                    if(mItemsListChangedListeners.size() > 0)
                     {
-                        mItemsListChangedListener.onComplete(new Task() {
+                        Task task = new Task() {
                             @Override
                             public boolean isComplete() {
                                 return true;
@@ -156,7 +170,11 @@ public class ItemRepository {
                             public Task addOnFailureListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnFailureListener onFailureListener) {
                                 return null;
                             }
-                        });
+                        };
+                        for(OnCompleteListener listener : mItemsListChangedListeners)
+                        {
+                            listener.onComplete(task);
+                        }
                     }
                 }
             }
@@ -369,4 +387,10 @@ public class ItemRepository {
         StorageManager.getInstance().deleteItemPictures(iItem);
         mItemTable.child(iItem.getItemId()).removeValue();
     }
+
+    public ArrayList<Item> getAllItems()
+    {
+        return mItems;
+    }
+
 }

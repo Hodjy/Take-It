@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hod.finalapp.R;
-import com.hod.finalapp.model.adapters.PictureAdapter;
+import com.hod.finalapp.view.adapters.PictureAdapter;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.view.fragments.dialog.YesNoDialogFragment;
 import com.hod.finalapp.view.viewmodel.item.ItemDescriptionViewModel;

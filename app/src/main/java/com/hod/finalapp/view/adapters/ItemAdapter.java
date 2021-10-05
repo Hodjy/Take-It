@@ -1,4 +1,4 @@
-package com.hod.finalapp.model.adapters;
+package com.hod.finalapp.view.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +26,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     public interface ItemListener{
-        void onItemClicked(int position, View view);
+        void onItemClicked(int iItemPosition, View view);
     }
 
     private ItemListener listener;

@@ -1,10 +1,8 @@
-package com.hod.finalapp.model.adapters;
+package com.hod.finalapp.view.adapters;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.hod.finalapp.R;
-import com.hod.finalapp.model.database_objects.Item;
 
 import org.jetbrains.annotations.NotNull;
 
