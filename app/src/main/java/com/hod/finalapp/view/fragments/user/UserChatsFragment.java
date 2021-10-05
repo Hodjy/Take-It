@@ -28,6 +28,19 @@ public class UserChatsFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_user_chats, container, false);
         mViewModel = new ViewModelProvider(this).get(UserChatsViewModel.class);
 
+        initUi(rootView);
+        initObservers();
+
         return rootView;
+    }
+
+    private void initUi(View rootView) {
+
+
+    }
+
+    private void initObservers() {
+
+
     }
 }
