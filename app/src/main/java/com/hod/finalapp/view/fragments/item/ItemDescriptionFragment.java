@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hod.finalapp.R;
+import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
 import com.hod.finalapp.view.adapters.PictureAdapter;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.view.fragments.dialog.YesNoDialogFragment;
@@ -102,7 +103,10 @@ public class ItemDescriptionFragment extends Fragment
                 @Override
                 public void onClick(View v) {
                     //TODO OPEN MESSAGE FRAGMENT
-                    NavHostFragment.findNavController(iThisFragment).navigate(R.id.action_to_chatRoomFragment);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ChatRoomId", mViewModel.generateChatRoomId());
+                    bundle.putParcelable("item", mViewModel.getItem());
+                    NavHostFragment.findNavController(iThisFragment).navigate(R.id.action_to_chatRoomFragment, bundle);
                 }
             });
         }

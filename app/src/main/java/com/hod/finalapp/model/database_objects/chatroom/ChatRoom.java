@@ -145,6 +145,18 @@ public class ChatRoom implements Parcelable
     {
         return mOwnerId + "_" + mItemId + "_" + mReceiverId;
     }
+
+    /***
+     * Use to generate the key if needed to find a spesific room.
+     * @param iOwnerId
+     * @param iItemId
+     * @param iReceiver
+     * @return
+     */
+    public static String generateChatRoomId(String iOwnerId, String iItemId,String iReceiver)
+    {
+        return iOwnerId + "_" + iItemId + "_" + iReceiver;
+    }
 }
 
 

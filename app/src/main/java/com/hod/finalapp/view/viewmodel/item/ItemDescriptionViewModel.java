@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.hod.finalapp.R;
 import com.hod.finalapp.model.database_objects.Item;
+import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
 import com.hod.finalapp.model.firebase.StorageManager;
 import com.hod.finalapp.model.repositories.ItemRepository;
 import com.hod.finalapp.model.repositories.UserRepository;
@@ -28,6 +29,11 @@ public class ItemDescriptionViewModel extends AndroidViewModel {
     public void setItem(Item iItem)
     {
         mItem = iItem;
+    }
+
+    public Item getItem()
+    {
+        return mItem;
     }
 
     public boolean isMyItem(){
@@ -56,6 +62,13 @@ public class ItemDescriptionViewModel extends AndroidViewModel {
         String itemRegion = regions[mItem.getmItemRegion()];
 
         return itemRegion;
+    }
+
+    public String generateChatRoomId()
+    {
+        String chatRoomID = ChatRoom.generateChatRoomId(mItem.getOwnerId(),mItem.getItemId(),UserRepository.getInstance().getCurrentUser().getUserId());
+
+        return chatRoomID;
     }
 
 }

@@ -123,7 +123,10 @@
         android:name="com.hod.finalapp.view.fragments.chat.ChatRoomFragment"
         android:label="ChatRoomFragment" >
         <argument
-            android:name="ChatRoom"
-            app:argType="com.hod.finalapp.model.database_objects.chatroom.ChatRoom" />
+            android:name="chat_room_id"
+            app:argType="string" />
+        <argument
+            android:name="item"
+            app:argType="com.hod.finalapp.model.database_objects.Item" />
     </fragment>
 </navigation>
