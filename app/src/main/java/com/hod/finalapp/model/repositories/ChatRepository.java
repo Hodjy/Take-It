@@ -37,9 +37,14 @@ public class ChatRepository {
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 if(task.isSuccessful())
                 {
-                    for(DataSnapshot chatRoom : task.getResult().getChildren())
+                    ChatRoom chatRoom;
+                    for(DataSnapshot chatRoomSnapShot : task.getResult().getChildren())
                     {
-                        mUserChats.put(chatRoom.getKey(),chatRoom.getValue(ChatRoom.class));
+                        chatRoom = chatRoomSnapShot.getValue(ChatRoom.class);
+                        if(isChatRoomForUser(chatRoom))
+                        {
+                            mUserChats.put(chatRoomSnapShot.getKey(),chatRoom);
+                        }
                     }
                 }
             }
@@ -69,12 +74,21 @@ public class ChatRepository {
         return new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                mUserChats.put(snapshot.getKey(), snapshot.getValue(ChatRoom.class));
+                ChatRoom chatRoom = snapshot.getValue(ChatRoom.class);
+                if(isChatRoomForUser(chatRoom))
+                {
+                    mUserChats.put(snapshot.getKey(), chatRoom);
+                }
             }
 
             @Override
             public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                mUserChats.replace(snapshot.getKey(), snapshot.getValue(ChatRoom.class));
+                ChatRoom chatRoom =  snapshot.getValue(ChatRoom.class);
+
+                if(isChatRoomForUser(chatRoom))
+                {
+                    mUserChats.replace(snapshot.getKey(), chatRoom);
+                }
             }
 
             @Override
@@ -92,6 +106,16 @@ public class ChatRepository {
 
             }
         };
+    }
+
+    private boolean isChatRoomForUser(ChatRoom iChatRoom)
+    {
+        String currentUserId = UserRepository.getInstance().getCurrentUser().getUserId();
+
+        boolean isChatRoomForUser = iChatRoom.getOwnerId() == currentUserId
+                || iChatRoom.getReceiverId() == currentUserId;
+
+        return isChatRoomForUser;
     }
 
 }
