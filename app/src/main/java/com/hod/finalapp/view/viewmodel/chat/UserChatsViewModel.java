@@ -15,7 +15,10 @@ import com.hod.finalapp.view.ApplicationContext;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class UserChatsViewModel extends ViewModel
 {
@@ -24,12 +27,15 @@ public class UserChatsViewModel extends ViewModel
 
     public UserChatsViewModel()
     {
-        mMyChatsList = new MutableLiveData<>();
+        mMyChatsList = new MutableLiveData<>(new ArrayList<>());
+        mMyChatsList.postValue(getSortedUserChatsList());
     }
 
     public MutableLiveData<ArrayList<ChatRoom>> getMyChatsList() {
         return mMyChatsList;
     }
+
+
 
     /*
             ChatRepository.getInstance().createNewChat(new ChatRoom("Hod", "10", "Ofir", "", "Name", null),
@@ -40,4 +46,34 @@ public class UserChatsViewModel extends ViewModel
                     }
                 });
      */
+
+    private void initListListener(){
+        ChatRepository.getInstance().subscribeUserChatsListener(new ChatRepository.IChatRepositoryUserChatRoomListener() {
+            @Override
+            public void onChildEventListener(boolean isNewChatroom, ChatRoom iChatRoom) {
+                if(!isNewChatroom)
+                {
+                    int listSize = mMyChatsList.getValue().size();
+                    for(int i = 0 ;listSize > i; i++)
+                    {
+                        if(mMyChatsList.getValue().get(i).getChatRoomId().equals(iChatRoom.getChatRoomId()))
+                        {
+                            mMyChatsList.getValue().remove(i);
+                            break;
+                        }
+                    }
+                }
+                mMyChatsList.getValue().add(iChatRoom);
+                mMyChatsList.postValue(mMyChatsList.getValue());
+            }
+        });
+    }
+
+    private ArrayList<ChatRoom> getSortedUserChatsList(){
+        ArrayList<ChatRoom> tempList = ChatRepository.getInstance().getUserChats();
+        Comparator<ChatRoom> comparator = 
+        Arrays.sort(tempList,  );
+
+        return tempList;
+    }
 }

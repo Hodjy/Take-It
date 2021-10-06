@@ -19,14 +19,14 @@ import java.util.ArrayList;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
-    private ArrayList<ChatRoom> chats;
+    private ArrayList<ChatRoom> mChats;
 
-    public ChatAdapter(ArrayList<ChatRoom> chats) {
-        this.chats = chats;
+    public ChatAdapter(ArrayList<ChatRoom> iChats) {
+        this.mChats = iChats;
     }
 
     public interface ChatListener{
-        void onItemClicked(int position, View view);
+        void onItemClicked(ChatRoom chatRoom);
     }
 
     private ChatListener listener;
@@ -36,8 +36,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         this.listener = listener;
     }
 
-    public void setItems(ArrayList<ChatRoom> chats) {
-        this.chats = chats;
+    public void setItems(ArrayList<ChatRoom> iChats) {
+        this.mChats = iChats;
     }
 
     public class ChatViewHolder extends RecyclerView.ViewHolder{
@@ -55,7 +55,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             chatView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClicked(getAdapterPosition(), v);
+                    int adapterPosition = getAdapterPosition();
+                    listener.onItemClicked(mChats.get(adapterPosition));
                 }
             });
         }
@@ -72,7 +73,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ChatAdapter.ChatViewHolder holder, int position) {
-        ChatRoom chat = chats.get(position);
+        ChatRoom chat = mChats.get(position);
         holder.chatNameTv.setText(chat.getChatName());
         loadUriImage(holder, chat);
     }
@@ -86,6 +87,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public int getItemCount() {
-        return chats.size();
+        return mChats.size();
     }
 }
