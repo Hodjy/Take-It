@@ -22,13 +22,13 @@ import com.hod.finalapp.model.firebase.enums.eFirebaseDataTypes;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.Executor;
 
 public class ItemRepository {
 
     private static ItemRepository mItemRepository;
     private final DatabaseReference mItemTable;
-    private ArrayList<Item> mItems;
 
     private ArrayList<OnCompleteListener> mItemsListChangedListeners;
 
@@ -40,16 +40,6 @@ public class ItemRepository {
                 .getReference(eFirebaseDataTypes.ITEMS.mTypeName);
         mItemsList = new ArrayList<>();
         mItemsListChangedListeners = new ArrayList<>();
-        mItemsListChangedListeners.add(new OnCompleteListener<ArrayList<Item>>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<ArrayList<Item>> task)
-            {
-                if(task.isSuccessful())
-                {
-                    mItems = task.getResult();
-                }
-            }
-        });
     }
 
     public static ItemRepository getInstance()
@@ -89,6 +79,8 @@ public class ItemRepository {
                         item = itemData.getValue(Item.class);
                         mItemsList.add(item);
                     }
+
+                    Collections.reverse(mItemsList);
 
                     if(mItemsListChangedListeners.size() > 0)
                     {
@@ -390,7 +382,7 @@ public class ItemRepository {
 
     public ArrayList<Item> getAllItems()
     {
-        return mItems;
+        return mItemsList;
     }
 
 }
