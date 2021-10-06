@@ -24,6 +24,17 @@ public class ChatRepository {
     private static ChatRepository mChatRepository;
     private final DatabaseReference mChatTable;
     private Hashtable<String,ChatRoom> mUserChats;
+    private IChatRepositoryUserChatRoomListener mUserChatsListener;
+
+    public interface IChatRepositoryUserChatRoomListener
+    {
+        public void onChildEventListener(boolean isNewChatroom, ChatRoom iChatRoom);
+    }
+
+    public void subscribeUserChatsListener(IChatRepositoryUserChatRoomListener iListener)
+    {
+        mUserChatsListener = iListener;
+    }
 
     private ChatRepository()
     {
@@ -75,9 +86,14 @@ public class ChatRepository {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
                 ChatRoom chatRoom = snapshot.getValue(ChatRoom.class);
+
                 if(isChatRoomForUser(chatRoom))
                 {
                     mUserChats.put(snapshot.getKey(), chatRoom);
+                    if(mUserChatsListener != null)
+                    {
+                        mUserChatsListener.onChildEventListener(true, chatRoom);
+                    }
                 }
             }
 
@@ -88,6 +104,11 @@ public class ChatRepository {
                 if(isChatRoomForUser(chatRoom))
                 {
                     mUserChats.replace(snapshot.getKey(), chatRoom);
+
+                    if(mUserChatsListener != null)
+                    {
+                        mUserChatsListener.onChildEventListener(false, chatRoom);
+                    }
                 }
             }
 
