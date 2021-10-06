@@ -9,6 +9,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
 import com.hod.finalapp.model.firebase.AuthenticationManager;
 import com.hod.finalapp.model.firebase.DatabaseManager;
@@ -24,7 +25,13 @@ public class ChatRepository {
     private static ChatRepository mChatRepository;
     private final DatabaseReference mChatTable;
     private Hashtable<String,ChatRoom> mUserChats;
+
+    //Variable for UserChatViewModel
     private IChatRepositoryUserChatRoomListener mUserChatsListener;
+
+    // Variables for ChatRoomViewModel
+    private String mPreviousSubscribedRoomId = "";
+    private ValueEventListener mPreviousSubscribedRoomListener;
 
     public interface IChatRepositoryUserChatRoomListener
     {
@@ -34,6 +41,24 @@ public class ChatRepository {
     public void subscribeUserChatsListener(IChatRepositoryUserChatRoomListener iListener)
     {
         mUserChatsListener = iListener;
+    }
+
+    /***
+     * Will subscribe to a individual chatroom for updates on changes.
+     * Will unsubscribe to a previously subscribed one.
+     * @param iChatRoomID
+     * @param iListener
+     */
+    public void subscribeToAChatRoom(String iChatRoomID, ValueEventListener iListener)
+    {
+        if(!mPreviousSubscribedRoomId.isEmpty())
+        {
+            mChatTable.child(mPreviousSubscribedRoomId).removeEventListener(mPreviousSubscribedRoomListener);
+        }
+
+        mPreviousSubscribedRoomId = iChatRoomID;
+        mPreviousSubscribedRoomListener = iListener;
+        mChatTable.child(mPreviousSubscribedRoomId).addValueEventListener(iListener);
     }
 
     private ChatRepository()
