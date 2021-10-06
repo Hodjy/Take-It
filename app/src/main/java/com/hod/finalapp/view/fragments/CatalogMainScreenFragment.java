@@ -74,9 +74,9 @@ public class CatalogMainScreenFragment extends Fragment
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mNestedItemAdapter = new NestedItemsAdapter(mItemsByCategory, new NestedItemsAdapter.INestedItemsAdapterListener() {
             @Override
-            public void onClick(int iCategory, int iItemPosition) {
+            public void onClick(Item iItem) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("item", mItemsByCategory.get(iCategory).get(iItemPosition));
+                bundle.putParcelable("item", iItem);
                 NavHostFragment.findNavController(CatalogMainScreenFragment.this).navigate(R.id.itemDescriptionFragment, bundle);
             }
         });

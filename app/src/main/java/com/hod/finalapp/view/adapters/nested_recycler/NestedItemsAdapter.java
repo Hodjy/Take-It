@@ -20,14 +20,13 @@ import java.util.ArrayList;
 
 public class NestedItemsAdapter extends RecyclerView.Adapter<NestedItemsAdapter.NestedItemsViewHolder> {
 
-    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private ArrayList<ArrayList<Item>> mItemsByCategory;
     private String[] categories;
     private INestedItemsAdapterListener mCallback;
 
     public interface INestedItemsAdapterListener
     {
-        public void onClick(int iCategory,int iItemPosition);
+        public void onClick(Item iItem);
     }
 
     public NestedItemsAdapter(ArrayList<ArrayList<Item>> iNestedItems, INestedItemsAdapterListener iCallback)
@@ -65,15 +64,12 @@ public class NestedItemsAdapter extends RecyclerView.Adapter<NestedItemsAdapter.
         ItemAdapter itemAdapter = new ItemAdapter(itemsByCategory);
         itemAdapter.setListener(new ItemAdapter.ItemListener() {
             @Override
-            public void onItemClicked(int iItemPosition, View view) {
-                mCallback.onClick(position, iItemPosition);
+            public void onItemClicked(Item iItem) {
+                mCallback.onClick(iItem);
             }
         });
         holder.mChildRecyclerView.setLayoutManager(layoutManager);
         holder.mChildRecyclerView.setAdapter(itemAdapter);
-        holder.mChildRecyclerView.setRecycledViewPool(viewPool);
-
-
     }
 
     @Override

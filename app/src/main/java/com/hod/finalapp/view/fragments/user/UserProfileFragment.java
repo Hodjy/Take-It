@@ -23,7 +23,6 @@ import com.hod.finalapp.R;
 import com.hod.finalapp.view.adapters.ItemAdapter;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.view.fragments.dialog.ChangePictureDialogFragment;
-import com.hod.finalapp.view.viewmodel.CatalogMainScreenViewModel;
 import com.hod.finalapp.view.viewmodel.user.UserProfileViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -84,9 +83,9 @@ public class UserProfileFragment extends Fragment {
         mMyItemsListRecyclerView.setAdapter(mItemAdapter);
         mItemAdapter.setListener(new ItemAdapter.ItemListener() {
             @Override
-            public void onItemClicked(int iItemPosition, View view) {
+            public void onItemClicked(Item iItem) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("item", mItemsList.get(iItemPosition));
+                bundle.putParcelable("item", iItem);
                 NavHostFragment.findNavController(UserProfileFragment.this).navigate(R.id.itemDescriptionFragment, bundle);
             }
         });
@@ -129,7 +128,7 @@ public class UserProfileFragment extends Fragment {
             public void onChanged(ArrayList<Item> items) {
                 mItemsList.clear();
                 mItemsList = items;
-                mItemAdapter.setItems(mItemsList);
+                mItemAdapter.setmItems(mItemsList);
                 mItemAdapter.notifyDataSetChanged();
             }
         });

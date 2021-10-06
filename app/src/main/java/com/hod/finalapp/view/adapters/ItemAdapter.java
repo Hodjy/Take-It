@@ -19,14 +19,14 @@ import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
-    private ArrayList<Item> items;
+    private ArrayList<Item> mItems;
 
-    public ItemAdapter(ArrayList<Item> items) {
-        this.items = items;
+    public ItemAdapter(ArrayList<Item> mItems) {
+        this.mItems = mItems;
     }
 
     public interface ItemListener{
-        void onItemClicked(int iItemPosition, View view);
+        void onItemClicked(Item iItem);
     }
 
     private ItemListener listener;
@@ -36,8 +36,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         this.listener = listener;
     }
 
-    public void setItems(ArrayList<Item> items) {
-        this.items = items;
+    public void setmItems(ArrayList<Item> mItems) {
+        this.mItems = mItems;
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
@@ -54,7 +54,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClicked(getAdapterPosition(), v);
+                    int adapterPosition = getAdapterPosition();
+                    listener.onItemClicked(mItems.get(adapterPosition));
                 }
             });
         }
@@ -71,7 +72,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ItemAdapter.ItemViewHolder holder, int position) {
-        Item item = items.get(position);
+        Item item = mItems.get(position);
         holder.titleTv.setText(item.getItemName());
         loadUriImage(holder, item);
     }
@@ -85,6 +86,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return mItems.size();
     }
 }
