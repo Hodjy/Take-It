@@ -104,6 +104,16 @@ public class ChatRepository {
         mChatTable.child(iChatRoom.generateChatRoomId()).setValue(iChatRoom).addOnCompleteListener(listener);
     }
 
+    /***
+     *
+     * @param iChatRoomID
+     * @return null if not contains the room.
+     */
+    public ChatRoom tryGetChatRoom(String iChatRoomID)
+    {
+        return mUserChats.get(iChatRoomID);
+    }
+
     //TODO Might need external listeners
     private ChildEventListener getChildEventListener()
     {
