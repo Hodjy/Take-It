@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 
 public class ChatRoom implements Parcelable
 {
+    private String mChatRoomId;
     private String mOwnerId;
     private String mItemId;
     private String mReceiverId;
@@ -26,6 +27,7 @@ public class ChatRoom implements Parcelable
         mChatName = null;
         mChatMessages = null;
         mUpdatedTimeInMillis = 0;
+        mChatRoomId = null;
     }
 
     public ChatRoom(String iOwnerId, String iItemId,
@@ -39,6 +41,7 @@ public class ChatRoom implements Parcelable
         mChatName = iChatName;
         mChatMessages = iChatMessages;
         mUpdatedTimeInMillis = GregorianCalendar.getInstance().getTimeInMillis();
+        generateChatRoomId();
     }
 
     public String getOwnerId() {
@@ -103,6 +106,14 @@ public class ChatRoom implements Parcelable
         this.mUpdatedTimeInMillis = mUpdatedTimeInMillis;
     }
 
+    public String getChatRoomId() {
+        return mChatRoomId;
+    }
+
+    public void setChatRoomId(String mChatRoomId) {
+        this.mChatRoomId = mChatRoomId;
+    }
+
     protected ChatRoom(Parcel in) {
         mOwnerId = in.readString();
         mItemId = in.readString();
@@ -111,6 +122,7 @@ public class ChatRoom implements Parcelable
         mChatName = in.readString();
         mChatMessages = in.createTypedArrayList(ChatMessage.CREATOR);
         mUpdatedTimeInMillis = in.readLong();
+        mChatRoomId = in.readString();
     }
 
     @Override
@@ -122,6 +134,7 @@ public class ChatRoom implements Parcelable
         dest.writeString(mChatName);
         dest.writeTypedList(mChatMessages);
         dest.writeLong(mUpdatedTimeInMillis);
+        dest.writeString(mChatRoomId);
     }
 
     @Override
@@ -141,9 +154,9 @@ public class ChatRoom implements Parcelable
         }
     };
 
-    public String generateChatRoomId()
+    private void generateChatRoomId()
     {
-        return mOwnerId + "_" + mItemId + "_" + mReceiverId;
+        mChatRoomId = mOwnerId + "_" + mItemId + "_" + mReceiverId;
     }
 
     /***

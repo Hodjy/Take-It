@@ -101,7 +101,7 @@ public class ChatRepository {
 
     public void createNewChat(ChatRoom iChatRoom, OnCompleteListener listener)
     {
-        mChatTable.child(iChatRoom.generateChatRoomId()).setValue(iChatRoom).addOnCompleteListener(listener);
+        mChatTable.child(iChatRoom.getChatRoomId()).setValue(iChatRoom).addOnCompleteListener(listener);
     }
 
     /***

@@ -28,7 +28,7 @@ public class ChatRoomViewModel extends ViewModel {
 
     public void initChat(String iChatRoomID, Item iRelevantItem)
     {
-        
+
     }
 
 }
