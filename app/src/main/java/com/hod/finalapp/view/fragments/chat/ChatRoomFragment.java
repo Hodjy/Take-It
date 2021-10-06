@@ -27,7 +27,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChatRoomFragment extends Fragment
 {
-    private RecyclerView
     private ChatRoomViewModel mViewModel;
     private Button mBackButton;
     private ImageView mChatRoomPicture;
