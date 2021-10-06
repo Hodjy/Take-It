@@ -43,6 +43,11 @@ public class ChatRepository {
         mUserChatsListener = iListener;
     }
 
+    public ArrayList<ChatRoom> getUserChats()
+    {
+        return new ArrayList<>(mUserChats.values());
+    }
+
     /***
      * Will subscribe to a individual chatroom for updates on changes.
      * Will unsubscribe to a previously subscribed one.
