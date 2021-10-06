@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class ChatRoom implements Parcelable
 {
@@ -14,6 +15,7 @@ public class ChatRoom implements Parcelable
     private String mChatName;
     private String mChatPictureUrl;
     private ArrayList<ChatMessage> mChatMessages;
+    private long mUpdatedTimeInMillis;
 
     public ChatRoom()
     {
@@ -23,6 +25,7 @@ public class ChatRoom implements Parcelable
         mChatPictureUrl = null;
         mChatName = null;
         mChatMessages = null;
+        mUpdatedTimeInMillis = 0;
     }
 
     public ChatRoom(String iOwnerId, String iItemId,
@@ -35,6 +38,7 @@ public class ChatRoom implements Parcelable
         mChatPictureUrl = iChatPictureUrl;
         mChatName = iChatName;
         mChatMessages = iChatMessages;
+        mUpdatedTimeInMillis = GregorianCalendar.getInstance().getTimeInMillis();
     }
 
     public String getOwnerId() {
@@ -91,6 +95,14 @@ public class ChatRoom implements Parcelable
         mChatMessages = iChatMessages;
     }
 
+    public long getUpdatedTimeInMillis() {
+        return mUpdatedTimeInMillis;
+    }
+
+    public void setUpdatedTimeInMillis(long mUpdatedTimeInMillis) {
+        this.mUpdatedTimeInMillis = mUpdatedTimeInMillis;
+    }
+
     protected ChatRoom(Parcel in) {
         mOwnerId = in.readString();
         mItemId = in.readString();
@@ -98,6 +110,7 @@ public class ChatRoom implements Parcelable
         mChatPictureUrl = in.readString();
         mChatName = in.readString();
         mChatMessages = in.createTypedArrayList(ChatMessage.CREATOR);
+        mUpdatedTimeInMillis = in.readLong();
     }
 
     @Override
@@ -108,6 +121,7 @@ public class ChatRoom implements Parcelable
         dest.writeString(mChatPictureUrl);
         dest.writeString(mChatName);
         dest.writeTypedList(mChatMessages);
+        dest.writeLong(mUpdatedTimeInMillis);
     }
 
     @Override
