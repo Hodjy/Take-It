@@ -71,8 +71,8 @@ public class UserChatsViewModel extends ViewModel
 
     private ArrayList<ChatRoom> getSortedUserChatsList(){
         ArrayList<ChatRoom> tempList = ChatRepository.getInstance().getUserChats();
-        Comparator<ChatRoom> comparator = 
-        Arrays.sort(tempList,  );
+//        Comparator<ChatRoom> comparator =
+//        Arrays.sort(tempList,  );
 
         return tempList;
     }
