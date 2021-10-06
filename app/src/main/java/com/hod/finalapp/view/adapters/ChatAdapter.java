@@ -1,4 +1,4 @@
-package com.hod.finalapp.model.adapters;
+package com.hod.finalapp.view.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.hod.finalapp.R;
-import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
 
 import org.jetbrains.annotations.NotNull;

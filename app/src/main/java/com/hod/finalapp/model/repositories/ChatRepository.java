@@ -111,9 +111,11 @@ public class ChatRepository {
     private boolean isChatRoomForUser(ChatRoom iChatRoom)
     {
         String currentUserId = UserRepository.getInstance().getCurrentUser().getUserId();
+        boolean isChatRoomForUser = false;
 
-        boolean isChatRoomForUser = iChatRoom.getOwnerId() == currentUserId
-                || iChatRoom.getReceiverId() == currentUserId;
+        if (iChatRoom.getOwnerId().equals(currentUserId) || iChatRoom.getReceiverId().equals(currentUserId)){
+            isChatRoomForUser = true;
+        }
 
         return isChatRoomForUser;
     }

@@ -4,20 +4,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.hod.finalapp.R;
+import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
+import com.hod.finalapp.view.adapters.ChatAdapter;
 import com.hod.finalapp.view.viewmodel.chat.UserChatsViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class UserChatsFragment extends Fragment
 {
-    UserChatsViewModel mViewModel;
+    private UserChatsViewModel mViewModel;
+
+    private ArrayList<ChatRoom> mChatsList;
+    private RecyclerView mChatsListRecyclerView;
+    private ChatAdapter mChatAdapter;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -36,6 +46,8 @@ public class UserChatsFragment extends Fragment
 
     private void initUi(View rootView)
     {
+        mChatsListRecyclerView = rootView.findViewById(R.id.fragment_user_chats_recyclerView);
+
 
     }
 

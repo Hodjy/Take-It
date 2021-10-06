@@ -14,6 +14,7 @@
         android:id="@+id/fragment_user_chats_headline"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_user_chats_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/fragment_user_chats_headline"/>
