@@ -170,6 +170,16 @@ public class ChatRoom implements Parcelable
     {
         return iOwnerId + "_" + iItemId + "_" + iReceiver;
     }
+
+    /***
+     * add a message to the list and update the "updated time"
+     * @param iChatMessage
+     */
+    public void addMessage(ChatMessage iChatMessage)
+    {
+        mChatMessages.add(iChatMessage);
+        mUpdatedTimeInMillis = GregorianCalendar.getInstance().getTimeInMillis();
+    }
 }
 
 

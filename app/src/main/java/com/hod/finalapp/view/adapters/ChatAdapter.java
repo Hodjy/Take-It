@@ -49,8 +49,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         public ChatViewHolder(@NonNull @NotNull View chatView) {
             super(chatView);
 
-            chatNameTv = itemView.findViewById(R.id.chat_layout_chat_name);
-            chatPictureIv = itemView.findViewById(R.id.chat_layout_chat_picture);
+            chatNameTv = itemView.findViewById(R.id.fragment_chat_room_chat_name);
+            chatPictureIv = itemView.findViewById(R.id.fragment_chat_room_chat_picture);
 
             chatView.setOnClickListener(new View.OnClickListener() {
                 @Override

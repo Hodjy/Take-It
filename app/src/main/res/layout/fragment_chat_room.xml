@@ -4,67 +4,67 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/fragment_chat_room_headline_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/chat_layout_headline_layout"
         android:layout_marginBottom="10dp">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_chat_room_back_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_baseline_arrow_back_24"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:id="@+id/chat_layout_back_btn"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/ic_baseline_arrow_back_24" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/chat_layout_chat_picture"
+            android:id="@+id/fragment_chat_room_chat_picture"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="10dp"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/chat_layout_back_btn"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@+id/fragment_chat_room_back_btn"
             android:background="@drawable/placeholder_circle" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/chat_layout_chat_name"
+            android:id="@+id/fragment_chat_room_chat_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/chat_layout_chat_picture"
             android:layout_centerVertical="true"
-            android:textSize="20sp"
+            android:layout_toEndOf="@+id/fragment_chat_room_chat_picture"
             android:fontFamily="sans-serif-light"
-            android:textStyle="bold"
-            android:text="@string/name"/>
+            android:text="@string/name"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/chat_layout_headline_layout"
-        android:layout_above="@+id/chat_layout_message_et"/>
+        android:layout_above="@+id/fragment_chat_room_message_et"
+        android:layout_below="@+id/fragment_chat_room_headline_layout" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <EditText
+        android:id="@+id/fragment_chat_room_message_et"
         android:layout_width="match_parent"
         android:layout_height="25sp"
-        android:textSize="20sp"
         android:layout_alignParentBottom="true"
-        android:fontFamily="sans-serif-light"
-        android:id="@+id/chat_layout_message_et"
         android:layout_margin="10dp"
+        android:layout_toStartOf="@+id/fragment_chat_room_send_btn"
+        android:fontFamily="sans-serif-light"
         android:hint="@string/text"
-        android:layout_toStartOf="@+id/chat_layout_send_btn"/>
+        android:textSize="20sp" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_chat_room_send_btn"
         android:layout_width="25sp"
         android:layout_height="25sp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:id="@+id/chat_layout_send_btn"
-        android:background="@drawable/ic_baseline_send_24"/>
+        android:background="@drawable/ic_baseline_send_24" />
 
 </RelativeLayout>

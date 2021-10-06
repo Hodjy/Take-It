@@ -104,7 +104,7 @@ public class ItemDescriptionFragment extends Fragment
                 public void onClick(View v) {
                     //TODO OPEN MESSAGE FRAGMENT
                     Bundle bundle = new Bundle();
-                    bundle.putString("ChatRoomId", mViewModel.generateChatRoomId());
+                    bundle.putString("chat_room_id", mViewModel.generateChatRoomId());
                     bundle.putParcelable("item", mViewModel.getItem());
                     NavHostFragment.findNavController(iThisFragment).navigate(R.id.action_to_chatRoomFragment, bundle);
                 }
