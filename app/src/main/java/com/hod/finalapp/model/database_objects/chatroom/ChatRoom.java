@@ -5,9 +5,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 
-public class ChatRoom implements Parcelable
+public class ChatRoom implements Parcelable, Comparable<ChatRoom>
 {
     private String mChatRoomId;
     private String mOwnerId;
@@ -180,6 +181,27 @@ public class ChatRoom implements Parcelable
         mChatMessages.add(iChatMessage);
         mUpdatedTimeInMillis = GregorianCalendar.getInstance().getTimeInMillis();
     }
+
+    @Override
+    public int compareTo(ChatRoom o) {
+        return Comparators.UpdatedTime.compare(this, o);
+    }
+
+    public static class Comparators {
+
+        public static Comparator<ChatRoom> UpdatedTime = new Comparator<ChatRoom>() {
+            @Override
+            public int compare(ChatRoom o1, ChatRoom o2) {
+                int i;
+                if((o1.getUpdatedTimeInMillis() - o2.getUpdatedTimeInMillis() ) > 0)
+                    i = 1;
+                else
+                    i = -1;
+                return i;
+            }
+        };
+    }
+
 }
 
 

@@ -25,6 +25,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         this.mChats = iChats;
     }
 
+    public void setChatRoom(ArrayList<ChatRoom> mChatsList) {
+        this.mChats = mChatsList;
+    }
+
     public interface ChatListener{
         void onItemClicked(ChatRoom chatRoom);
     }

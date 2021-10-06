@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class UserChatsViewModel extends ViewModel
@@ -28,26 +29,18 @@ public class UserChatsViewModel extends ViewModel
     public UserChatsViewModel()
     {
         mMyChatsList = new MutableLiveData<>(new ArrayList<>());
-        mMyChatsList.postValue(getSortedUserChatsList());
     }
 
-    public MutableLiveData<ArrayList<ChatRoom>> getMyChatsList() {
+    public MutableLiveData<ArrayList<ChatRoom>> getMyChatsListLiveData() {
         return mMyChatsList;
     }
 
+    public void initMyChatsListLiveData(){
+        mMyChatsList.postValue(getSortedUserChatsList());
+        initMyChatsListListener();
+    }
 
-
-    /*
-            ChatRepository.getInstance().createNewChat(new ChatRoom("Hod", "10", "Ofir", "", "Name", null),
-                new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task task) {
-                        Toast.makeText(ApplicationContext.getAppContext(), "Success", Toast.LENGTH_SHORT).show();
-                    }
-                });
-     */
-
-    private void initListListener(){
+    private void initMyChatsListListener(){
         ChatRepository.getInstance().subscribeUserChatsListener(new ChatRepository.IChatRepositoryUserChatRoomListener() {
             @Override
             public void onChildEventListener(boolean isNewChatroom, ChatRoom iChatRoom) {
@@ -71,9 +64,18 @@ public class UserChatsViewModel extends ViewModel
 
     private ArrayList<ChatRoom> getSortedUserChatsList(){
         ArrayList<ChatRoom> tempList = ChatRepository.getInstance().getUserChats();
-//        Comparator<ChatRoom> comparator =
-//        Arrays.sort(tempList,  );
+        Collections.sort(tempList, ChatRoom.Comparators.UpdatedTime);
 
         return tempList;
     }
+
+        /*
+            ChatRepository.getInstance().createNewChat(new ChatRoom("Hod", "10", "Ofir", "", "Name", null),
+                new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task task) {
+                        Toast.makeText(ApplicationContext.getAppContext(), "Success", Toast.LENGTH_SHORT).show();
+                    }
+                });
+     */
 }

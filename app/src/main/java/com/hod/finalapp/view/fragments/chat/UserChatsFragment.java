@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,11 +42,14 @@ public class UserChatsFragment extends Fragment
                              @Nullable @org.jetbrains.annotations.Nullable ViewGroup container,
                              @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_user_chats, container, false);
+        mViewModel = new ViewModelProvider(this).get(UserChatsViewModel.class);
 
+        mChatsList = new ArrayList<>();
         initUi(rootView);
         initObservers();
 
-        mViewModel = new ViewModelProvider(this).get(UserChatsViewModel.class);
+        mViewModel.initMyChatsListLiveData();
+
 
         return rootView;
     }
@@ -71,7 +75,15 @@ public class UserChatsFragment extends Fragment
     }
 
     private void initObservers() {
-
+        mViewModel.getMyChatsListLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ChatRoom>>() {
+            @Override
+            public void onChanged(ArrayList<ChatRoom> chatRooms) {
+                mChatsList.clear();
+                mChatsList.addAll(chatRooms);
+                mChatAdapter.setChatRoom(mChatsList);
+                mChatAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 }
