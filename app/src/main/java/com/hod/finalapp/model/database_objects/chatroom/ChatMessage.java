@@ -10,6 +10,14 @@ public class ChatMessage implements Parcelable
     private String mReceiverUserId;
     private String mMessagePictureUrl;
 
+    public ChatMessage()
+    {
+        mMessageText = null;
+        mSenderUserId = null;
+        mReceiverUserId = null;
+        mMessagePictureUrl = null;
+    }
+
     public ChatMessage(String iMessageText, String iSenderUserId, String iReceiverUserId, String iMessagePictureUrl)
     {
         mMessageText = iMessageText;

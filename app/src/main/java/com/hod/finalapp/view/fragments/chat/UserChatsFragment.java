@@ -1,4 +1,4 @@
-package com.hod.finalapp.view.fragments.user;
+package com.hod.finalapp.view.fragments.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.hod.finalapp.R;
-import com.hod.finalapp.view.viewmodel.user.UserChatsViewModel;
+import com.hod.finalapp.view.viewmodel.chat.UserChatsViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,8 +34,8 @@ public class UserChatsFragment extends Fragment
         return rootView;
     }
 
-    private void initUi(View rootView) {
-
+    private void initUi(View rootView)
+    {
 
     }
 

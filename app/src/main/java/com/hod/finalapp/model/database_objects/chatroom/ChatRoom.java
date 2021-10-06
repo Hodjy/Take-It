@@ -15,6 +15,16 @@ public class ChatRoom implements Parcelable
     private String mChatPictureUrl;
     private ArrayList<ChatMessage> mChatMessages;
 
+    public ChatRoom()
+    {
+        mOwnerId = null;
+        mItemId = null;
+        mReceiverId = null;
+        mChatPictureUrl = null;
+        mChatName = null;
+        mChatMessages = null;
+    }
+
     public ChatRoom(String iOwnerId, String iItemId,
                     String iReceiverId, String iChatPictureUrl,
                     String iChatName, ArrayList<ChatMessage> iChatMessages)
@@ -116,6 +126,11 @@ public class ChatRoom implements Parcelable
             return new ChatRoom[size];
         }
     };
+
+    public String generateChatRoomId()
+    {
+        return mOwnerId + "_" + mItemId + "_" + mReceiverId;
+    }
 }
 
 

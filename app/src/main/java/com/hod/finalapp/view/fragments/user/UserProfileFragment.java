@@ -86,7 +86,7 @@ public class UserProfileFragment extends Fragment {
             public void onItemClicked(Item iItem) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("item", iItem);
-                NavHostFragment.findNavController(UserProfileFragment.this).navigate(R.id.itemDescriptionFragment, bundle);
+                NavHostFragment.findNavController(UserProfileFragment.this).navigate(R.id.action_to_itemDescriptionFragment, bundle);
             }
         });
 

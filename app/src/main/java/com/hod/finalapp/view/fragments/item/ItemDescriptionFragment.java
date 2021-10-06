@@ -50,18 +50,19 @@ public class ItemDescriptionFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_item_description, container, false);
 
         initViewModel();
-        initUI(rootView);
+        initUI(rootView,this);
 
         return rootView;
     }
 
     private void initViewModel() {
+        assert getArguments() != null;
         Item item = getArguments().getParcelable("item");
         mViewModel = new ViewModelProvider(this).get(ItemDescriptionViewModel.class);
         mViewModel.setItem(item);
     }
 
-    private void initUI(View iRootView) {
+    private void initUI(View iRootView, Fragment iThisFragment) {
 
         mItemNameTv = iRootView.findViewById(R.id.fragment_item_description_item_name_tv);
         mItemNameTv.setText(mViewModel.getItemName());
@@ -101,6 +102,7 @@ public class ItemDescriptionFragment extends Fragment
                 @Override
                 public void onClick(View v) {
                     //TODO OPEN MESSAGE FRAGMENT
+                    NavHostFragment.findNavController(iThisFragment).navigate(R.id.action_to_chatRoomFragment);
                 }
             });
         }

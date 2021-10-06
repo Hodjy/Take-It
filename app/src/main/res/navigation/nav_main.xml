@@ -59,8 +59,11 @@
             android:id="@+id/action_userMainScreenFragment_to_userItemsFragment"
             app:destination="@id/userItemsFragment" />
         <action
-            android:id="@+id/action_userMainScreenFragment_to_itemDescriptionFragment"
+            android:id="@+id/action_to_itemDescriptionFragment"
             app:destination="@id/itemDescriptionFragment" />
+        <action
+            android:id="@+id/action_to_createNewItemFragment"
+            app:destination="@id/createNewItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -82,13 +85,20 @@
         android:name="com.hod.finalapp.view.fragments.user.UserProfileFragment"
         android:label="UserProfileFragment">
     <action
-        android:id="@+id/action_userProfileFragment_to_itemDescriptionFragment"
+        android:id="@+id/action_to_itemDescriptionFragment"
         app:destination="@id/itemDescriptionFragment"/>
+        <action
+            android:id="@+id/action_to_createNewItemFragment"
+            app:destination="@id/createNewItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/userChatsFragment"
-        android:name="com.hod.finalapp.view.fragments.user.UserChatsFragment"
-        android:label="UserChatsFragment" />
+        android:name="com.hod.finalapp.view.fragments.chat.UserChatsFragment"
+        android:label="UserChatsFragment" >
+        <action
+            android:id="@+id/action_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userItemsFragment"
         android:name="com.hod.finalapp.view.fragments.user.UserItemsFragment"
@@ -104,5 +114,16 @@
         <argument
             android:name="item"
             app:argType="com.hod.finalapp.model.database_objects.Item" />
+        <action
+            android:id="@+id/action_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.hod.finalapp.view.fragments.chat.ChatRoomFragment"
+        android:label="ChatRoomFragment" >
+        <argument
+            android:name="ChatRoom"
+            app:argType="com.hod.finalapp.model.database_objects.chatroom.ChatRoom" />
     </fragment>
 </navigation>
