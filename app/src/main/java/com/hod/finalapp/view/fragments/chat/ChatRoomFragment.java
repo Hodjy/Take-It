@@ -86,8 +86,8 @@ public class ChatRoomFragment extends Fragment
         mMessagesRecyclerView = iRootView.findViewById(R.id.fragment_chat_room_messages_recycler_view);
 
         mSendButton.setOnClickListener(v -> {
-            mViewModel.sendMessage(mSendButton.getText().toString());
-            mSendButton.setText("");
+            mViewModel.sendMessage(mChatRoomTextInput.getText().toString());
+            mChatRoomTextInput.setText("");
         });
 
         mBackButton.setOnClickListener(v -> {
