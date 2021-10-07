@@ -3,6 +3,7 @@ package com.hod.finalapp.view.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.hod.finalapp.R;
 import com.hod.finalapp.model.database_objects.chatroom.ChatMessage;
+import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,8 +41,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             super(messageView);
 
             messagePictureIv = itemView.findViewById(R.id.message_layout_sender_picture);
-            messageTextTv = itemView.findViewById(R.id.message_layout_message_text);
+            messagePictureIv = itemView.findViewById(R.id.message_layout_message_text_sent);
+        }
 
+        private void bindSentMessage() {
+            ((RelativeLayout)itemView.findViewById(R.id.message_layout_received_relative_layout)).setVisibility(View.GONE);
+            ((RelativeLayout)itemView.findViewById(R.id.message_layout_sent_relative_layout)).setVisibility(View.VISIBLE);
+            messageTextTv = itemView.findViewById(R.id.message_layout_sender_picture);
+            messagePictureIv = itemView.findViewById(R.id.message_layout_message_text_sent);
+        }
+
+        private void bindReceivedMessage() {
+            ((RelativeLayout)itemView.findViewById(R.id.message_layout_sent_relative_layout)).setVisibility(View.GONE);
+            ((RelativeLayout)itemView.findViewById(R.id.message_layout_received_relative_layout)).setVisibility(View.VISIBLE);
+            messageTextTv = itemView.findViewById(R.id.message_layout_receiver_picture);
+            messagePictureIv = itemView.findViewById(R.id.message_layout_message_text_received);
         }
     }
 
@@ -56,6 +71,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull @NotNull MessageAdapter.MessageViewHolder holder, int position) {
         ChatMessage message = messages.get(position);
+
+        if (message.getSenderUserId().equals(UserRepository.getInstance().getCurrentUser().getUserId())) {
+            holder.bindSentMessage();
+        } else {
+            holder.bindReceivedMessage();
+        }
+
         holder.messageTextTv.setText(message.getMessageText());
         loadUriImage(holder, message);
     }
