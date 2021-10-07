@@ -10,9 +10,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.hod.finalapp.model.database_objects.chatroom.ChatMessage;
 import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
 import com.hod.finalapp.model.firebase.AuthenticationManager;
 import com.hod.finalapp.model.firebase.DatabaseManager;
+import com.hod.finalapp.model.firebase.enums.eChatRoomDataTypes;
 import com.hod.finalapp.model.firebase.enums.eFirebaseDataTypes;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +33,7 @@ public class ChatRepository {
 
     // Variables for ChatRoomViewModel
     private String mPreviousSubscribedRoomId = "";
-    private ValueEventListener mPreviousSubscribedRoomListener;
+    private ChildEventListener mPreviousSubscribedRoomListener;
 
     public interface IChatRepositoryUserChatRoomListener
     {
@@ -54,16 +56,20 @@ public class ChatRepository {
      * @param iChatRoomID
      * @param iListener
      */
-    public void subscribeToAChatRoom(String iChatRoomID, ValueEventListener iListener)
+    public void subscribeToAChatRoom(String iChatRoomID, ChildEventListener iListener)
     {
         if(!mPreviousSubscribedRoomId.isEmpty())
         {
-            mChatTable.child(mPreviousSubscribedRoomId).removeEventListener(mPreviousSubscribedRoomListener);
+            mChatTable.child(mPreviousSubscribedRoomId)
+                    .child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName)
+                    .removeEventListener(mPreviousSubscribedRoomListener);
         }
 
         mPreviousSubscribedRoomId = iChatRoomID;
         mPreviousSubscribedRoomListener = iListener;
-        mChatTable.child(mPreviousSubscribedRoomId).addValueEventListener(iListener);
+        mChatTable.child(mPreviousSubscribedRoomId)
+                .child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName)
+                .addChildEventListener(iListener);
     }
 
     private ChatRepository()
@@ -104,9 +110,11 @@ public class ChatRepository {
         return  mChatRepository;
     }
 
-    public void createNewChat(ChatRoom iChatRoom, OnCompleteListener listener)
+    public void createNewChat(ChatRoom iChatRoom, ChildEventListener iListener)
     {
-        mChatTable.child(iChatRoom.getChatRoomId()).setValue(iChatRoom).addOnCompleteListener(listener);
+        mChatTable.child(iChatRoom.getChatRoomId())
+                .setValue(iChatRoom);
+        subscribeToAChatRoom(iChatRoom.getChatRoomId(),iListener);
     }
 
     /***
@@ -117,6 +125,12 @@ public class ChatRepository {
     public ChatRoom tryGetChatRoom(String iChatRoomID)
     {
         return mUserChats.get(iChatRoomID);
+    }
+
+    public void sendMessage(String iChatRoomId, ChatMessage iNewChatMessage)
+    {
+        String msgKey = mChatTable.child(iChatRoomId).child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName).push().getKey();
+        mChatTable.child(iChatRoomId).child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName).child(msgKey).setValue(iNewChatMessage);
     }
 
     //TODO Might need external listeners

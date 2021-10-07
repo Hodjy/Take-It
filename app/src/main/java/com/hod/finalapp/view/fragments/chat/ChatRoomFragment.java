@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ public class ChatRoomFragment extends Fragment
     private ArrayList<ChatMessage> mMessages;
     private ChatRoomViewModel mViewModel;
     private Button mBackButton;
+    private Button mSendButton;
     private ImageView mChatRoomPicture;
     private TextView mChatRoomName;
     private EditText mChatRoomTextInput;
@@ -76,11 +78,21 @@ public class ChatRoomFragment extends Fragment
 
     private void initUi(View iRootView)
     {
+        mSendButton = iRootView.findViewById(R.id.fragment_chat_room_send_btn);
         mBackButton = iRootView.findViewById(R.id.fragment_chat_room_back_btn);
         mChatRoomPicture = iRootView.findViewById(R.id.fragment_chat_room_chat_picture);
         mChatRoomName = iRootView.findViewById(R.id.fragment_chat_room_chat_name);
         mChatRoomTextInput = iRootView.findViewById(R.id.fragment_chat_room_message_et);
         mMessagesRecyclerView = iRootView.findViewById(R.id.fragment_chat_room_messages_recycler_view);
+
+        mSendButton.setOnClickListener(v -> {
+            mViewModel.sendMessage(mSendButton.getText().toString());
+            mSendButton.setText("");
+        });
+
+        mBackButton.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).popBackStack();
+        });
 
         mMessages = new ArrayList<>();
     }
@@ -107,10 +119,10 @@ public class ChatRoomFragment extends Fragment
                 mMessages.clear();
                 mMessages.addAll(chatMessages);
                 //TODO if not updating in realtime this is the culprit.
+                //mMessageAdapter.setMessages(mMessages); do this then.
                 mMessageAdapter.notifyDataSetChanged();
             }
         });
-
     }
 
     private void loadImageToChatImage(String iImageLink)
@@ -128,4 +140,6 @@ public class ChatRoomFragment extends Fragment
         mMessagesRecyclerView.setHasFixedSize(true);
         mMessagesRecyclerView.setAdapter(mMessageAdapter);
     }
+
+
 }
