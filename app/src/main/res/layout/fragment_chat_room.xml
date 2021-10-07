@@ -47,24 +47,27 @@
         android:layout_above="@+id/fragment_chat_room_message_et"
         android:layout_below="@+id/fragment_chat_room_headline_layout" />
 
-    <EditText
-        android:id="@+id/fragment_chat_room_message_et"
-        android:layout_width="match_parent"
-        android:layout_height="25sp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        android:layout_toStartOf="@+id/fragment_chat_room_send_btn"
-        android:fontFamily="sans-serif-light"
-        android:hint="@string/text"
-        android:textSize="20sp" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fragment_chat_room_message_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:hint="@string/text"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/fragment_chat_room_send_btn"
+            android:background="@color/white"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_chat_room_send_btn"
-        android:layout_width="25sp"
-        android:layout_height="25sp"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/ic_baseline_send_24" />
 
 </RelativeLayout>
