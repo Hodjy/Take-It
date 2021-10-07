@@ -67,7 +67,7 @@ public class UserChatsFragment extends Fragment
             @Override
             public void onItemClicked(ChatRoom iChatRoom) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("chatRoom", iChatRoom);
+                bundle.putString("chat_room_id", iChatRoom.getChatRoomId());
                 NavHostFragment.findNavController(UserChatsFragment.this).navigate(R.id.action_to_chatRoomFragment, bundle);
             }
         });
