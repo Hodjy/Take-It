@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.hod.finalapp.R;
+import com.hod.finalapp.model.repositories.RepoInitializer;
 import com.hod.finalapp.view.viewmodel.SignInViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -110,6 +111,7 @@ public class SignInFragment extends Fragment
                 if(s.equals("")) // empty = success, else print the error.
                 {
                     NavHostFragment.findNavController(iThisFragment).navigate(R.id.action_to_userMainScreenFragment);
+                    RepoInitializer.initAllRepo();
                 }
                 else
                 {

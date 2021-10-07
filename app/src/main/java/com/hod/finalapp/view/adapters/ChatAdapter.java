@@ -86,6 +86,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         Glide.with(holder.itemView.getContext())
                 .load(chat.getChatPictureUrl())
                 .error(R.drawable.ic_baseline_account_circle_24)
+                .circleCrop()
                 .into(holder.chatPictureIv);
     }
 
