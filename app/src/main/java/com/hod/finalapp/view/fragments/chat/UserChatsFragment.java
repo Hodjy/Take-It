@@ -78,7 +78,7 @@ public class UserChatsFragment extends Fragment
         mViewModel.getMyChatsListLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ChatRoom>>() {
             @Override
             public void onChanged(ArrayList<ChatRoom> chatRooms) {
-                mChatsList.clear();
+                mChatsList = new ArrayList<>();
                 mChatsList.addAll(chatRooms);
                 mChatAdapter.setChatRoom(mChatsList);
                 mChatAdapter.notifyDataSetChanged();
