@@ -194,9 +194,9 @@ public class ChatRoom implements Parcelable, Comparable<ChatRoom>
             public int compare(ChatRoom o1, ChatRoom o2) {
                 int i;
                 if((o1.getUpdatedTimeInMillis() - o2.getUpdatedTimeInMillis() ) > 0)
-                    i = 1;
-                else
                     i = -1;
+                else
+                    i = 1;
                 return i;
             }
         };
