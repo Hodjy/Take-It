@@ -65,7 +65,7 @@ public class UserRepository
         mAuthenticationManager.getAuth().signInWithEmailAndPassword(iUsername, iPassword).addOnCompleteListener(iListener);
     }
 
-    private void sendRegistrationToServer(String iToken)
+    public void sendRegistrationToServer(String iToken)
     {
         mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).child("token").setValue(iToken);
     }
