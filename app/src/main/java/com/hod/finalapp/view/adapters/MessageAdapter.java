@@ -41,7 +41,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             super(messageView);
 
             messagePictureIv = itemView.findViewById(R.id.message_layout_sender_picture);
-            messagePictureIv = itemView.findViewById(R.id.message_layout_message_text_sent);
+            messageTextTv = itemView.findViewById(R.id.message_layout_message_text_sent);
         }
 
         private void bindSentMessage() {
