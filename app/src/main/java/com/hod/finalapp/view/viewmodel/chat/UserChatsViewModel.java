@@ -57,6 +57,7 @@ public class UserChatsViewModel extends ViewModel
                     }
                 }
                 mMyChatsList.getValue().add(iChatRoom);
+                Collections.sort(mMyChatsList.getValue(), ChatRoom.Comparators.UpdatedTime);
                 mMyChatsList.postValue(mMyChatsList.getValue());
             }
         });
