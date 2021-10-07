@@ -9,6 +9,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.hod.finalapp.model.database_objects.chatroom.ChatMessage;
 import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
@@ -85,9 +86,10 @@ public class ChatRepository {
                 if(task.isSuccessful())
                 {
                     ChatRoom chatRoom;
+
                     for(DataSnapshot chatRoomSnapShot : task.getResult().getChildren())
                     {
-                        chatRoom = chatRoomSnapShot.getValue(ChatRoom.class);
+                        chatRoom = convertSnapshotToChatRoom(chatRoomSnapShot);
                         if(isChatRoomForUser(chatRoom))
                         {
                             mUserChats.put(chatRoomSnapShot.getKey(),chatRoom);
@@ -139,31 +141,45 @@ public class ChatRepository {
         return new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                ChatRoom chatRoom = snapshot.getValue(ChatRoom.class);
+                mChatTable.child(snapshot.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                        ChatRoom chatRoom;
+                        chatRoom = convertSnapshotToChatRoom(task.getResult());
 
-                if(isChatRoomForUser(chatRoom))
-                {
-                    mUserChats.put(snapshot.getKey(), chatRoom);
-                    if(mUserChatsListener != null)
-                    {
-                        mUserChatsListener.onChildEventListener(true, chatRoom);
+                        if(isChatRoomForUser(chatRoom))
+                        {
+                            mUserChats.put(snapshot.getKey(), chatRoom);
+                            if(mUserChatsListener != null)
+                            {
+                                mUserChatsListener.onChildEventListener(true, chatRoom);
+                            }
+                        }
                     }
-                }
+                });
+
             }
 
             @Override
             public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                ChatRoom chatRoom =  snapshot.getValue(ChatRoom.class);
+                mChatTable.child(snapshot.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                        ChatRoom chatRoom;
+                        chatRoom = convertSnapshotToChatRoom(task.getResult());
+                        if(isChatRoomForUser(chatRoom))
+                        {
+                            mUserChats.replace(snapshot.getKey(), chatRoom);
 
-                if(isChatRoomForUser(chatRoom))
-                {
-                    mUserChats.replace(snapshot.getKey(), chatRoom);
-
-                    if(mUserChatsListener != null)
-                    {
-                        mUserChatsListener.onChildEventListener(false, chatRoom);
+                            if(mUserChatsListener != null)
+                            {
+                                mUserChatsListener.onChildEventListener(false, chatRoom);
+                            }
+                        }
                     }
-                }
+                });
+
+
             }
 
             @Override
@@ -181,6 +197,28 @@ public class ChatRepository {
 
             }
         };
+    }
+
+    private ChatRoom convertSnapshotToChatRoom(DataSnapshot iDataSnapShot)
+    {
+        ChatRoom convertedChatRoom;
+        String chatName = iDataSnapShot.child(eChatRoomDataTypes.CHAT_NAME.mTypeName).getValue(String.class);
+        String chatPictureUrl = iDataSnapShot.child(eChatRoomDataTypes.CHAT_PICTURE_URL.mTypeName).getValue(String.class);
+        String chatRoomId = iDataSnapShot.child(eChatRoomDataTypes.CHAT_ROOM_ID.mTypeName).getValue(String.class);
+        String itemId = iDataSnapShot.child(eChatRoomDataTypes.ITEM_ID.mTypeName).getValue(String.class);
+        String ownerId = iDataSnapShot.child(eChatRoomDataTypes.OWNER_ID.mTypeName).getValue(String.class);
+        String receiverId = iDataSnapShot.child(eChatRoomDataTypes.RECEIVER_ID.mTypeName).getValue(String.class);
+        Long updateTimeInMillis = iDataSnapShot.child(eChatRoomDataTypes.UPDATED_TIME_IN_MILLIS.mTypeName).getValue(Long.class);
+        ArrayList<ChatMessage> messages = new ArrayList<>();
+
+        for (DataSnapshot ds : iDataSnapShot.child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName).getChildren())
+        {
+            messages.add(ds.getValue(ChatMessage.class));
+        }
+
+        convertedChatRoom = new ChatRoom(ownerId,itemId,receiverId,chatPictureUrl,chatName,messages);
+
+        return convertedChatRoom;
     }
 
     private boolean isChatRoomForUser(ChatRoom iChatRoom)

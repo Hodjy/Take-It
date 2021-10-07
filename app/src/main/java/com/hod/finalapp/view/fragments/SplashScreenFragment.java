@@ -16,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.hod.finalapp.R;
 import com.hod.finalapp.model.database_objects.User;
+import com.hod.finalapp.model.repositories.RepoInitializer;
 import com.hod.finalapp.model.repositories.UserRepository;
 import com.hod.finalapp.view.viewmodel.SplashScreenViewModel;
 
@@ -49,6 +50,7 @@ public class SplashScreenFragment extends Fragment
                 if(aBoolean)// if user is logged in, and finished loading the User class data.
                 {
                     NavHostFragment.findNavController(iThisFragment).navigate(R.id.action_splashScreenFragment_to_userMainScreenFragment);
+                    RepoInitializer.initAllRepo();
                 }
                 else // if user is not logged in.
                 {

@@ -50,7 +50,7 @@ public class ChatRoomViewModel extends ViewModel
     {
         mChatImage = new MutableLiveData<>();
         mChatName = new MutableLiveData<>();
-        mChatMessages = new MutableLiveData<>();
+        mChatMessages = new MutableLiveData<>(new ArrayList<>());
     }
 
     public boolean initChat(String iChatRoomID)
@@ -83,7 +83,7 @@ public class ChatRoomViewModel extends ViewModel
         ArrayList<ChatMessage> emptyList = new ArrayList();
         mOtherUserId = iRelevantItem.getOwnerId();
         mCurrentUserId = UserRepository.getInstance().getCurrentUser().getUserId();
-        mCurrentChatRoom = new ChatRoom(iRelevantItem.getOwnerId(),mOtherUserId
+        mCurrentChatRoom = new ChatRoom(iRelevantItem.getOwnerId(),iRelevantItem.getItemId()
                 ,mCurrentUserId, iRelevantItem.getPicturesUrls().get(0),
                 iRelevantItem.getItemName(),emptyList
                 );
@@ -95,7 +95,7 @@ public class ChatRoomViewModel extends ViewModel
     {
         mChatName.postValue(mCurrentChatRoom.getChatName());
         mChatImage.postValue(mCurrentChatRoom.getChatPictureUrl());
-        mChatMessages.postValue(mCurrentChatRoom.getChatMessages());
+        //mChatMessages.postValue(mCurrentChatRoom.getChatMessages());
     }
 
     public void sendMessage(String iMessageText)
