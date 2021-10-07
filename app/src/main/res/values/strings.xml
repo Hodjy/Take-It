@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Social App</string>
+    <string name="app_name">Give It!</string>
     <string name="welcome">Welcome</string>
     <string name="sign_in">Sign In</string>
     <string name="register">Register</string>
@@ -51,4 +51,5 @@
     <string name="please_wait_for_item_creation">Please Wait For Item Creation.</string>
     <string name="region">Region</string>
     <string name="text">Text</string>
+    <string name="uploading">Uploading...</string>
 </resources>

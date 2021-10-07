@@ -1,12 +1,17 @@
 package com.hod.finalapp.view.viewmodel.item;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,6 +21,7 @@ import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.model.firebase.StorageManager;
 import com.hod.finalapp.model.repositories.ItemRepository;
 import com.hod.finalapp.model.repositories.UserRepository;
+import com.hod.finalapp.services.ServerUploadService;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -109,7 +115,25 @@ public class CreateNewItemViewModel extends AndroidViewModel
                 UserRepository.getInstance().getCurrentUser().getUserId(),
                 mItemName, mItemDescription, mItemRegion, mItemCategory, GregorianCalendar.getInstance().getTime().toString(), null );
 
-        ItemRepository.getInstance().uploadNewItem(newItem, uris, getFinishUploadListener());
+        Intent intent = new Intent(getApplication().getBaseContext(),ServerUploadService.class);
+        intent.putParcelableArrayListExtra("uris", uris);
+        intent.putExtra("item",newItem);
+
+        IntentFilter intentFilter = new IntentFilter(ServerUploadService.SERVICE_NAME);
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                postError(intent.getExtras().getString("error"));
+            }
+        };
+
+        LocalBroadcastManager.getInstance(getApplication().getApplicationContext())
+        .registerReceiver(broadcastReceiver, intentFilter);
+
+        getApplication().startService(intent);
+
+        //TODO retrurn if not working
+        //ItemRepository.getInstance().uploadNewItem(newItem, uris, getFinishUploadListener());
     }
     /*
     get current time, help with this documentation:

@@ -233,4 +233,8 @@ public class ChatRepository {
         return isChatRoomForUser;
     }
 
+    public static void closeRepository()
+    {
+        mChatRepository = null;
+    }
 }

@@ -8,4 +8,11 @@ public class RepoInitializer
         ItemRepository.getInstance();
         ChatRepository.getInstance();
     }
+
+    public static void closeAllRepo()
+    {
+        UserRepository.closeRepository();
+        ItemRepository.closeRepository();
+        ChatRepository.closeRepository();
+    }
 }

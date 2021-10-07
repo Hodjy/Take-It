@@ -246,4 +246,9 @@ public class UserRepository
     public void changeUserProfilePicture(Uri iImageUri, OnCompleteListener<Uri> urlListener){
         StorageManager.getInstance().uploadUserProfilePicture(iImageUri, mAuthenticationManager.getCurrentLoggedInUser().getUid(), urlListener);
     }
+
+    public static void closeRepository()
+    {
+        mUserRepository = null;
+    }
 }

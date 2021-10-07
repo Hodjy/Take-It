@@ -386,4 +386,8 @@ public class ItemRepository {
         return mItemsList;
     }
 
+    public static void closeRepository()
+    {
+        mItemRepository = null;
+    }
 }

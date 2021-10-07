@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.hod.finalapp.model.repositories.RepoInitializer;
 import com.hod.finalapp.model.repositories.UserRepository;
 import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
 
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
                     if(UserRepository.getInstance().isUserLoggedIn())
                     {
                         UserRepository.getInstance().signUserOut();
+                        RepoInitializer.closeAllRepo();
                         navController.navigate(R.id.action_to_welcomeScreenFragment);
                     }
                 }
