@@ -47,15 +47,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         private void bindSentMessage() {
             ((RelativeLayout)itemView.findViewById(R.id.message_layout_received_relative_layout)).setVisibility(View.GONE);
             ((RelativeLayout)itemView.findViewById(R.id.message_layout_sent_relative_layout)).setVisibility(View.VISIBLE);
-            messageTextTv = itemView.findViewById(R.id.message_layout_sender_picture);
-            messagePictureIv = itemView.findViewById(R.id.message_layout_message_text_sent);
+            messagePictureIv = itemView.findViewById(R.id.message_layout_sender_picture);
+            messageTextTv = itemView.findViewById(R.id.message_layout_message_text_sent);
         }
 
         private void bindReceivedMessage() {
             ((RelativeLayout)itemView.findViewById(R.id.message_layout_sent_relative_layout)).setVisibility(View.GONE);
             ((RelativeLayout)itemView.findViewById(R.id.message_layout_received_relative_layout)).setVisibility(View.VISIBLE);
-            messageTextTv = itemView.findViewById(R.id.message_layout_receiver_picture);
-            messagePictureIv = itemView.findViewById(R.id.message_layout_message_text_received);
+            messagePictureIv = itemView.findViewById(R.id.message_layout_receiver_picture);
+            messageTextTv = itemView.findViewById(R.id.message_layout_message_text_received);
         }
     }
 
