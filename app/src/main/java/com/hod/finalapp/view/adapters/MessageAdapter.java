@@ -64,6 +64,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         Glide.with(holder.itemView.getContext())
                 .load(message.getMessagePictureUrl())
                 .error(R.drawable.ic_baseline_account_circle_24)
+                .circleCrop()
                 .into(holder.messagePictureIv);
     }
 
