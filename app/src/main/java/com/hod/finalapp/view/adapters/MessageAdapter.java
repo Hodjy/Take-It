@@ -38,8 +38,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public MessageViewHolder(@NonNull @NotNull View messageView) {
             super(messageView);
 
-            messageTextTv = itemView.findViewById(R.id.message_layout_sender_picture);
-            messagePictureIv = itemView.findViewById(R.id.message_layout_message_text);
+            messagePictureIv = itemView.findViewById(R.id.message_layout_sender_picture);
+            messageTextTv = itemView.findViewById(R.id.message_layout_message_text);
 
         }
     }
