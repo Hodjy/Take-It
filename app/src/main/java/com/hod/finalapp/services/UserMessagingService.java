@@ -40,8 +40,8 @@ public class UserMessagingService extends FirebaseMessagingService
 
         if (remoteMessage.getNotification() != null) {
 //            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            notificationTitle = remoteMessage.getData().get("title");
-            notificationBody = remoteMessage.getData().get("message");
+            notificationTitle = remoteMessage.getNotification().getTitle();
+            notificationBody = remoteMessage.getNotification().getBody();
         }
 
         sendNotification(notificationTitle, notificationBody);

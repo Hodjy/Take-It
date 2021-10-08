@@ -164,9 +164,15 @@ public class ChatRoomViewModel extends ViewModel
         };
     }
 
+    private void testNotif(ChatMessage iChatMessage)
+    {
+
+    }
+
     private void sendNotification(ChatMessage iChatMessage){
         String textToSend = UserRepository.getInstance().getCurrentUser().getFirstName() +
-                UserRepository.getInstance().getCurrentUser().getFirstName() + ": " +
+                " " +
+                UserRepository.getInstance().getCurrentUser().getLastName() + ": " +
                 iChatMessage.getMessageText();
 
         String titleToSend = mCurrentChatRoom.getChatName();
@@ -174,10 +180,16 @@ public class ChatRoomViewModel extends ViewModel
         try {
             //TODO CHECK IF BREAKS ON LOGGED OFF NO TOKEN USERS
             String tokenToSend = "/token/" + mOtherUserToken;
-            rootObject.put("to", tokenToSend);
 
-            rootObject.put("data",new JSONObject().put("message",textToSend));
-            rootObject.put("title",new JSONObject().put("title",titleToSend));
+
+            JSONObject notificationJObject = new JSONObject();
+            notificationJObject.put("title",titleToSend);
+            notificationJObject.put("body",textToSend);
+
+            rootObject.put("token", mOtherUserToken);
+            rootObject.put("notification", notificationJObject);
+
+
 
             String url = "https://fcm.googleapis.com/fcm/send";
 
