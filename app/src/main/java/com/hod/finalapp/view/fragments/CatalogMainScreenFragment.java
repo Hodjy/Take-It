@@ -36,9 +36,6 @@ public class CatalogMainScreenFragment extends Fragment
     private CatalogMainScreenViewModel mCatalogMainScreenViewModel;
     private ArrayList<ArrayList<Item>> mItemsByCategory;
 
-    //TODO remove this button (mTempButton)
-    Button mTempButton;
-
     public interface ICatalogMainScreenFragmentListener
     {
         public void fragmentActiveStateChanged(boolean iIsActive);
@@ -86,12 +83,6 @@ public class CatalogMainScreenFragment extends Fragment
         mItemsListRecyclerView.setAdapter(mNestedItemAdapter);
         mItemsListRecyclerView.setLayoutManager(linearLayoutManager);
         mCatalogMainScreenViewModel.initItemsListByCategory();
-
-        //TODO remove this button (mTempButton)
-        mTempButton = iRootView.findViewById(R.id.fragment_catalog_main_screen_temp_btn);
-        mTempButton.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(R.id.action_to_createNewItemFragment);
-        });
     }
 
     private void initObservers(View iRootView)

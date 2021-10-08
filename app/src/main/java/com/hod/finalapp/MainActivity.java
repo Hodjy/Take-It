@@ -12,9 +12,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.hod.finalapp.model.repositories.RepoInitializer;
 import com.hod.finalapp.model.repositories.UserRepository;
 import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
     private MenuItem mSignInOutItem;
     private MenuItem mProfileItem;
     private MenuItem mChatsItem;
+    private MenuItem mAddItemMenuItem;
+    private NavController mNavController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
         NavigationView navigationView = findViewById(R.id.activity_main_navigation_view);
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager()
                                             .findFragmentById(R.id.activity_main_nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
+        mNavController = navHostFragment.getNavController();
 
         mSignInOutItem = navigationView.getMenu().findItem(R.id.drawer_menu_log_out_item);
         mProfileItem = navigationView.getMenu().findItem(R.id.drawer_menu_profile);
@@ -60,21 +65,21 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
                 switch(item.getItemId())
                 {
                     case R.id.drawer_menu_profile:
-                        navController.navigate(R.id.action_userMainScreenFragment_to_userProfileFragment);
+                        mNavController.navigate(R.id.action_userMainScreenFragment_to_userProfileFragment);
                         break;
                     case R.id.drawer_menu_chats:
-                        navController.navigate(R.id.action_userMainScreenFragment_to_userChatsFragment);
+                        mNavController.navigate(R.id.action_userMainScreenFragment_to_userChatsFragment);
                         break;
                     case R.id.drawer_menu_log_out_item:
                         if(UserRepository.getInstance().isUserLoggedIn())
                         {
                             UserRepository.getInstance().signUserOut();
                             RepoInitializer.closeAllRepo();
-                            navController.navigate(R.id.action_to_welcomeScreenFragment);
+                            mNavController.navigate(R.id.action_to_welcomeScreenFragment);
                         }
                         else
                         {
-                            navController.navigate(R.id.action_to_signInFragment);
+                            mNavController.navigate(R.id.action_to_signInFragment);
                         }
                         break;
                 }
@@ -88,29 +93,49 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        if(item.getItemId() == android.R.id.home)
+        switch (item.getItemId())
         {
-            mDrawerLayout.openDrawer(Gravity.START);
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(Gravity.START);
+                break;
+            case R.id.toolbar_menu_add_new_item:
+                addItemWasPressed();
+                break;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addItemWasPressed() {
+        if(UserRepository.getInstance().isUserLoggedIn())
+        {
+            mNavController.navigate(R.id.action_to_createNewItemFragment);
+        }
+        else
+        {
+            View fragmentContainer = findViewById(R.id.activity_main_nav_host_fragment); // dummy view for snackbar.
+            String error = getString(R.string.guest_user_cannot_use_this);
+            Snackbar.make(fragmentContainer,error,Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void fragmentActiveStateChanged(boolean iIsActive) // toggle hamburger icon if entered or left item catalog fragment.
     {
         mActionBar.setDisplayHomeAsUpEnabled(iIsActive);
+        mAddItemMenuItem.setVisible(iIsActive);
 
         if(iIsActive)
         {
             String signMessage = getResources().getString(R.string.sign_out);
             boolean isUserLoggedIn = UserRepository.getInstance().isUserLoggedIn();
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             if(!isUserLoggedIn)
             {
                 signMessage = getResources().getString(R.string.sign_in);
             }
 
             setMenuItems(isUserLoggedIn, signMessage);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }
         else
         {
@@ -128,5 +153,15 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
         mSignInOutItem.setTitle(iSignInOutTitle);
         mProfileItem.setVisible(iIsUserLoggedIn);
         mChatsItem.setVisible(iIsUserLoggedIn);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        mAddItemMenuItem = menu.findItem(R.id.toolbar_menu_add_new_item);
+        mAddItemMenuItem.setVisible(false);
+
+        return super.onCreateOptionsMenu(menu);
     }
 }
