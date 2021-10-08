@@ -18,6 +18,7 @@ public class ChatRoom implements Parcelable, Comparable<ChatRoom>
     private String mChatPictureUrl;
     private ArrayList<ChatMessage> mChatMessages;
     private long mUpdatedTimeInMillis;
+    private int mIsPendingMessage;
 
     public ChatRoom()
     {
@@ -29,6 +30,7 @@ public class ChatRoom implements Parcelable, Comparable<ChatRoom>
         mChatMessages = null;
         mUpdatedTimeInMillis = 0;
         mChatRoomId = null;
+        mIsPendingMessage = 0;
     }
 
     public ChatRoom(String iOwnerId, String iItemId,
@@ -42,6 +44,7 @@ public class ChatRoom implements Parcelable, Comparable<ChatRoom>
         mChatName = iChatName;
         mChatMessages = iChatMessages;
         mUpdatedTimeInMillis = GregorianCalendar.getInstance().getTimeInMillis();
+        mIsPendingMessage = 1;
         generateChatRoomId();
     }
 
@@ -115,6 +118,14 @@ public class ChatRoom implements Parcelable, Comparable<ChatRoom>
         this.mChatRoomId = mChatRoomId;
     }
 
+    public int getIsPendingMessage() {
+        return mIsPendingMessage;
+    }
+
+    public void setIsPendingMessage(Integer iIsPendingMessage) {
+        mIsPendingMessage = iIsPendingMessage;
+    }
+
     protected ChatRoom(Parcel in) {
         mOwnerId = in.readString();
         mItemId = in.readString();
@@ -124,6 +135,7 @@ public class ChatRoom implements Parcelable, Comparable<ChatRoom>
         mChatMessages = in.createTypedArrayList(ChatMessage.CREATOR);
         mUpdatedTimeInMillis = in.readLong();
         mChatRoomId = in.readString();
+        mIsPendingMessage = in.readInt();
     }
 
     @Override
@@ -136,6 +148,7 @@ public class ChatRoom implements Parcelable, Comparable<ChatRoom>
         dest.writeTypedList(mChatMessages);
         dest.writeLong(mUpdatedTimeInMillis);
         dest.writeString(mChatRoomId);
+        dest.writeInt(mIsPendingMessage);
     }
 
     @Override

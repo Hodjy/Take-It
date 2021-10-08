@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.hod.finalapp.R;
+import com.hod.finalapp.model.ApplicationContext;
 import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
+import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -78,6 +80,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public void onBindViewHolder(@NonNull @NotNull ChatAdapter.ChatViewHolder holder, int position) {
         ChatRoom chat = mChats.get(position);
+        String lastMessageSender = chat.getChatMessages().get(chat.getChatMessages().size() - 1).getSenderUserId();
+        if((!lastMessageSender.equals(UserRepository.getInstance().getCurrentUser().getUserId())) && (chat.getIsPendingMessage() == 1))
+        {
+            holder.itemView.setBackgroundColor(ApplicationContext.getContext().getResources().
+                    getColor(R.color.black, ApplicationContext.getContext().getTheme()));
+        }
+        else
+        {
+            holder.itemView.setBackgroundColor(ApplicationContext.getContext().getResources().
+                    getColor(R.color.blue, ApplicationContext.getContext().getTheme()));
+        }
         holder.chatNameTv.setText(chat.getChatName());
         loadUriImage(holder, chat);
     }
