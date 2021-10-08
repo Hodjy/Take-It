@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.hod.finalapp.R;
 import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
+import com.hod.finalapp.model.repositories.UserRepository;
 import com.hod.finalapp.view.adapters.PictureAdapter;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.view.fragments.dialog.YesNoDialogFragment;
@@ -79,6 +81,30 @@ public class ItemDescriptionFragment extends Fragment
 
         mFloatingActionButton = iRootView.findViewById(R.id.fragment_item_description_fab);
 
+        if(UserRepository.getInstance().isUserLoggedIn())
+        {
+            showProperMaterialButton(iRootView, iThisFragment);
+        }
+        else
+        {
+            String logInMessage = getResources().getString(R.string.guest_user_cannot_use_this);
+            mFloatingActionButton.setOnClickListener(v -> Snackbar.make(iRootView,logInMessage,Snackbar.LENGTH_LONG).show());
+        }
+
+        mItemPicturesRecyclerView = iRootView.findViewById(R.id.fragment_item_description_picture_rv);
+        mPictureAdapter = new PictureAdapter(mViewModel.getItemPicturesList());
+        mItemPicturesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+        mItemPicturesRecyclerView.setHasFixedSize(true);
+        mItemPicturesRecyclerView.setAdapter(mPictureAdapter);
+        mPictureAdapter.setListener(new PictureAdapter.PictureListener() {
+            @Override
+            public void onItemClicked(int position, View view) {
+
+            }
+        });
+    }
+
+    private void showProperMaterialButton(View iRootView, Fragment iThisFragment) {
         if(mViewModel.isMyItem()){
             mFloatingActionButton.setImageDrawable(iRootView.getResources().getDrawable(R.drawable.ic_baseline_delete_24, this.getActivity().getTheme()));
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -110,17 +136,5 @@ public class ItemDescriptionFragment extends Fragment
                 }
             });
         }
-
-        mItemPicturesRecyclerView = iRootView.findViewById(R.id.fragment_item_description_picture_rv);
-        mPictureAdapter = new PictureAdapter(mViewModel.getItemPicturesList());
-        mItemPicturesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-        mItemPicturesRecyclerView.setHasFixedSize(true);
-        mItemPicturesRecyclerView.setAdapter(mPictureAdapter);
-        mPictureAdapter.setListener(new PictureAdapter.PictureListener() {
-            @Override
-            public void onItemClicked(int position, View view) {
-
-            }
-        });
     }
 }

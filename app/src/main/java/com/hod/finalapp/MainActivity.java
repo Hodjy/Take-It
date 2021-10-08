@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
 {
     private DrawerLayout mDrawerLayout;
     private ActionBar mActionBar;
+    private MenuItem mSignInOutItem;
+    private MenuItem mProfileItem;
+    private MenuItem mChatsItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
                                             .findFragmentById(R.id.activity_main_nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
 
+        mSignInOutItem = navigationView.getMenu().findItem(R.id.drawer_menu_log_out_item);
+        mProfileItem = navigationView.getMenu().findItem(R.id.drawer_menu_profile);
+        mChatsItem = navigationView.getMenu().findItem(R.id.drawer_menu_chats);
+
         Toolbar appToolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(appToolbar);
 
@@ -50,26 +57,26 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item)
             {//TODO make it better or at least try to (maybe stragey design pattern).
-                if(item.getItemId() == R.id.drawer_menu_profile)
+                switch(item.getItemId())
                 {
-                    navController.navigate(R.id.action_userMainScreenFragment_to_userProfileFragment);
-                }
-                else if(item.getItemId() == R.id.drawer_menu_chats)
-                {
-                    navController.navigate(R.id.action_userMainScreenFragment_to_userChatsFragment);
-                }
-                else if(item.getItemId() == R.id.drawer_menu_my_items)
-                {
-                    navController.navigate(R.id.action_userMainScreenFragment_to_userItemsFragment);
-                }
-                else if(item.getItemId() == R.id.drawer_menu_log_out_item)
-                {
-                    if(UserRepository.getInstance().isUserLoggedIn())
-                    {
-                        UserRepository.getInstance().signUserOut();
-                        RepoInitializer.closeAllRepo();
-                        navController.navigate(R.id.action_to_welcomeScreenFragment);
-                    }
+                    case R.id.drawer_menu_profile:
+                        navController.navigate(R.id.action_userMainScreenFragment_to_userProfileFragment);
+                        break;
+                    case R.id.drawer_menu_chats:
+                        navController.navigate(R.id.action_userMainScreenFragment_to_userChatsFragment);
+                        break;
+                    case R.id.drawer_menu_log_out_item:
+                        if(UserRepository.getInstance().isUserLoggedIn())
+                        {
+                            UserRepository.getInstance().signUserOut();
+                            RepoInitializer.closeAllRepo();
+                            navController.navigate(R.id.action_to_welcomeScreenFragment);
+                        }
+                        else
+                        {
+                            navController.navigate(R.id.action_to_signInFragment);
+                        }
+                        break;
                 }
                 mDrawerLayout.closeDrawers();
                 return false;
@@ -95,8 +102,15 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
 
         if(iIsActive)
         {
+            String signMessage = getResources().getString(R.string.sign_out);
+            boolean isUserLoggedIn = UserRepository.getInstance().isUserLoggedIn();
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            if(!isUserLoggedIn)
+            {
+                signMessage = getResources().getString(R.string.sign_in);
+            }
 
+            setMenuItems(isUserLoggedIn, signMessage);
         }
         else
         {
@@ -107,5 +121,12 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
                 mDrawerLayout.closeDrawer(GravityCompat.START);
             }
         }
+    }
+
+    private void setMenuItems(boolean iIsUserLoggedIn, String iSignInOutTitle)
+    {
+        mSignInOutItem.setTitle(iSignInOutTitle);
+        mProfileItem.setVisible(iIsUserLoggedIn);
+        mChatsItem.setVisible(iIsUserLoggedIn);
     }
 }

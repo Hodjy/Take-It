@@ -67,7 +67,11 @@ public class UserRepository
 
     public void sendRegistrationToServer(String iToken)
     {
-        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).child("token").setValue(iToken);
+        String uID = mAuthenticationManager.getCurrentLoggedInUser().getUid();
+        if(uID != null)
+        {
+            mUserTable.child(uID).child("token").setValue(iToken);
+        }
     }
 
     public void updateCurrentUserToken()

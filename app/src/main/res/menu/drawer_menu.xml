@@ -13,11 +13,6 @@
             android:icon="@drawable/ic_baseline_chat_bubble_24"
             android:title="@string/chats" />
         <item
-            android:id="@+id/drawer_menu_my_items"
-            android:checkable="false"
-            android:icon="@drawable/ic_baseline_all_inbox_24"
-            android:title="@string/my_items" />
-        <item
             android:id="@+id/drawer_menu_log_out_item"
             android:checkable="false"
             android:icon="@drawable/ic_baseline_keyboard_arrow_left_24"

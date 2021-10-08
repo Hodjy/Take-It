@@ -32,6 +32,15 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:background="?attr/colorPrimary"
+        android:text="@string/guest"
+        android:id="@+id/fragment_welcome_screen_sign_in_as_guest_btn"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="?attr/colorPrimary"
         android:text="@string/register"
         android:id="@+id/fragment_welcome_screen_register_btn"/>
 

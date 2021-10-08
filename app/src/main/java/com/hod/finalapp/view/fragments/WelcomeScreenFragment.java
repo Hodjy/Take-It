@@ -26,9 +26,11 @@ public class WelcomeScreenFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
         Button signInBtn = rootView.findViewById(R.id.fragment_welcome_screen_sign_in_btn);
+        Button signInAsGuestBtn = rootView.findViewById(R.id.fragment_welcome_screen_sign_in_as_guest_btn);
         Button registerBtn = rootView.findViewById(R.id.fragment_welcome_screen_register_btn);
 
         signInBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_to_signInFragment));
+        signInAsGuestBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_to_userMainScreenFragment));
         registerBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_to_registerFragment));
 
         return rootView;

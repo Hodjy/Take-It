@@ -53,4 +53,6 @@
     <string name="region">מחוז</string>
     <string name="text">הודעה</string>
     <string name="uploading">מעלה...</string>
+    <string name="guest">אורח</string>
+    <string name="guest_user_cannot_use_this">אורח אינו יכול להשתמש בתכונה זו.</string>
 </resources>
