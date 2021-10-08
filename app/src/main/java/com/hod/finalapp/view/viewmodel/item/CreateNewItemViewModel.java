@@ -132,7 +132,7 @@ public class CreateNewItemViewModel extends AndroidViewModel
 
         getApplication().startService(intent);
 
-        //TODO retrurn if not working
+        //TODO return if not working
         //ItemRepository.getInstance().uploadNewItem(newItem, uris, getFinishUploadListener());
     }
     /*

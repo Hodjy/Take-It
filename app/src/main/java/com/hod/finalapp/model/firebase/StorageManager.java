@@ -291,6 +291,4 @@ public class StorageManager
             }
         }
     }
-
-    //TODO PROGRESSBAR LISTENER
 }

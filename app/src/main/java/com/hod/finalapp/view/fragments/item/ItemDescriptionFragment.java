@@ -128,7 +128,6 @@ public class ItemDescriptionFragment extends Fragment
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO OPEN MESSAGE FRAGMENT
                     Bundle bundle = new Bundle();
                     bundle.putString("chat_room_id", mViewModel.generateChatRoomId());
                     bundle.putParcelable("item", mViewModel.getItem());

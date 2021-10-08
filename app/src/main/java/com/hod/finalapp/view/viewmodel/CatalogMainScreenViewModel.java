@@ -26,19 +26,20 @@ public class CatalogMainScreenViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<ArrayList<Item>>> mItemsByCategory;
     private int mCategoriesAmount;
+    private MutableLiveData<String> mError;
 
     public int getCategoriesAmount() {
         return mCategoriesAmount;
     }
 
-    //TODO error msgs
-    private MutableLiveData<String> mError;
+
 
     public CatalogMainScreenViewModel(@NonNull @NotNull Application application) {
         super(application);
 
         String[] categories = getApplication().getResources().getStringArray(R.array.categories);
         mCategoriesAmount = categories.length;
+        mError = new MutableLiveData<>();
         ArrayList<ArrayList<Item>> newArraylist = new ArrayList<>();
 
         for (int i = 0; i < mCategoriesAmount; i++)
@@ -102,4 +103,7 @@ public class CatalogMainScreenViewModel extends AndroidViewModel {
         return itemsByCategory;
     }
 
+    public MutableLiveData<String> getError() {
+        return mError;
+    }
 }

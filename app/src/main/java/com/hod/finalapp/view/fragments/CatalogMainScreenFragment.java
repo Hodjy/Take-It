@@ -17,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hod.finalapp.R;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.view.adapters.nested_recycler.NestedItemsAdapter;
@@ -35,7 +36,7 @@ public class CatalogMainScreenFragment extends Fragment
     private CatalogMainScreenViewModel mCatalogMainScreenViewModel;
     private ArrayList<ArrayList<Item>> mItemsByCategory;
 
-    //TODO remove this button
+    //TODO remove this button (mTempButton)
     Button mTempButton;
 
     public interface ICatalogMainScreenFragmentListener
@@ -53,7 +54,7 @@ public class CatalogMainScreenFragment extends Fragment
 
         initVars();
         initUi(rootView);
-        initObservers();
+        initObservers(rootView);
 
         return rootView;
     }
@@ -86,14 +87,14 @@ public class CatalogMainScreenFragment extends Fragment
         mItemsListRecyclerView.setLayoutManager(linearLayoutManager);
         mCatalogMainScreenViewModel.initItemsListByCategory();
 
-        //TODO remove this button
+        //TODO remove this button (mTempButton)
         mTempButton = iRootView.findViewById(R.id.fragment_catalog_main_screen_temp_btn);
         mTempButton.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).navigate(R.id.action_to_createNewItemFragment);
         });
     }
 
-    private void initObservers()
+    private void initObservers(View iRootView)
     {
 
         mCatalogMainScreenViewModel.getItemsByCategory().observe(getViewLifecycleOwner(), new Observer<ArrayList<ArrayList<Item>>>() {
@@ -107,6 +108,13 @@ public class CatalogMainScreenFragment extends Fragment
                     i++;
                 }
                 mNestedItemAdapter.notifyDataSetChanged();
+            }
+        });
+
+        mCatalogMainScreenViewModel.getError().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Snackbar.make(iRootView,s,Snackbar.LENGTH_LONG).show();
             }
         });
     }

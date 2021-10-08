@@ -141,7 +141,6 @@ public class ChatRepository {
         updateIsPendingMessageInDatabase(iChatRoomId, 1);
     }
 
-    //TODO Might need external listeners
     private ChildEventListener getChildEventListener()
     {
         return new ChildEventListener() {

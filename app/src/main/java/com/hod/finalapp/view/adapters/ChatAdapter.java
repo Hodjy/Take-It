@@ -83,10 +83,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         ChatRoom chat = mChats.get(position);
         String lastMessageSender = chat.getChatMessages().get(chat.getChatMessages().size() - 1).getSenderUserId();
         boolean isChatroomHasUnreadMessageForUser = (
-                lastMessageSender.equals(UserRepository.getInstance().getCurrentUser().getUserId()))
+                !lastMessageSender.equals(UserRepository.getInstance().getCurrentUser().getUserId()))
                 && (chat.getIsPendingMessage() == 1);
 
-        if(!isChatroomHasUnreadMessageForUser)
+        if(isChatroomHasUnreadMessageForUser)
         {
             holder.itemView.setBackgroundColor(mRootView.getResources().
                     getColor(R.color.black, mRootView.getContext().getTheme()));

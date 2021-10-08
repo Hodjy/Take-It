@@ -51,7 +51,6 @@ public class SignInViewModel extends AndroidViewModel
     {
         if(!mUsername.isEmpty() && !mPassword.isEmpty())
         {
-            //TODO now
             UserRepository.getInstance().signInUser(mUsername,mPassword,getSignInListener());
         }
         else
