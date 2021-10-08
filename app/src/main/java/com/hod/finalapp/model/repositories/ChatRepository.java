@@ -47,7 +47,7 @@ public class ChatRepository {
         mUserChatsListener = iListener;
     }
 
-    public ArrayList<ChatRoom> getUserChats()
+    public ArrayList<ChatRoom> getUserChats(OnCompleteListener iListener)
     {
         return new ArrayList<>(mUserChats.values());
     }
@@ -113,7 +113,7 @@ public class ChatRepository {
             mChatRepository = new ChatRepository();
         }
 
-        return  mChatRepository;
+        return mChatRepository;
     }
 
     public void createNewChat(ChatRoom iChatRoom, ChildEventListener iListener)
@@ -222,6 +222,7 @@ public class ChatRepository {
         }
 
         convertedChatRoom = new ChatRoom(ownerId,itemId,receiverId,chatPictureUrl,chatName,messages);
+        convertedChatRoom.setUpdatedTimeInMillis(updateTimeInMillis);
 
         return convertedChatRoom;
     }
