@@ -138,6 +138,7 @@ public class ChatRepository {
         String msgKey = mChatTable.child(iChatRoomId).child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName).push().getKey();
         mChatTable.child(iChatRoomId).child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName).child(msgKey).setValue(iNewChatMessage);
         mChatTable.child(iChatRoomId).child(eChatRoomDataTypes.UPDATED_TIME_IN_MILLIS.mTypeName).setValue(GregorianCalendar.getInstance().getTimeInMillis());
+        updateIsPendingMessageInDatabase(iChatRoomId, 1);
     }
 
     //TODO Might need external listeners
@@ -215,6 +216,7 @@ public class ChatRepository {
         String receiverId = iDataSnapShot.child(eChatRoomDataTypes.RECEIVER_ID.mTypeName).getValue(String.class);
         Long updateTimeInMillis = iDataSnapShot.child(eChatRoomDataTypes.UPDATED_TIME_IN_MILLIS.mTypeName).getValue(Long.class);
         ArrayList<ChatMessage> messages = new ArrayList<>();
+        int IsPendingMessage = iDataSnapShot.child(eChatRoomDataTypes.IS_PENDING_MESSAGE.mTypeName).getValue(Integer.class);
 
         for (DataSnapshot ds : iDataSnapShot.child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName).getChildren())
         {
@@ -224,6 +226,7 @@ public class ChatRepository {
         convertedChatRoom = new ChatRoom(ownerId,itemId,receiverId,chatPictureUrl,chatName,messages);
         convertedChatRoom.setUpdatedTimeInMillis(updateTimeInMillis);
         convertedChatRoom.setChatRoomId(chatRoomId);
+        convertedChatRoom.setIsPendingMessage(IsPendingMessage);
 
         return convertedChatRoom;
     }
@@ -248,5 +251,9 @@ public class ChatRepository {
         }
 
         mChatRepository = null;
+    }
+
+    public void updateIsPendingMessageInDatabase(String iChatRoomId, Integer iIsPendingMessage){
+        mChatTable.child(iChatRoomId).child(eChatRoomDataTypes.IS_PENDING_MESSAGE.mTypeName).setValue(iIsPendingMessage);
     }
 }

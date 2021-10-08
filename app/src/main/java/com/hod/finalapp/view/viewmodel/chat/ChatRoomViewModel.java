@@ -89,6 +89,11 @@ public class ChatRoomViewModel extends ViewModel
             ChatRepository.getInstance().subscribeToAChatRoom(mCurrentChatRoom.getChatRoomId(),getNewMessageListener());
         }
 
+        if(!mCurrentChatRoom.getChatMessages().get(mCurrentChatRoom.getChatMessages().size() - 1).getSenderUserId().equals(mCurrentUserId))
+        {
+            ChatRepository.getInstance().updateIsPendingMessageInDatabase(mCurrentChatRoom.getChatRoomId(),0);
+        }
+
         return isThisChatRoomNew;
     }
 
@@ -139,9 +144,13 @@ public class ChatRoomViewModel extends ViewModel
                 ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
                 temp.add(chatMessage);
                 mChatMessages.postValue(temp);
-                if(chatMessage.getSenderUserId() == mCurrentUserId)
+                if(chatMessage.getSenderUserId().equals(mCurrentUserId))
                 {
                     sendNotification(chatMessage);
+                }
+                else
+                {
+                    ChatRepository.getInstance().updateIsPendingMessageInDatabase(mCurrentChatRoom.getChatRoomId(),0);
                 }
             }
 

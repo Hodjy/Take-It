@@ -12,7 +12,8 @@ public enum eChatRoomDataTypes
     ITEM_ID("itemId"),
     OWNER_ID("ownerId"),
     RECEIVER_ID("receiverId"),
-    UPDATED_TIME_IN_MILLIS("updatedTimeInMillis");
+    UPDATED_TIME_IN_MILLIS("updatedTimeInMillis"),
+    IS_PENDING_MESSAGE("isPendingMessage");
 
 
     public final String mTypeName;
