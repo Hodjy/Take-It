@@ -85,9 +85,6 @@ public class ChatRoomViewModel extends ViewModel
             {
                 mOtherUserId = mCurrentChatRoom.getReceiverId();
             }
-
-            UserRepository.getInstance().getUserTokenByUseId(mOtherUserId, onCompleteGetToken());
-
             unpackData();
             ChatRepository.getInstance().subscribeToAChatRoom(mCurrentChatRoom.getChatRoomId(),getNewMessageListener());
         }
@@ -112,6 +109,7 @@ public class ChatRoomViewModel extends ViewModel
     {
         mChatName.postValue(mCurrentChatRoom.getChatName());
         mChatImage.postValue(mCurrentChatRoom.getChatPictureUrl());
+        UserRepository.getInstance().getUserTokenByUseId(mOtherUserId, onCompleteGetToken());
         //mChatMessages.postValue(mCurrentChatRoom.getChatMessages());
     }
 
