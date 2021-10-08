@@ -87,11 +87,11 @@ public class ChatRoomViewModel extends ViewModel
             }
             unpackData();
             ChatRepository.getInstance().subscribeToAChatRoom(mCurrentChatRoom.getChatRoomId(),getNewMessageListener());
-        }
 
-        if(!mCurrentChatRoom.getChatMessages().get(mCurrentChatRoom.getChatMessages().size() - 1).getSenderUserId().equals(mCurrentUserId))
-        {
-            ChatRepository.getInstance().updateIsPendingMessageInDatabase(mCurrentChatRoom.getChatRoomId(),0);
+            if(!mCurrentChatRoom.getChatMessages().get(mCurrentChatRoom.getChatMessages().size() - 1).getSenderUserId().equals(mCurrentUserId))
+            {
+                ChatRepository.getInstance().updateIsPendingMessageInDatabase(mCurrentChatRoom.getChatRoomId(),0);
+            }
         }
 
         return isThisChatRoomNew;
