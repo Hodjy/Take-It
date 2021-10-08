@@ -59,11 +59,7 @@ public class ChatRepository {
      */
     public void subscribeToAChatRoom(String iChatRoomID, ChildEventListener iListener)
     {
-        if(!mPreviousSubscribedRoomId.isEmpty())
-        {
-            removeChatRoomListener();
-        }
-
+        removeChatRoomListener();
         mPreviousSubscribedRoomId = iChatRoomID;
         mPreviousSubscribedRoomListener = iListener;
         mChatTable.child(mPreviousSubscribedRoomId)
@@ -72,9 +68,12 @@ public class ChatRepository {
     }
 
     private void removeChatRoomListener() {
-        mChatTable.child(mPreviousSubscribedRoomId)
-                .child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName)
-                .removeEventListener(mPreviousSubscribedRoomListener);
+        if(!mPreviousSubscribedRoomId.isEmpty())
+        {
+            mChatTable.child(mPreviousSubscribedRoomId)
+                    .child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName)
+                    .removeEventListener(mPreviousSubscribedRoomListener);
+        }
     }
 
     private ChatRepository()
@@ -243,7 +242,7 @@ public class ChatRepository {
         {
             mChatRepository.removeChatRoomListener();
         }
-        
+
         mChatRepository = null;
     }
 }
