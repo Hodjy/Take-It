@@ -139,7 +139,10 @@ public class ChatRoomViewModel extends ViewModel
                 ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
                 temp.add(chatMessage);
                 mChatMessages.postValue(temp);
-                sendNotification(chatMessage);
+                if(chatMessage.getSenderUserId() == mCurrentUserId)
+                {
+                    sendNotification(chatMessage);
+                }
             }
 
             @Override
@@ -181,15 +184,12 @@ public class ChatRoomViewModel extends ViewModel
             //TODO CHECK IF BREAKS ON LOGGED OFF NO TOKEN USERS
             String tokenToSend = "/token/" + mOtherUserToken;
 
-
             JSONObject notificationJObject = new JSONObject();
             notificationJObject.put("title",titleToSend);
             notificationJObject.put("body",textToSend);
 
             rootObject.put("to", tokenToSend);
             rootObject.put("notification", notificationJObject);
-
-
 
             String url = "https://fcm.googleapis.com/fcm/send";
 
