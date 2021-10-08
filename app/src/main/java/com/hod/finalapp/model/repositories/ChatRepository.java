@@ -61,9 +61,7 @@ public class ChatRepository {
     {
         if(!mPreviousSubscribedRoomId.isEmpty())
         {
-            mChatTable.child(mPreviousSubscribedRoomId)
-                    .child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName)
-                    .removeEventListener(mPreviousSubscribedRoomListener);
+            removeChatRoomListener();
         }
 
         mPreviousSubscribedRoomId = iChatRoomID;
@@ -71,6 +69,12 @@ public class ChatRepository {
         mChatTable.child(mPreviousSubscribedRoomId)
                 .child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName)
                 .addChildEventListener(iListener);
+    }
+
+    private void removeChatRoomListener() {
+        mChatTable.child(mPreviousSubscribedRoomId)
+                .child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName)
+                .removeEventListener(mPreviousSubscribedRoomListener);
     }
 
     private ChatRepository()
@@ -235,6 +239,11 @@ public class ChatRepository {
 
     public static void closeRepository()
     {
+        if(mChatRepository != null)
+        {
+            mChatRepository.removeChatRoomListener();
+        }
+        
         mChatRepository = null;
     }
 }

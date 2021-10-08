@@ -247,6 +247,11 @@ public class UserRepository
         StorageManager.getInstance().uploadUserProfilePicture(iImageUri, mAuthenticationManager.getCurrentLoggedInUser().getUid(), urlListener);
     }
 
+    public void getUserTokenByUseId(String iUserId, OnCompleteListener iListener)
+    {
+        mUserTable.child(iUserId).child("token").get().addOnCompleteListener(iListener);
+    }
+
     public static void closeRepository()
     {
         mUserRepository = null;
