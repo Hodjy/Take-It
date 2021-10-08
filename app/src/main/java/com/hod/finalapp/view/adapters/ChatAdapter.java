@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     private ArrayList<ChatRoom> mChats;
+    private View mRootView;
 
     public ChatAdapter(ArrayList<ChatRoom> iChats) {
         this.mChats = iChats;
@@ -72,8 +73,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @NotNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_layout, parent, false);
-        ChatViewHolder chatViewHolder = new ChatViewHolder(view);
+        mRootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_layout, parent, false);
+        ChatViewHolder chatViewHolder = new ChatViewHolder(mRootView);
         return chatViewHolder;
     }
 
@@ -81,15 +82,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(@NonNull @NotNull ChatAdapter.ChatViewHolder holder, int position) {
         ChatRoom chat = mChats.get(position);
         String lastMessageSender = chat.getChatMessages().get(chat.getChatMessages().size() - 1).getSenderUserId();
-        if((!lastMessageSender.equals(UserRepository.getInstance().getCurrentUser().getUserId())) && (chat.getIsPendingMessage() == 1))
+        boolean isChatroomHasUnreadMessageForUser = (
+                lastMessageSender.equals(UserRepository.getInstance().getCurrentUser().getUserId()))
+                && (chat.getIsPendingMessage() == 1);
+
+        if(!isChatroomHasUnreadMessageForUser)
         {
-            holder.itemView.setBackgroundColor(ApplicationContext.getContext().getResources().
-                    getColor(R.color.black, ApplicationContext.getContext().getTheme()));
+            holder.itemView.setBackgroundColor(mRootView.getResources().
+                    getColor(R.color.black, mRootView.getContext().getTheme()));
         }
         else
         {
-            holder.itemView.setBackgroundColor(ApplicationContext.getContext().getResources().
-                    getColor(R.color.blue, ApplicationContext.getContext().getTheme()));
+            holder.itemView.setBackgroundColor(mRootView.getResources().
+                    getColor(R.color.blue, mRootView.getContext().getTheme()));
         }
         holder.chatNameTv.setText(chat.getChatName());
         loadUriImage(holder, chat);
