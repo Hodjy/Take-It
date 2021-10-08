@@ -186,7 +186,7 @@ public class ChatRoomViewModel extends ViewModel
             notificationJObject.put("title",titleToSend);
             notificationJObject.put("body",textToSend);
 
-            rootObject.put("token", mOtherUserToken);
+            rootObject.put("to", tokenToSend);
             rootObject.put("notification", notificationJObject);
 
 
