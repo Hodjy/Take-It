@@ -21,6 +21,7 @@ import com.hod.finalapp.model.firebase.enums.eFirebaseDataTypes;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.Hashtable;
 
 public class ChatRepository {
@@ -136,6 +137,7 @@ public class ChatRepository {
     {
         String msgKey = mChatTable.child(iChatRoomId).child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName).push().getKey();
         mChatTable.child(iChatRoomId).child(eChatRoomDataTypes.CHAT_MESSAGES.mTypeName).child(msgKey).setValue(iNewChatMessage);
+        mChatTable.child(iChatRoomId).child(eChatRoomDataTypes.UPDATED_TIME_IN_MILLIS.mTypeName).setValue(GregorianCalendar.getInstance().getTimeInMillis());
     }
 
     //TODO Might need external listeners
