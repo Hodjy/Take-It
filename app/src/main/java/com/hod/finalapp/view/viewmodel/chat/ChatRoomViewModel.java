@@ -7,11 +7,19 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.hod.finalapp.MainActivity;
 import com.hod.finalapp.model.database_objects.Item;
 import com.hod.finalapp.model.database_objects.chatroom.ChatMessage;
 import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
@@ -21,13 +29,20 @@ import com.hod.finalapp.view.ApplicationContext;
 import com.hod.finalapp.view.adapters.MessageAdapter;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChatRoomViewModel extends ViewModel
 {
+    private final String API_TOKEN_KEY = "AAAA2jIyTSA:APA91bGa57OfRR-a95imv4hvrMj_uwOMJpL-QP8Dnk7-5QUELDSRrSS6pVm8Vc7iloAcoBCkDVSWTHLRLwqr0WsVD108LtuX0hbnC01sTCv1fhei-YDIGMRTK-v_QtwOpzglOyhOlPTQ";
+
     private String mOtherUserId = "";
     private String mCurrentUserId = "";
+    private String mOtherUserToken= "";
     private MutableLiveData<String> mChatImage;
     private MutableLiveData<String> mChatName;
     private MutableLiveData<ArrayList<ChatMessage>> mChatMessages;
@@ -70,6 +85,8 @@ public class ChatRoomViewModel extends ViewModel
             {
                 mOtherUserId = mCurrentChatRoom.getReceiverId();
             }
+
+            UserRepository.getInstance().getUserTokenByUseId(mOtherUserId, onCompleteGetToken());
 
             unpackData();
             ChatRepository.getInstance().subscribeToAChatRoom(mCurrentChatRoom.getChatRoomId(),getNewMessageListener());
@@ -121,8 +138,10 @@ public class ChatRoomViewModel extends ViewModel
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName)
             {
                 ArrayList<ChatMessage> temp = mChatMessages.getValue();
-                temp.add(snapshot.getValue(ChatMessage.class));
+                ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
+                temp.add(chatMessage);
                 mChatMessages.postValue(temp);
+                sendNotification(chatMessage);
             }
 
             @Override
@@ -143,6 +162,74 @@ public class ChatRoomViewModel extends ViewModel
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
+            }
+        };
+    }
+
+    private void sendNotification(ChatMessage iChatMessage){
+        String textToSend = UserRepository.getInstance().getCurrentUser().getFirstName() +
+                UserRepository.getInstance().getCurrentUser().getFirstName() + ": " +
+                iChatMessage.getMessageText();
+
+        String titleToSend = mCurrentChatRoom.getChatName();
+        final JSONObject rootObject  = new JSONObject();
+        try {
+            //TODO CHECK IF BREAKS ON LOGGED OFF NO TOKEN USERS
+            String tokenToSend = "/token/" + mOtherUserToken;
+            rootObject.put("to", tokenToSend);
+
+            rootObject.put("data",new JSONObject().put("message",textToSend));
+            rootObject.put("title",new JSONObject().put("title",titleToSend));
+
+            String url = "https://fcm.googleapis.com/fcm/send";
+
+            RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
+            StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(
+                        VolleyError error) {
+
+                }
+            }) {
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    headers.put("Authorization","key="+API_TOKEN_KEY);
+                    return headers;
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return rootObject.toString().getBytes();
+                }
+            };
+            queue.add(request);
+            queue.start();
+
+
+        }catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private OnCompleteListener onCompleteGetToken() {
+        return new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot dataSnapshot = (DataSnapshot) task.getResult();
+                    String token = dataSnapshot.getValue(String.class);
+
+                    mOtherUserToken = token;
+
+                }
             }
         };
     }

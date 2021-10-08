@@ -27,14 +27,21 @@ public class UserMessagingService extends FirebaseMessagingService
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        String notificationTitle = null, notificationBody = null;
+        String notificationTitle = null;
+        String notificationBody = null;
 
         // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-//            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            notificationTitle = remoteMessage.getNotification().getTitle();
-            notificationBody = remoteMessage.getNotification().getBody();
+//        if (remoteMessage.getData().size() > 0) {
+////            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+//            notificationTitle = remoteMessage.getNotification().getTitle();
+//            notificationBody = remoteMessage.getNotification().getBody();
+//
+//        }
 
+        if (remoteMessage.getNotification() != null) {
+//            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            notificationTitle = remoteMessage.getData().get("title");
+            notificationBody = remoteMessage.getData().get("message");
         }
 
         sendNotification(notificationTitle, notificationBody);
