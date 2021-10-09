@@ -32,7 +32,10 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +51,7 @@ public class ChatRoomViewModel extends ViewModel
     private MutableLiveData<ArrayList<ChatMessage>> mChatMessages;
     private ChatRoom mCurrentChatRoom;
     private boolean isThisChatRoomNew;
+    private LocalTime mTime;
 
     public MutableLiveData<ArrayList<ChatMessage>> getChatMessages() {
         return mChatMessages;
@@ -66,6 +70,7 @@ public class ChatRoomViewModel extends ViewModel
         mChatImage = new MutableLiveData<>();
         mChatName = new MutableLiveData<>();
         mChatMessages = new MutableLiveData<>(new ArrayList<>());
+        mTime = new GregorianCalendar().toZonedDateTime().toLocalTime();
     }
 
     public boolean initChat(String iChatRoomID)
@@ -120,7 +125,9 @@ public class ChatRoomViewModel extends ViewModel
 
     public void sendMessage(String iMessageText)
     {
-        ChatMessage newChatMessage = new ChatMessage(iMessageText, mCurrentUserId, mOtherUserId, UserRepository.getInstance().getCurrentUser().getPictureUrl());
+        ChatMessage newChatMessage = new ChatMessage(iMessageText, mCurrentUserId,
+                mOtherUserId, UserRepository.getInstance().getCurrentUser().getPictureUrl(),
+                getTimeHrMin());
 
         if(isThisChatRoomNew)
         {
@@ -132,6 +139,19 @@ public class ChatRoomViewModel extends ViewModel
         {
             ChatRepository.getInstance().sendMessage(mCurrentChatRoom.getChatRoomId(), newChatMessage);
         }
+    }
+
+    @NotNull
+    private String getTimeHrMin() {
+        String time;
+        time = mTime.getHour() + ":";
+        int minute = mTime.getMinute();
+        if(minute < 10)
+        {
+            time = time + "0";
+        }
+        time = time + minute;
+        return time;
     }
 
     private ChildEventListener getNewMessageListener()

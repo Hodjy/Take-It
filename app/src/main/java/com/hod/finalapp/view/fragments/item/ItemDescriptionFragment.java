@@ -124,7 +124,7 @@ public class ItemDescriptionFragment extends Fragment
             });
         }
         else{
-            mFloatingActionButton.setImageDrawable(iRootView.getResources().getDrawable(R.drawable.ic_baseline_chat_bubble_24, this.getActivity().getTheme()));
+            mFloatingActionButton.setImageDrawable(iRootView.getResources().getDrawable(R.drawable.outline_question_answer_24, this.getActivity().getTheme()));
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

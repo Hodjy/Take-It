@@ -81,7 +81,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
 
         holder.messageTextTv.setText(message.getMessageText());
-        
+        holder.messageTimeTextTv.setText(message.getMessageSentTime());
         loadUriImage(holder, message);
     }
 

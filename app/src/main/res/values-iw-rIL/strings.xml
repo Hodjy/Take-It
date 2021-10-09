@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">תן את זה!</string>
+    <string name="app_name">קח את זה!</string>
     <string name="welcome">ברוך הבא</string>
     <string name="sign_in">התחבר</string>
     <string name="register">הרשם</string>

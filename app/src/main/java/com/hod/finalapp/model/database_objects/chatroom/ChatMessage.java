@@ -9,6 +9,7 @@ public class ChatMessage implements Parcelable
     private String mSenderUserId;
     private String mReceiverUserId;
     private String mMessagePictureUrl;
+    private String mMessageSentTime;
 
     public ChatMessage()
     {
@@ -16,14 +17,24 @@ public class ChatMessage implements Parcelable
         mSenderUserId = null;
         mReceiverUserId = null;
         mMessagePictureUrl = null;
+        mMessageSentTime = null;
     }
 
-    public ChatMessage(String iMessageText, String iSenderUserId, String iReceiverUserId, String iMessagePictureUrl)
+    public ChatMessage(String iMessageText, String iSenderUserId, String iReceiverUserId, String iMessagePictureUrl, String iMessageSentTime)
     {
         mMessageText = iMessageText;
         mSenderUserId = iSenderUserId;
         mReceiverUserId = iReceiverUserId;
         mMessagePictureUrl = iMessagePictureUrl;
+        mMessageSentTime = iMessageSentTime;
+    }
+
+    public String getMessageSentTime() {
+        return mMessageSentTime;
+    }
+
+    public void setMessageSentTime(String mMessageSentTime) {
+        this.mMessageSentTime = mMessageSentTime;
     }
 
     public String getMessageText() {
@@ -63,6 +74,7 @@ public class ChatMessage implements Parcelable
         mSenderUserId = in.readString();
         mReceiverUserId = in.readString();
         mMessagePictureUrl = in.readString();
+        mMessageSentTime = in.readString();
     }
 
     @Override
@@ -71,6 +83,7 @@ public class ChatMessage implements Parcelable
         dest.writeString(mSenderUserId);
         dest.writeString(mReceiverUserId);
         dest.writeString(mMessagePictureUrl);
+        dest.writeString(mMessageSentTime);
     }
 
     @Override

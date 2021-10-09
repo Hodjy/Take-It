@@ -51,6 +51,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
         ShapeableImageView chatPictureIv;
         TextView chatNameTv;
+        TextView chatLastSentMessageTime;
 
 
         public ChatViewHolder(@NonNull @NotNull View chatView) {
@@ -58,6 +59,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
             chatNameTv = itemView.findViewById(R.id.fragment_chat_room_chat_name);
             chatPictureIv = itemView.findViewById(R.id.fragment_chat_room_chat_picture);
+            chatLastSentMessageTime = itemView.findViewById(R.id.chat_layout_message_time_tv);
 
             chatView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,7 +98,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             holder.itemView.setBackgroundColor(mRootView.getResources().
                     getColor(R.color.blue, mRootView.getContext().getTheme()));
         }
+
         holder.chatNameTv.setText(chat.getChatName());
+        int lastIndex = chat.getChatMessages().size();
+        holder.chatLastSentMessageTime.setText(chat.getChatMessages().get(lastIndex - 1).getMessageSentTime());
         loadUriImage(holder, chat);
     }
 
@@ -104,7 +109,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         Glide.with(holder.itemView.getContext())
                 .load(chat.getChatPictureUrl())
                 .error(R.drawable.ic_baseline_account_circle_24)
-                .circleCrop()
+                //.circleCrop()
                 .into(holder.chatPictureIv);
     }
 
