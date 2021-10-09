@@ -12,14 +12,16 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textSize="40sp"
-        android:fontFamily="sans-serif-light"
-        />
+        android:fontFamily="sans-serif-light"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email"
-        app:boxBackgroundColor="?attr/colorPrimaryVariant"
+        app:startIconDrawable="@drawable/outline_email_24"
+        app:boxBackgroundColor="?attr/colorSecondaryVariant"
+        app:boxStrokeColor="?attr/colorSecondary"
+        app:hintTextColor="?attr/colorSecondary"
         android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -32,8 +34,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
+        app:boxBackgroundColor="?attr/colorSecondaryVariant"
+        app:boxStrokeColor="?attr/colorSecondary"
+        app:hintTextColor="?attr/colorSecondary"
+        app:startIconDrawable="@drawable/outline_lock_24"
         app:endIconMode="password_toggle"
-        app:boxBackgroundColor="?attr/colorPrimaryVariant"
         android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText

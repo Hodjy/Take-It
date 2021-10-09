@@ -12,48 +12,50 @@
             android:id="@+id/fragment_create_new_item_pictures_container_LL"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:orientation="horizontal">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/fragment_create_new_item_photo_1_iv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:scaleType="fitXY"
-                android:src="@color/purple_700" />
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/fragment_create_new_item_photo_1_iv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_image_shape" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/fragment_create_new_item_photo_2_iv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@color/purple_700" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/fragment_create_new_item_photo_2_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_image_shape" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/fragment_create_new_item_photo_3_iv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@color/purple_700" />
-                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/fragment_create_new_item_photo_3_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_image_shape" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/fragment_create_new_item_photo_4_iv"
@@ -62,8 +64,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:scaleType="fitXY"
-                    android:src="@color/purple_700" />
-
+                    android:src="@drawable/empty_image_shape" />
 
             </LinearLayout>
 
@@ -77,14 +78,18 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:hint="@string/item_name"
-            android:textColor="?attr/colorOnPrimary"
-            app:boxBackgroundColor="?attr/colorPrimaryVariant">
+            android:textColor="?attr/colorOnSecondary"
+            app:boxStrokeColor="?attr/colorSecondary"
+            app:boxBackgroundColor="?attr/colorSecondaryVariant"
+            app:hintTextColor="?attr/colorSecondary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fragment_create_new_item_name_et"
+                style="Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnPrimary" />
+
+                android:textColor="?attr/colorOnSecondary"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -95,14 +100,15 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:hint="@string/item_description"
-            android:textColor="?attr/colorOnPrimary"
-            app:boxBackgroundColor="?attr/colorPrimaryVariant">
+            android:textColor="?attr/colorOnSecondary"
+            app:boxBackgroundColor="?attr/colorSecondaryVariant"
+            app:hintTextColor="?attr/colorSecondary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fragment_create_new_item_description_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnPrimary" />
+                android:textColor="?attr/colorOnSecondary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textview.MaterialTextView

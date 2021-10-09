@@ -35,6 +35,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         ShapeableImageView messagePictureIv;
         TextView messageTextTv;
+        TextView messageTimeTextTv;
 
 
         public MessageViewHolder(@NonNull @NotNull View messageView) {
@@ -42,6 +43,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             messagePictureIv = itemView.findViewById(R.id.message_layout_sender_picture);
             messageTextTv = itemView.findViewById(R.id.message_layout_message_text_sent);
+            messageTimeTextTv = itemView.findViewById(R.id.message_layout_message_time_tv);
         }
 
         private void bindSentMessage() {
@@ -79,6 +81,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
 
         holder.messageTextTv.setText(message.getMessageText());
+        
         loadUriImage(holder, message);
     }
 

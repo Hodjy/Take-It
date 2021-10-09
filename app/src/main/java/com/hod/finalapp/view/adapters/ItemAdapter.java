@@ -43,12 +43,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public class ItemViewHolder extends RecyclerView.ViewHolder{
 
         TextView titleTv;
+        TextView descriptionTv;
         ShapeableImageView itemPictureIv;
 
         public ItemViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
             titleTv = itemView.findViewById(R.id.item_layout_title_tv);
+            descriptionTv = itemView.findViewById(R.id.item_layout_description_tv);
             itemPictureIv = itemView.findViewById(R.id.item_layout_item_image_iw);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +76,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void onBindViewHolder(@NonNull @NotNull ItemAdapter.ItemViewHolder holder, int position) {
         Item item = mItems.get(position);
         holder.titleTv.setText(item.getItemName());
+        //TODO check for string size in order to prevent a huge wall of text on the item.
+        holder.descriptionTv.setText(item.getItemDescription());
         loadUriImage(holder, item);
     }
 

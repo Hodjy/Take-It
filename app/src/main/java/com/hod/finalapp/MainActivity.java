@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -128,13 +130,15 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
         if(iIsActive)
         {
             String signMessage = getResources().getString(R.string.sign_out);
+            Drawable icon = ResourcesCompat.getDrawable(getResources(),R.drawable.outline_logout_24,getTheme());
             boolean isUserLoggedIn = UserRepository.getInstance().isUserLoggedIn();
             if(!isUserLoggedIn)
             {
                 signMessage = getResources().getString(R.string.sign_in);
+                icon = ResourcesCompat.getDrawable(getResources(),R.drawable.outline_login_24,getTheme());
             }
 
-            setMenuItems(isUserLoggedIn, signMessage);
+            setMenuItems(isUserLoggedIn, signMessage, icon);
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }
         else
@@ -148,9 +152,10 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
         }
     }
 
-    private void setMenuItems(boolean iIsUserLoggedIn, String iSignInOutTitle)
+    private void setMenuItems(boolean iIsUserLoggedIn, String iSignInOutTitle, Drawable iIcon)
     {
         mSignInOutItem.setTitle(iSignInOutTitle);
+        mSignInOutItem.setIcon(iIcon);
         mProfileItem.setVisible(iIsUserLoggedIn);
         mChatsItem.setVisible(iIsUserLoggedIn);
     }

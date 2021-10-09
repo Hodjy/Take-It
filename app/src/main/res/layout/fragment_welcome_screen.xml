@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/welcome"
-        android:fontFamily="sans-serif-light"
+        android:textColor="?attr/colorOnPrimary"
+        android:background="?attr/colorPrimaryVariant"
         android:textSize="40sp"
         android:gravity="center"
         android:paddingTop="200dp"
@@ -22,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:background="?attr/colorPrimary"
         android:text="@string/sign_in"
         android:id="@+id/fragment_welcome_screen_sign_in_btn"/>
 
@@ -31,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:background="?attr/colorPrimary"
         android:text="@string/guest"
         android:id="@+id/fragment_welcome_screen_sign_in_as_guest_btn"/>
 
@@ -40,7 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:background="?attr/colorPrimary"
         android:text="@string/register"
         android:id="@+id/fragment_welcome_screen_register_btn"/>
 
