@@ -256,6 +256,12 @@ public class UserRepository
         mUserTable.child(iUserId).child("token").get().addOnCompleteListener(iListener);
     }
 
+    public void getUserById(String iUserId,OnCompleteListener<DataSnapshot> listener)
+    {
+        mUserTable.child(iUserId).get().addOnCompleteListener(listener);
+    }
+
+
     public static void closeRepository()
     {
         mUserRepository = null;

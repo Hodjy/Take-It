@@ -55,4 +55,5 @@
     <string name="uploading">מעלה...</string>
     <string name="guest">אורח</string>
     <string name="guest_user_cannot_use_this">אורח אינו יכול להשתמש בתכונה זו.</string>
+    <string name="location">מיקום</string>
 </resources>

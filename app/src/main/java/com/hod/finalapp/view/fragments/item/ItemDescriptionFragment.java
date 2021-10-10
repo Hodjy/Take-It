@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ public class ItemDescriptionFragment extends Fragment
     private TextView mItemNameTv;
     private TextView mItemRegionTv;
     private TextView mItemDescriptionTv;
+    private TextView mOwnerNameTv;
     private Button mBackBtn;
     private FloatingActionButton mFloatingActionButton;
 
@@ -57,6 +59,8 @@ public class ItemDescriptionFragment extends Fragment
 
         initViewModel();
         initUI(rootView,this);
+        initObservers();
+        mViewModel.loadOwnerName();
 
         return rootView;
     }
@@ -73,11 +77,13 @@ public class ItemDescriptionFragment extends Fragment
         mItemNameTv = iRootView.findViewById(R.id.fragment_item_description_item_name_tv);
         mItemNameTv.setText(mViewModel.getItemName());
 
-        mItemRegionTv = iRootView.findViewById(R.id.fragment_item_description_item_region_tv);
+        mItemRegionTv = iRootView.findViewById(R.id.fragment_item_description_item_location_tv);
         mItemRegionTv.setText(mViewModel.getItemRegion());
 
         mItemDescriptionTv = iRootView.findViewById(R.id.fragment_item_description_item_description_tv);
         mItemDescriptionTv.setText(mViewModel.getItemDescription());
+
+        mOwnerNameTv = iRootView.findViewById(R.id.fragment_item_description_owner_name_tv);
 
         mBackBtn = iRootView.findViewById(R.id.fragment_item_description_back_btn);
         mBackBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());
@@ -111,6 +117,16 @@ public class ItemDescriptionFragment extends Fragment
             @Override
             public void onItemClicked(int position, View view) {
 
+            }
+        });
+    }
+
+    private void initObservers()
+    {
+        mViewModel.getOwnerName().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                mOwnerNameTv.setText(s);
             }
         });
     }
