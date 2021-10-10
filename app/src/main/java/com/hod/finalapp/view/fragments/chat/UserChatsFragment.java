@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ public class UserChatsFragment extends Fragment
     private ArrayList<ChatRoom> mChatsList;
     private RecyclerView mChatsListRecyclerView;
     private ChatAdapter mChatAdapter;
+    private Button mBackBtn;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -54,9 +56,12 @@ public class UserChatsFragment extends Fragment
         return rootView;
     }
 
-    private void initUi(View rootView)
+    private void initUi(View iRootView)
     {
-        mChatsListRecyclerView = rootView.findViewById(R.id.fragment_user_chats_recyclerView);
+        mBackBtn = iRootView.findViewById(R.id.fragment_user_chats_back_btn);
+        mBackBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());
+
+        mChatsListRecyclerView = iRootView.findViewById(R.id.fragment_user_chats_recyclerView);
 
         mChatAdapter = new ChatAdapter(mChatsList);
         mChatsListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
