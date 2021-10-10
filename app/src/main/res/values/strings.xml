@@ -54,9 +54,6 @@
     <string name="uploading">Uploading...</string>
     <string name="guest">Guest</string>
     <string name="guest_user_cannot_use_this">Guest user cannot use this function.</string>
-<<<<<<< Updated upstream
-=======
     <string name="set_my_location">Set location</string>
->>>>>>> Stashed changes
     <string name="location">Location</string>
 </resources>

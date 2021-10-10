@@ -55,9 +55,6 @@
     <string name="uploading">מעלה...</string>
     <string name="guest">אורח</string>
     <string name="guest_user_cannot_use_this">אורח אינו יכול להשתמש בתכונה זו.</string>
-<<<<<<< Updated upstream
-=======
     <string name="set_my_location">קבע מיקום</string>
->>>>>>> Stashed changes
     <string name="location">מיקום</string>
 </resources>
