@@ -30,6 +30,7 @@
             android:layout_toStartOf="@+id/message_layout_receiver_picture"
             android:fontFamily="sans-serif-light"
             android:text="@string/name"
+            android:textColor="?attr/colorOnSecondary"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -68,6 +69,7 @@
             android:layout_toEndOf="@+id/message_layout_sender_picture"
             android:fontFamily="sans-serif-light"
             android:text="@string/name"
+            android:textColor="?attr/colorOnSecondary"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
