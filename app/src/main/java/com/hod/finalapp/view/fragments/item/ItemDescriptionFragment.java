@@ -1,5 +1,6 @@
 package com.hod.finalapp.view.fragments.item;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.hod.finalapp.R;
-import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
+import com.hod.finalapp.model.listeners.ISnackbarLogInActionListener;
 import com.hod.finalapp.model.repositories.UserRepository;
 import com.hod.finalapp.view.adapters.PictureAdapter;
 import com.hod.finalapp.model.database_objects.Item;
@@ -39,6 +40,8 @@ public class ItemDescriptionFragment extends Fragment
     private FloatingActionButton mFloatingActionButton;
 
     private PictureAdapter mPictureAdapter;
+
+    private ISnackbarLogInActionListener mActivitySnackbarLogInListener;
 
 
 
@@ -88,7 +91,15 @@ public class ItemDescriptionFragment extends Fragment
         else
         {
             String logInMessage = getResources().getString(R.string.guest_user_cannot_use_this);
-            mFloatingActionButton.setOnClickListener(v -> Snackbar.make(iRootView,logInMessage,Snackbar.LENGTH_LONG).show());
+            mActivitySnackbarLogInListener = (ISnackbarLogInActionListener) getActivity();
+            mFloatingActionButton.setOnClickListener(v -> Snackbar.make(iRootView,logInMessage,Snackbar.LENGTH_LONG)
+                    .setAction(R.string.sign_in, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mActivitySnackbarLogInListener.goToLogIn();
+                        }
+                    })
+                    .show());
         }
 
         mItemPicturesRecyclerView = iRootView.findViewById(R.id.fragment_item_description_picture_rv);
@@ -134,6 +145,19 @@ public class ItemDescriptionFragment extends Fragment
                     NavHostFragment.findNavController(iThisFragment).navigate(R.id.action_to_chatRoomFragment, bundle);
                 }
             });
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull @NotNull Context context) {
+        super.onAttach(context);
+        try
+        {
+            mActivitySnackbarLogInListener = (ISnackbarLogInActionListener)context;
+        }
+        catch (ClassCastException e)
+        {
+            throw new ClassCastException("Activity must implement ISnackbarLogInActionListener");
         }
     }
 }

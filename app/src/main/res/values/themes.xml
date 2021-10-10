@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Finalapp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryVariant">@color/green_dark</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryVariant">@color/orange_dark</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue</item>
@@ -17,6 +17,10 @@
 
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Finalapp.SmallComponent</item>
         <item name="materialButtonStyle">@style/materialButtonStyle.Finalapp</item>
+
+        <item name="snackbarStyle">@style/Widget.AppCompat.Snackbar</item>
+        <item name="snackbarButtonStyle">@style/Widget.AppCompat.SnackbarButton</item>
+        <item name="snackbarTextViewStyle">@style/ThemeOverlay.AppCompat.SnackbarText</item>
 
     </style>
 
@@ -32,6 +36,26 @@
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">2dp</item>
+    </style>
+
+    <style name="Widget.AppCompat.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.AppCompat.Snackbar</item>
+        <item name="actionTextColorAlpha">1</item>
+    </style>
+
+    <style name="Widget.AppCompat.SnackbarButton" parent="Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ThemeOverlay.AppCompat.Snackbar" parent="">
+        <item name="colorPrimary">?attr/colorPrimaryVariant</item>
+        <item name="colorOnSurface">?attr/colorPrimary</item>
+    </style>
+
+    <style name="ThemeOverlay.AppCompat.SnackbarText">
+        <item name="colorOnSurface">?attr/colorOnPrimary</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.hod.finalapp.R;
 import com.hod.finalapp.model.database_objects.User;
@@ -25,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 public class SplashScreenFragment extends Fragment
 {
     private SplashScreenViewModel mViewModel;
+    private ImageView mSplashAppImage;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -35,6 +38,7 @@ public class SplashScreenFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_splash_screen, container, false);
         mViewModel = new ViewModelProvider(this).get(SplashScreenViewModel.class);
 
+        initUI(rootView);
         initObservers(this);
         mViewModel.initStartup();
 
@@ -59,4 +63,14 @@ public class SplashScreenFragment extends Fragment
             }
         });
     }
+
+    private void initUI(View iRootView)
+    {
+        mSplashAppImage = iRootView.findViewById(R.id.fragment_splash_screen_logo);
+
+        Glide.with(iRootView.getContext())
+                .load(R.drawable.app_logo)
+                .into(mSplashAppImage);
+    }
+
 }

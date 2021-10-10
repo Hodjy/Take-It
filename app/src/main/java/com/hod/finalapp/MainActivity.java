@@ -20,13 +20,17 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.hod.finalapp.model.listeners.ISnackbarLogInActionListener;
 import com.hod.finalapp.model.repositories.RepoInitializer;
 import com.hod.finalapp.model.repositories.UserRepository;
 import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
+import com.hod.finalapp.view.fragments.WelcomeScreenFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainActivity extends AppCompatActivity implements CatalogMainScreenFragment.ICatalogMainScreenFragmentListener
+public class MainActivity extends AppCompatActivity
+        implements CatalogMainScreenFragment.ICatalogMainScreenFragmentListener,
+        ISnackbarLogInActionListener
 {
     private DrawerLayout mDrawerLayout;
     private ActionBar mActionBar;
@@ -116,8 +120,16 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
         else
         {
             View fragmentContainer = findViewById(R.id.activity_main_nav_host_fragment); // dummy view for snackbar.
+            ISnackbarLogInActionListener callback = this;
             String error = getString(R.string.guest_user_cannot_use_this);
-            Snackbar.make(fragmentContainer,error,Snackbar.LENGTH_LONG).show();
+            Snackbar.make(fragmentContainer,error,Snackbar.LENGTH_LONG)
+                    .setAction(R.string.sign_in, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            callback.goToLogIn();
+                        }
+                    })
+                    .show();
         }
     }
 
@@ -168,5 +180,10 @@ public class MainActivity extends AppCompatActivity implements CatalogMainScreen
         mAddItemMenuItem.setVisible(false);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void goToLogIn() {
+        mNavController.navigate(R.id.action_to_signInFragment);
     }
 }

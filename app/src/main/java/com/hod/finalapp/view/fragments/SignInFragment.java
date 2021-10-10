@@ -110,7 +110,9 @@ public class SignInFragment extends Fragment
             public void onChanged(String s) {
                 if(s.equals("")) // empty = success, else print the error.
                 {
+
                     NavHostFragment.findNavController(iThisFragment).navigate(R.id.action_to_userMainScreenFragment);
+
                     RepoInitializer.initAllRepo();
                 }
                 else
