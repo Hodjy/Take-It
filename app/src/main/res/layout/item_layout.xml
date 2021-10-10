@@ -31,17 +31,18 @@
             <TextView
                 android:id="@+id/item_layout_title_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24sp"
                 android:text="@string/title"
                 android:textColor="?attr/colorOnSecondary"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="16sp"
                 android:id="@+id/item_layout_description_tv"
                 android:layout_marginTop="8dp"
-                android:textColor="?attr/colorOnSecondary"/>
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="12sp"/>
 
         </LinearLayout>
 
