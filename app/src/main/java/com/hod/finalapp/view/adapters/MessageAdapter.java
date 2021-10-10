@@ -43,7 +43,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             messagePictureIv = itemView.findViewById(R.id.message_layout_sender_picture);
             messageTextTv = itemView.findViewById(R.id.message_layout_message_text_sent);
-            messageTimeTextTv = itemView.findViewById(R.id.message_layout_message_time_tv);
+            messageTimeTextTv = itemView.findViewById(R.id.message_layout_sent_message_time_tv);
         }
 
         private void bindSentMessage() {
@@ -51,6 +51,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             ((RelativeLayout)itemView.findViewById(R.id.message_layout_sent_relative_layout)).setVisibility(View.VISIBLE);
             messagePictureIv = itemView.findViewById(R.id.message_layout_sender_picture);
             messageTextTv = itemView.findViewById(R.id.message_layout_message_text_sent);
+            messageTimeTextTv = itemView.findViewById(R.id.message_layout_sent_message_time_tv);
         }
 
         private void bindReceivedMessage() {
@@ -58,6 +59,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             ((RelativeLayout)itemView.findViewById(R.id.message_layout_received_relative_layout)).setVisibility(View.VISIBLE);
             messagePictureIv = itemView.findViewById(R.id.message_layout_receiver_picture);
             messageTextTv = itemView.findViewById(R.id.message_layout_message_text_received);
+            messageTimeTextTv = itemView.findViewById(R.id.message_layout_received_message_time_tv);
         }
     }
 

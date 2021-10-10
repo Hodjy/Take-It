@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+<FrameLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="8dp"
-    app:cardUseCompatPadding="true"
-    app:contentPadding="10dp">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp">
 
     <RelativeLayout
         android:id="@+id/message_layout_received_relative_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:visibility="gone">
+        android:layout_marginStart="100dp"
+        android:background="@drawable/rounded_shape">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/message_layout_receiver_picture"
@@ -21,9 +18,9 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/placeholder_circle" />
+            android:background="@drawable/placeholder_circle"
+            android:layout_centerInParent="true"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/message_layout_message_text_received"
@@ -35,23 +32,33 @@
             android:text="@string/name"
             android:textSize="20sp" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/message_layout_received_message_time_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_layout_message_text_received"
+            android:layout_margin="5dp"
+            android:layout_toStartOf="@+id/message_layout_receiver_picture"
+            android:gravity="start" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/message_layout_sent_relative_layout"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp">
+        android:visibility="gone"
+        android:background="@drawable/rounded_shape">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/message_layout_sender_picture"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/placeholder_circle" />
+            android:background="@drawable/placeholder_circle"
+            android:layout_centerInParent="true"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/message_layout_message_text_sent"
@@ -64,7 +71,7 @@
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/message_layout_message_time_tv"
+            android:id="@+id/message_layout_sent_message_time_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/message_layout_message_text_sent"
@@ -74,4 +81,4 @@
 
     </RelativeLayout>
 
-</androidx.cardview.widget.CardView>
+</FrameLayout>
