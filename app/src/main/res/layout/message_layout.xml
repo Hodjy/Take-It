@@ -40,6 +40,7 @@
             android:layout_below="@+id/message_layout_message_text_received"
             android:layout_margin="5dp"
             android:layout_toStartOf="@+id/message_layout_receiver_picture"
+            android:textColor="?attr/colorOnSecondary"
             android:gravity="start" />
 
     </RelativeLayout>
@@ -79,6 +80,7 @@
             android:layout_below="@+id/message_layout_message_text_sent"
             android:layout_margin="5dp"
             android:layout_toEndOf="@+id/message_layout_sender_picture"
+            android:textColor="?attr/colorOnSecondary"
             android:gravity="end" />
 
     </RelativeLayout>

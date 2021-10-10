@@ -1,6 +1,9 @@
 package com.hod.finalapp.view.viewmodel.item;
 
 import android.app.Application;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,17 +23,22 @@ import com.hod.finalapp.model.repositories.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDescriptionViewModel extends AndroidViewModel {
 
     private Item mItem;
     private MutableLiveData<String> mOwnerName;
+    private MutableLiveData<String> mItemLocation;
+    private Geocoder mGeocoder;
 
     public ItemDescriptionViewModel(@NonNull @NotNull Application application)
     {
         super(application);
         mOwnerName = new MutableLiveData<>();
+        mItemLocation = new MutableLiveData<>();
     }
 
     public void setItem(Item iItem)
@@ -63,9 +71,22 @@ public class ItemDescriptionViewModel extends AndroidViewModel {
         ItemRepository.getInstance().deleteItem(mItem);
     }
 
-    public String getItemRegion()
+    public void getItemRegion(Context iContext)
     {
-        return mItem.getItemRegion();
+        mGeocoder = new Geocoder(iContext);
+        String location = "";
+
+        List<Address> addressList = null;
+        try {
+            double i = mItem.getItemLatitude();
+            addressList = mGeocoder.getFromLocation(mItem.getItemLatitude(), mItem.getItemLongitude(), 1);
+            Address bestAddress = addressList.get(0);
+            location = bestAddress.getAdminArea();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mItemLocation.postValue(location);
     }
 
     public String generateChatRoomId()
@@ -98,4 +119,7 @@ public class ItemDescriptionViewModel extends AndroidViewModel {
         return mOwnerName;
     }
 
+    public MutableLiveData<String> getItemLocation() {
+        return mItemLocation;
+    }
 }

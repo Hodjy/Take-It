@@ -78,7 +78,8 @@ public class ItemDescriptionFragment extends Fragment
         mItemNameTv.setText(mViewModel.getItemName());
 
         mItemRegionTv = iRootView.findViewById(R.id.fragment_item_description_item_location_tv);
-        mItemRegionTv.setText(mViewModel.getItemRegion());
+        //init the mItemRegionTv when finished get details
+        mViewModel.getItemRegion(getContext());
 
         mItemDescriptionTv = iRootView.findViewById(R.id.fragment_item_description_item_description_tv);
         mItemDescriptionTv.setText(mViewModel.getItemDescription());
@@ -127,6 +128,13 @@ public class ItemDescriptionFragment extends Fragment
             @Override
             public void onChanged(String s) {
                 mOwnerNameTv.setText(s);
+            }
+        });
+
+        mViewModel.getItemLocation().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                mItemRegionTv.setText(s);
             }
         });
     }

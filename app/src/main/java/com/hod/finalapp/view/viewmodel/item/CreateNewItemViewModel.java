@@ -49,7 +49,9 @@ public class CreateNewItemViewModel extends AndroidViewModel
     private int mItemCategory = 0;
     private String mItemName = "";
     private String mItemDescription = "";
-    private String mItemLocation ="";
+    private double mItemLatitude = 0.0;
+    private double mItemLongitude = 0.0;
+    private String mItemLocation = "";
     private MutableLiveData<String> mFinishedUploadError;
     private ArrayList<MutableLiveData<Uri>> mPhotoUris;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -132,7 +134,8 @@ public class CreateNewItemViewModel extends AndroidViewModel
 
         Item newItem = new Item(
                 UserRepository.getInstance().getCurrentUser().getUserId(),
-                mItemName, mItemDescription, mItemCategory, GregorianCalendar.getInstance().getTime().toString(), null, mItemLocation);
+                mItemName, mItemDescription, mItemCategory, GregorianCalendar.getInstance().getTime().toString(),
+                null, mItemLatitude, mItemLongitude);
 
         Intent intent = new Intent(getApplication().getBaseContext(),ServerUploadService.class);
         intent.putParcelableArrayListExtra("uris", uris);
@@ -233,11 +236,11 @@ public class CreateNewItemViewModel extends AndroidViewModel
                 super.onLocationResult(locationResult);
                 Location lastLocation = locationResult.getLastLocation();
 
-                double lat = lastLocation.getLatitude();
-                double lng = lastLocation.getLongitude();
+                mItemLatitude = lastLocation.getLatitude();
+                mItemLongitude = lastLocation.getLongitude();
 
                 try {
-                    List<Address> addressList = mGeocoder.getFromLocation(lat, lng, 1);
+                    List<Address> addressList = mGeocoder.getFromLocation(mItemLatitude, mItemLongitude, 1);
                     Address bestAddress = addressList.get(0);
                     mItemLocation = bestAddress.getAdminArea();
                     mLocationResult.postValue(mItemLocation);

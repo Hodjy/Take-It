@@ -8,13 +8,15 @@ import java.util.ArrayList;
 public class Item implements Parcelable
 {
     private int mItemCategory; //category are sorted by the array in the strings_array_category xml.
-    private String mItemRegion;
     private String mItemId;
     private String mOwnerId;
     private String mItemName;
     private String mItemDescription;
     private String mLastUpdated;
     private ArrayList<String> mPicturesUrls;
+
+    private double mItemLatitude;
+    private double mItemLongitude;
 
     // private enum(spesific type) mCategory
     // private enum(spesific type) mSubCategory
@@ -68,12 +70,20 @@ public class Item implements Parcelable
         mItemCategory = iItemCategory;
     }
 
-    public String getItemRegion() {
-        return mItemRegion;
+    public double getItemLatitude() {
+        return mItemLatitude;
     }
 
-    public void setItemRegion(String iItemRegion) {
-        mItemRegion = iItemRegion;
+    public void setItemLatitude(double iItemLatitude) {
+        mItemLatitude = iItemLatitude;
+    }
+
+    public double getItemLongitude() {
+        return mItemLongitude;
+    }
+
+    public void setItemLongitude(double iItemLongitude) {
+        mItemLongitude = iItemLongitude;
     }
 
     public ArrayList<String> getPicturesUrls() {
@@ -94,7 +104,8 @@ public class Item implements Parcelable
     public Item()
     {
         mItemCategory = 0;
-        mItemRegion = null;
+        mItemLatitude = 0.0;
+        mItemLongitude = 0.0;
         mItemId = null;
         mOwnerId = null;
         mItemName = null;
@@ -104,7 +115,8 @@ public class Item implements Parcelable
     }
 
     public Item(String iOwnerId, String iItemName, String iItemDescription,
-                int iCategory, String iLastUpdated, ArrayList<String> iPicturesUrls, String iItemLocation)
+                int iCategory, String iLastUpdated, ArrayList<String> iPicturesUrls,
+                double iItemLatitude, double iItemLongitude)
     {
         mItemId = null;
         mOwnerId = iOwnerId;
@@ -112,13 +124,15 @@ public class Item implements Parcelable
         mItemDescription = iItemDescription;
         mLastUpdated = iLastUpdated;
         mPicturesUrls = iPicturesUrls;
-        mItemRegion = iItemLocation;
+        mItemLatitude = iItemLatitude;
+        mItemLongitude = iItemLongitude;
         mItemCategory = iCategory;
     }
 
     protected Item(Parcel in) {
         mItemCategory = in.readInt();
-        mItemRegion = in.readString();
+        mItemLatitude = in.readDouble();
+        mItemLongitude = in.readDouble();
         mItemId = in.readString();
         mOwnerId = in.readString();
         mItemName = in.readString();
@@ -130,7 +144,8 @@ public class Item implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mItemCategory);
-        dest.writeString(mItemRegion);
+        dest.writeDouble(mItemLatitude);
+        dest.writeDouble(mItemLongitude);
         dest.writeString(mItemId);
         dest.writeString(mOwnerId);
         dest.writeString(mItemName);
