@@ -79,9 +79,12 @@
             android:layout_weight="1"
             android:hint="@string/item_name"
             android:textColor="?attr/colorOnSecondary"
-            app:boxStrokeColor="?attr/colorSecondary"
+            android:textColorHint="?attr/colorOnSecondary"
             app:boxBackgroundColor="?attr/colorSecondaryVariant"
-            app:hintTextColor="?attr/colorSecondary">
+            app:boxStrokeColor="?attr/colorSecondary"
+            app:hintTextColor="?attr/colorSecondary"
+            app:startIconDrawable="@drawable/outline_badge_24"
+            app:startIconTint="?attr/colorOnSecondary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fragment_create_new_item_name_et"
@@ -89,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:textColor="?attr/colorOnSecondary"/>
+                android:textColor="?attr/colorOnSecondary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -101,8 +104,11 @@
             android:layout_weight="1"
             android:hint="@string/item_description"
             android:textColor="?attr/colorOnSecondary"
+            android:textColorHint="?attr/colorOnSecondary"
             app:boxBackgroundColor="?attr/colorSecondaryVariant"
-            app:hintTextColor="?attr/colorSecondary">
+            app:hintTextColor="?attr/colorSecondary"
+            app:startIconDrawable="@drawable/outline_description_24"
+            app:startIconTint="?attr/colorOnSecondary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fragment_create_new_item_description_et"
@@ -117,8 +123,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_create_new_item_description_textfield"
             android:layout_alignParentEnd="true"
-            android:hint="@string/location"
             android:layout_margin="10dp"
+            android:textColor="?attr/colorSecondary"
+            android:textStyle="bold"
+            android:hint="@string/location"
             android:textSize="20sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -127,32 +135,54 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_create_new_item_description_textfield"
             android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
             android:text="@string/set_my_location"
-            android:layout_marginStart="10dp"/>
+            app:icon="@drawable/outline_location_on_24"
+            app:iconTint="?attr/colorOnSecondary" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/fragment_create_new_item_category_tv"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/fragment_create_new_item_category_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_create_new_item_set_location_btn"
-            android:layout_alignParentStart="true"
+            android:background="?attr/colorSecondaryVariant"
             android:layout_margin="10dp"
-            android:text="@string/category"
-            android:textSize="20sp" />
+            android:layout_below="@id/fragment_create_new_item_set_location_btn">
 
-        <Spinner
-            android:id="@+id/fragment_create_new_item_category_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_create_new_item_set_location_btn"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="10dp" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/outline_category_24"
+                android:layout_marginStart="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:tint="?attr/colorOnSecondary"
+                android:id="@+id/fragment_create_new_item_category_icon"/>
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_create_new_item_category_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/fragment_create_new_item_category_icon"
+                android:textColor="?attr/colorOnSecondary"
+                android:layout_margin="10dp"
+                android:text="@string/category"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/fragment_create_new_item_category_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="10dp" />
+        </RelativeLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fragment_create_new_item_create_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_create_new_item_category_tv"
+            android:layout_below="@+id/fragment_create_new_item_category_container"
             android:layout_centerHorizontal="true"
             android:text="@string/create" />
 
