@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     private MenuItem mChatsItem;
     private MenuItem mAddItemMenuItem;
     private NavController mNavController;
+    private boolean mIsActive = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -136,8 +137,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void fragmentActiveStateChanged(boolean iIsActive) // toggle hamburger icon if entered or left item catalog fragment.
     {
+        mIsActive = iIsActive;
         mActionBar.setDisplayHomeAsUpEnabled(iIsActive);
-        mAddItemMenuItem.setVisible(iIsActive);
+
+        if(mAddItemMenuItem != null)
+        {
+            mAddItemMenuItem.setVisible(iIsActive);
+        }
+
 
         if(iIsActive)
         {
@@ -177,7 +184,7 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
 
         mAddItemMenuItem = menu.findItem(R.id.toolbar_menu_add_new_item);
-        mAddItemMenuItem.setVisible(false);
+        mAddItemMenuItem.setVisible(mIsActive);
 
         return super.onCreateOptionsMenu(menu);
     }
