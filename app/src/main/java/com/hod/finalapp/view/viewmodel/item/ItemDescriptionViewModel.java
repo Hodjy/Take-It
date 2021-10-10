@@ -65,10 +65,7 @@ public class ItemDescriptionViewModel extends AndroidViewModel {
 
     public String getItemRegion()
     {
-        String[] regions = getApplication().getResources().getStringArray(R.array.regions);
-        String itemRegion = regions[mItem.getmItemRegion()];
-
-        return itemRegion;
+        return mItem.getItemRegion();
     }
 
     public String generateChatRoomId()

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Item implements Parcelable
 {
     private int mItemCategory; //category are sorted by the array in the strings_array_category xml.
-    private int mItemRegion; // region are sorted by the array in the strings_array_region xml.
+    private String mItemRegion;
     private String mItemId;
     private String mOwnerId;
     private String mItemName;
@@ -64,16 +64,16 @@ public class Item implements Parcelable
         return mItemCategory;
     }
 
-    public void setmItemCategory(int mItemCategory) {
-        this.mItemCategory = mItemCategory;
+    public void setItemCategory(int iItemCategory) {
+        mItemCategory = iItemCategory;
     }
 
-    public int getmItemRegion() {
+    public String getItemRegion() {
         return mItemRegion;
     }
 
-    public void setmItemRegion(int mItemRegion) {
-        this.mItemRegion = mItemRegion;
+    public void setItemRegion(String iItemRegion) {
+        mItemRegion = iItemRegion;
     }
 
     public ArrayList<String> getPicturesUrls() {
@@ -94,7 +94,7 @@ public class Item implements Parcelable
     public Item()
     {
         mItemCategory = 0;
-        mItemRegion = 0;
+        mItemRegion = null;
         mItemId = null;
         mOwnerId = null;
         mItemName = null;
@@ -104,7 +104,7 @@ public class Item implements Parcelable
     }
 
     public Item(String iOwnerId, String iItemName, String iItemDescription,
-                int iRegion, int iCategory, String iLastUpdated, ArrayList<String> iPicturesUrls)
+                int iCategory, String iLastUpdated, ArrayList<String> iPicturesUrls, String iItemLocation)
     {
         mItemId = null;
         mOwnerId = iOwnerId;
@@ -112,13 +112,13 @@ public class Item implements Parcelable
         mItemDescription = iItemDescription;
         mLastUpdated = iLastUpdated;
         mPicturesUrls = iPicturesUrls;
-        mItemRegion = iRegion;
+        mItemRegion = iItemLocation;
         mItemCategory = iCategory;
     }
 
     protected Item(Parcel in) {
         mItemCategory = in.readInt();
-        mItemRegion = in.readInt();
+        mItemRegion = in.readString();
         mItemId = in.readString();
         mOwnerId = in.readString();
         mItemName = in.readString();
@@ -130,7 +130,7 @@ public class Item implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mItemCategory);
-        dest.writeInt(mItemRegion);
+        dest.writeString(mItemRegion);
         dest.writeString(mItemId);
         dest.writeString(mOwnerId);
         dest.writeString(mItemName);

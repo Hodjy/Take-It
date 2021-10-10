@@ -1,19 +1,32 @@
 package com.hod.finalapp.view.viewmodel.item;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.hod.finalapp.R;
@@ -25,22 +38,28 @@ import com.hod.finalapp.services.ServerUploadService;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class CreateNewItemViewModel extends AndroidViewModel
 {
     private boolean mIsCreating = false;
-    private int mItemRegion = 0;
     private int mItemCategory = 0;
     private String mItemName = "";
     private String mItemDescription = "";
+    private String mItemLocation ="";
     private MutableLiveData<String> mFinishedUploadError;
     private ArrayList<MutableLiveData<Uri>> mPhotoUris;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private MutableLiveData<String> mLocationResult;
+    private Geocoder mGeocoder;
 
     public CreateNewItemViewModel(@NonNull @NotNull Application application) {
         super(application);
 
+        mLocationResult = new MutableLiveData<>();
         mFinishedUploadError = new MutableLiveData<>();
         mPhotoUris = new ArrayList<>();
         for(int i = 0; i < StorageManager.MAX_ITEM_PICTURES; i++)
@@ -68,7 +87,7 @@ public class CreateNewItemViewModel extends AndroidViewModel
     {
         if(!mIsCreating)
         {
-            boolean isAnyFieldEmpty = mItemName.isEmpty() && mItemDescription.isEmpty();
+            boolean isAnyFieldEmpty = mItemName.isEmpty() && mItemDescription.isEmpty() && mItemLocation.isEmpty();
             boolean isUserPickedPicture = (mPhotoUris.get(0).getValue() == null);
             if(!isAnyFieldEmpty)
             {
@@ -113,7 +132,7 @@ public class CreateNewItemViewModel extends AndroidViewModel
 
         Item newItem = new Item(
                 UserRepository.getInstance().getCurrentUser().getUserId(),
-                mItemName, mItemDescription, mItemRegion, mItemCategory, GregorianCalendar.getInstance().getTime().toString(), null );
+                mItemName, mItemDescription, mItemCategory, GregorianCalendar.getInstance().getTime().toString(), null, mItemLocation);
 
         Intent intent = new Intent(getApplication().getBaseContext(),ServerUploadService.class);
         intent.putParcelableArrayListExtra("uris", uris);
@@ -201,9 +220,39 @@ public class CreateNewItemViewModel extends AndroidViewModel
         mItemCategory = iCategoryNumber;
     }
 
-    public void setItemRegion(int iRegionNumber)
-    {
-        mItemRegion = iRegionNumber;
+    public MutableLiveData<String> getLocationResult() {
+        return mLocationResult;
+    }
+
+    public void getLocation(Context iContext){
+        mGeocoder = new Geocoder(iContext);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(iContext);
+        LocationCallback callback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull @NotNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                Location lastLocation = locationResult.getLastLocation();
+
+                double lat = lastLocation.getLatitude();
+                double lng = lastLocation.getLongitude();
+
+                try {
+                    List<Address> addressList = mGeocoder.getFromLocation(lat, lng, 1);
+                    Address bestAddress = addressList.get(0);
+                    mItemLocation = bestAddress.getAdminArea();
+                    mLocationResult.postValue(mItemLocation);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        if(Build.VERSION.SDK_INT >= 23 && ActivityCompat.checkSelfPermission(iContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            mFusedLocationProviderClient.requestLocationUpdates(locationRequest, callback, null);
+        else
+            mFusedLocationProviderClient.requestLocationUpdates(locationRequest, callback, null);
     }
 
 

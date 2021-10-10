@@ -112,28 +112,29 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/fragment_create_new_item_region_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_create_new_item_description_textfield"
-            android:layout_alignParentStart="true"
-            android:layout_margin="10dp"
-            android:text="@string/region"
-            android:textSize="20sp" />
-
-        <Spinner
-            android:id="@+id/fragment_create_new_item_region_spinner"
+            android:id="@+id/fragment_create_new_item_location_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_create_new_item_description_textfield"
             android:layout_alignParentEnd="true"
-            android:layout_margin="10dp" />
+            android:hint="@string/location"
+            android:layout_margin="10dp"
+            android:textSize="20sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_create_new_item_set_location_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_create_new_item_description_textfield"
+            android:layout_alignParentStart="true"
+            android:text="@string/set_my_location"
+            android:layout_marginStart="10dp"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/fragment_create_new_item_category_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_create_new_item_region_tv"
+            android:layout_below="@id/fragment_create_new_item_set_location_btn"
             android:layout_alignParentStart="true"
             android:layout_margin="10dp"
             android:text="@string/category"
@@ -143,7 +144,7 @@
             android:id="@+id/fragment_create_new_item_category_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_create_new_item_region_spinner"
+            android:layout_below="@id/fragment_create_new_item_set_location_btn"
             android:layout_alignParentEnd="true"
             android:layout_margin="10dp" />
 

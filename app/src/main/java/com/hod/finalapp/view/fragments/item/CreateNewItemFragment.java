@@ -1,6 +1,10 @@
 package com.hod.finalapp.view.fragments.item;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,9 +17,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -43,7 +53,11 @@ public class CreateNewItemFragment extends Fragment
     private EditText mItemName;
     private EditText mItemDescription;
     private Button mCreateItemBtn;
+    private Button mSetLocationBtn;
     private Button mBackButton;
+    private TextView mLocationTv;
+
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
     //location, type, *subtype*, 4 pictures, description, name and owner name(needs to be fetched realtime).
     //TODO grid https://youtu.be/k2R38Rv4Vmk maybe be good.(material design)
@@ -59,6 +73,7 @@ public class CreateNewItemFragment extends Fragment
 
         initUI(rootView);
         initObservers(rootView, this);
+        initLaunchers(rootView);
 
         return rootView;
     }
@@ -74,7 +89,9 @@ public class CreateNewItemFragment extends Fragment
         mItemName = iRootView.findViewById(R.id.fragment_create_new_item_name_et);
         mItemDescription = iRootView.findViewById(R.id.fragment_create_new_item_description_et);
         mCreateItemBtn = iRootView.findViewById(R.id.fragment_create_new_item_create_btn);
+        mSetLocationBtn = iRootView.findViewById(R.id.fragment_create_new_item_set_location_btn);
         mBackButton = iRootView.findViewById(R.id.fragment_create_new_item_back_btn);
+        mLocationTv = iRootView.findViewById(R.id.fragment_create_new_item_location_tv);
 
         setImagesClickListeners();
 
@@ -116,6 +133,24 @@ public class CreateNewItemFragment extends Fragment
             mViewModel.createItem();
         });
 
+        mSetLocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if(ActivityCompat.checkSelfPermission(getActivity().getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+                    else
+                    {
+                        setLocation();
+                    }
+                }
+                else
+                {
+                    setLocation();
+                }
+            }
+        });
+
         mBackButton.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
         });
@@ -124,11 +159,6 @@ public class CreateNewItemFragment extends Fragment
                 R.array.categories,
                 R.id.fragment_create_new_item_category_spinner,
                 "category");
-
-        initSpinner(iRootView,
-                R.array.regions,
-                R.id.fragment_create_new_item_region_spinner,
-                "region");
     }
 
     private void initObservers(View iRootView, Fragment iThisFragment)
@@ -160,6 +190,13 @@ public class CreateNewItemFragment extends Fragment
                 {
                     Snackbar.make(iRootView, s, Snackbar.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        mViewModel.getLocationResult().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                mLocationTv.setText(s);
             }
         });
     }
@@ -223,9 +260,25 @@ public class CreateNewItemFragment extends Fragment
             case "category":
                 mViewModel.setItemCategory(iPosition);
                 break;
-            case "region":
-                mViewModel.setItemRegion(iPosition);
         }
+    }
 
+
+    private void setLocation(){
+        mViewModel.getLocation(getContext());
+    }
+
+
+    private void initLaunchers(View iRootView) {
+
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+            @Override
+            public void onActivityResult(Boolean result) {
+                if (!result)
+                {
+                    Snackbar.make(iRootView, getActivity().getString(R.string.no_permissions), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }
