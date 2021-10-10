@@ -75,7 +75,7 @@ public class CatalogMainScreenFragment extends Fragment
             public void onClick(Item iItem) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("item", iItem);
-                NavHostFragment.findNavController(CatalogMainScreenFragment.this).navigate(R.id.itemDescriptionFragment, bundle);
+                NavHostFragment.findNavController(CatalogMainScreenFragment.this).navigate(R.id.action_to_itemDescriptionFragment, bundle);
             }
         });
         //mItemsListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));

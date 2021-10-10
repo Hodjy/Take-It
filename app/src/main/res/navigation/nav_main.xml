@@ -10,13 +10,25 @@
         android:label="WelcomeScreenFragment" >
         <action
             android:id="@+id/action_to_signInFragment"
-            app:destination="@id/signInFragment" />
+            app:destination="@id/signInFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
         <action
             android:id="@+id/action_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_to_userMainScreenFragment"
             app:destination="@id/userMainScreenFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@id/welcomeScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -27,6 +39,8 @@
         <action
             android:id="@+id/action_to_userMainScreenFragment"
             app:destination="@id/userMainScreenFragment"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
             app:popUpTo="@id/welcomeScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -37,6 +51,8 @@
         <action
             android:id="@+id/action_to_userMainScreenFragment"
             app:destination="@id/userMainScreenFragment"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
             app:popUpTo="@id/welcomeScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -47,26 +63,43 @@
         <action
             android:id="@+id/action_to_welcomeScreenFragment"
             app:destination="@id/welcomeScreenFragment"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
             app:popUpTo="@id/userMainScreenFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_userMainScreenFragment_to_userProfileFragment"
-            app:destination="@id/userProfileFragment" />
+            app:destination="@id/userProfileFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
         <action
             android:id="@+id/action_userMainScreenFragment_to_userChatsFragment"
-            app:destination="@id/userChatsFragment" />
-        <action
-            android:id="@+id/action_userMainScreenFragment_to_userItemsFragment"
-            app:destination="@id/userItemsFragment" />
+            app:destination="@id/userChatsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_to_itemDescriptionFragment"
-            app:destination="@id/itemDescriptionFragment" />
+            app:destination="@id/itemDescriptionFragment"
+            app:enterAnim="@anim/from_down"
+            app:exitAnim="@anim/to_up"
+            app:popEnterAnim="@anim/from_up"
+            app:popExitAnim="@anim/to_down" />
         <action
             android:id="@+id/action_to_createNewItemFragment"
-            app:destination="@id/createNewItemFragment" />
+            app:destination="@id/createNewItemFragment"
+            app:enterAnim="@anim/from_up"
+            app:exitAnim="@anim/to_down"
+            app:popEnterAnim="@anim/from_down"
+            app:popExitAnim="@anim/to_up" />
         <action
             android:id="@+id/action_to_signInFragment"
             app:destination="@id/signInFragment"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
             app:popUpTo="@id/userMainScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -77,11 +110,15 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_welcomeScreenFragment"
             app:destination="@id/welcomeScreenFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
             app:popUpTo="@id/splashScreenFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashScreenFragment_to_userMainScreenFragment"
             app:destination="@id/userMainScreenFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
             app:popUpTo="@id/splashScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -89,12 +126,20 @@
         android:id="@+id/userProfileFragment"
         android:name="com.hod.finalapp.view.fragments.user.UserProfileFragment"
         android:label="UserProfileFragment">
-    <action
-        android:id="@+id/action_to_itemDescriptionFragment"
-        app:destination="@id/itemDescriptionFragment"/>
+        <action
+            android:id="@+id/action_to_itemDescriptionFragment"
+            app:destination="@id/itemDescriptionFragment"
+            app:enterAnim="@anim/from_down"
+            app:exitAnim="@anim/to_up"
+            app:popEnterAnim="@anim/from_up"
+            app:popExitAnim="@anim/to_down" />
         <action
             android:id="@+id/action_to_createNewItemFragment"
-            app:destination="@id/createNewItemFragment" />
+            app:destination="@id/createNewItemFragment"
+            app:enterAnim="@anim/from_up"
+            app:exitAnim="@anim/to_down"
+            app:popEnterAnim="@anim/from_down"
+            app:popExitAnim="@anim/to_up" />
     </fragment>
     <fragment
         android:id="@+id/userChatsFragment"
@@ -102,12 +147,12 @@
         android:label="UserChatsFragment" >
         <action
             android:id="@+id/action_to_chatRoomFragment"
-            app:destination="@id/chatRoomFragment" />
+            app:destination="@id/chatRoomFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
-    <fragment
-        android:id="@+id/userItemsFragment"
-        android:name="com.hod.finalapp.view.fragments.user.UserItemsFragment"
-        android:label="UserItemsFragment" />
     <fragment
         android:id="@+id/createNewItemFragment"
         android:name="com.hod.finalapp.view.fragments.item.CreateNewItemFragment"
@@ -121,10 +166,16 @@
             app:argType="com.hod.finalapp.model.database_objects.Item" />
         <action
             android:id="@+id/action_to_chatRoomFragment"
-            app:destination="@id/chatRoomFragment" />
+            app:destination="@id/chatRoomFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_to_signInFragment"
             app:destination="@id/signInFragment"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
             app:popUpTo="@id/userMainScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -139,4 +190,11 @@
             android:name="item"
             app:argType="com.hod.finalapp.model.database_objects.Item" />
     </fragment>
+    <action
+        android:id="@+id/action_nav_main_pop"
+        app:enterAnim="@anim/from_left"
+        app:exitAnim="@anim/to_right"
+        app:popEnterAnim="@anim/from_right"
+        app:popExitAnim="@anim/to_left"
+        app:destination="@id/nav_main" />
 </navigation>
