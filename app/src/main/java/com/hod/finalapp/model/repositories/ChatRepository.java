@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.hod.finalapp.model.database_objects.User;
 import com.hod.finalapp.model.database_objects.chatroom.ChatMessage;
 import com.hod.finalapp.model.database_objects.chatroom.ChatRoom;
 import com.hod.finalapp.model.firebase.AuthenticationManager;
@@ -232,11 +233,15 @@ public class ChatRepository {
 
     private boolean isChatRoomForUser(ChatRoom iChatRoom)
     {
-        String currentUserId = UserRepository.getInstance().getCurrentUser().getUserId();
         boolean isChatRoomForUser = false;
+        User user = UserRepository.getInstance().getCurrentUser();
+        if(user != null)
+        {
+            String currentUserId = user.getUserId();
 
-        if (iChatRoom.getOwnerId().equals(currentUserId) || iChatRoom.getReceiverId().equals(currentUserId)){
-            isChatRoomForUser = true;
+            if (iChatRoom.getOwnerId().equals(currentUserId) || iChatRoom.getReceiverId().equals(currentUserId)){
+                isChatRoomForUser = true;
+            }
         }
 
         return isChatRoomForUser;

@@ -24,13 +24,13 @@ import com.hod.finalapp.model.listeners.ISnackbarLogInActionListener;
 import com.hod.finalapp.model.repositories.RepoInitializer;
 import com.hod.finalapp.model.repositories.UserRepository;
 import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
-import com.hod.finalapp.view.fragments.WelcomeScreenFragment;
+import com.hod.finalapp.view.fragments.chat.ChatRoomFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity
         implements CatalogMainScreenFragment.ICatalogMainScreenFragmentListener,
-        ISnackbarLogInActionListener
+        ISnackbarLogInActionListener, ChatRoomFragment.IChatRoomListener
 {
     private DrawerLayout mDrawerLayout;
     private ActionBar mActionBar;
@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity
     private MenuItem mChatsItem;
     private MenuItem mAddItemMenuItem;
     private NavController mNavController;
-    private boolean mIsActive = false;
+    private boolean mIsUserAtCatalog = false;
+    private boolean mIsUserAtChatroom = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity
                         }
                         else
                         {
-                            mNavController.navigate(R.id.action_to_signInFragment);
+                            goToLogIn();
                         }
                         break;
                 }
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void fragmentActiveStateChanged(boolean iIsActive) // toggle hamburger icon if entered or left item catalog fragment.
     {
-        mIsActive = iIsActive;
+        mIsUserAtCatalog = iIsActive;
         mActionBar.setDisplayHomeAsUpEnabled(iIsActive);
 
         if(mAddItemMenuItem != null)
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
 
         mAddItemMenuItem = menu.findItem(R.id.toolbar_menu_add_new_item);
-        mAddItemMenuItem.setVisible(mIsActive);
+        mAddItemMenuItem.setVisible(mIsUserAtCatalog);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -192,5 +193,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void goToLogIn() {
         mNavController.navigate(R.id.action_to_signInFragment);
+    }
+
+    @Override
+    public void chatRoomFragmentActiveStateChanged(boolean iIsActive) {
+        mIsUserAtChatroom = iIsActive;
     }
 }

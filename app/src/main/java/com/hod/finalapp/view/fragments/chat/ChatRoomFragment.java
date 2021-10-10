@@ -1,5 +1,6 @@
 package com.hod.finalapp.view.fragments.chat;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,8 @@ public class ChatRoomFragment extends Fragment
     private ImageView mChatRoomPicture;
     private TextView mChatRoomName;
     private EditText mChatRoomTextInput;
+
+    private IChatRoomListener mCallback;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -141,5 +144,32 @@ public class ChatRoomFragment extends Fragment
         mMessagesRecyclerView.setAdapter(mMessageAdapter);
     }
 
+    public interface IChatRoomListener
+    {
+        public void chatRoomFragmentActiveStateChanged(boolean iIsActive);
+    }
 
+    @Override
+    public void onAttach(@NonNull @NotNull Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (IChatRoomListener)context;
+        }
+        catch (ClassCastException e)
+        {
+            throw new ClassCastException("Activity does not implement IChatRoomListener");
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mCallback.chatRoomFragmentActiveStateChanged(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mCallback.chatRoomFragmentActiveStateChanged(true);
+    }
 }
