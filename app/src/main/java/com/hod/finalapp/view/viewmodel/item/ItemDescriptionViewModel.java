@@ -25,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ItemDescriptionViewModel extends AndroidViewModel {
@@ -61,6 +62,19 @@ public class ItemDescriptionViewModel extends AndroidViewModel {
 
     public String getItemDescription(){
         return mItem.getItemDescription();
+    }
+
+    public String getItemUploadedTime()
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(mItem.getUploadedTime());
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String uploadedTime = day + "/" + month + "/" + year;
+
+        return uploadedTime;
     }
 
     public ArrayList<String> getItemPicturesList(){

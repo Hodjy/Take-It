@@ -12,7 +12,7 @@ public class Item implements Parcelable
     private String mOwnerId;
     private String mItemName;
     private String mItemDescription;
-    private String mLastUpdated;
+    private long mUploadedTime;
     private ArrayList<String> mPicturesUrls;
 
     private double mItemLatitude;
@@ -54,12 +54,12 @@ public class Item implements Parcelable
         mItemDescription = iItemDescription;
     }
 
-    public String getLastUpdated() {
-        return mLastUpdated;
+    public long getUploadedTime() {
+        return mUploadedTime;
     }
 
-    public void setLastUpdated(String iLastUpdated) {
-        mLastUpdated = iLastUpdated;
+    public void setUploadedTime(long iUploadedTime) {
+        mUploadedTime = iUploadedTime;
     }
 
     public int getmItemCategory() {
@@ -110,19 +110,19 @@ public class Item implements Parcelable
         mOwnerId = null;
         mItemName = null;
         mItemDescription = null;
-        mLastUpdated = null;
+        mUploadedTime = 0;
         mPicturesUrls = null;
     }
 
     public Item(String iOwnerId, String iItemName, String iItemDescription,
-                int iCategory, String iLastUpdated, ArrayList<String> iPicturesUrls,
+                int iCategory, long iUploadedTime, ArrayList<String> iPicturesUrls,
                 double iItemLatitude, double iItemLongitude)
     {
         mItemId = null;
         mOwnerId = iOwnerId;
         mItemName = iItemName;
         mItemDescription = iItemDescription;
-        mLastUpdated = iLastUpdated;
+        mUploadedTime = iUploadedTime;
         mPicturesUrls = iPicturesUrls;
         mItemLatitude = iItemLatitude;
         mItemLongitude = iItemLongitude;
@@ -137,7 +137,7 @@ public class Item implements Parcelable
         mOwnerId = in.readString();
         mItemName = in.readString();
         mItemDescription = in.readString();
-        mLastUpdated = in.readString();
+        mUploadedTime = in.readLong();
         mPicturesUrls = in.createStringArrayList();
     }
 
@@ -150,7 +150,7 @@ public class Item implements Parcelable
         dest.writeString(mOwnerId);
         dest.writeString(mItemName);
         dest.writeString(mItemDescription);
-        dest.writeString(mLastUpdated);
+        dest.writeLong(mUploadedTime);
         dest.writeStringList(mPicturesUrls);
     }
 

@@ -34,6 +34,7 @@ public class ItemDescriptionFragment extends Fragment
     private ItemDescriptionViewModel mViewModel;
 
     private RecyclerView mItemPicturesRecyclerView;
+    private TextView mItemUploadTime;
     private TextView mItemNameTv;
     private TextView mItemRegionTv;
     private TextView mItemDescriptionTv;
@@ -85,6 +86,9 @@ public class ItemDescriptionFragment extends Fragment
         mItemDescriptionTv.setText(mViewModel.getItemDescription());
 
         mOwnerNameTv = iRootView.findViewById(R.id.fragment_item_description_owner_name_tv);
+
+        mItemUploadTime = iRootView.findViewById(R.id.fragment_item_description_item_uploaded_time_tv);
+        mItemUploadTime.setText(mViewModel.getItemUploadedTime());
 
         mBackBtn = iRootView.findViewById(R.id.fragment_item_description_back_btn);
         mBackBtn.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());

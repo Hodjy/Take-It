@@ -199,6 +199,16 @@ public class CreateNewItemFragment extends Fragment
                 mLocationTv.setText(s);
             }
         });
+
+        mViewModel.getIsCreating().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean)
+                {
+                    NavHostFragment.findNavController(iThisFragment).popBackStack();
+                }
+            }
+        });
     }
 
     private void setImagesClickListeners()

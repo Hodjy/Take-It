@@ -57,4 +57,5 @@
     <string name="guest_user_cannot_use_this">אורח אינו יכול להשתמש בתכונה זו.</string>
     <string name="set_my_location">קבע מיקום</string>
     <string name="location">מיקום</string>
+    <string name="fetching_location">לוקח מיקום.</string>
 </resources>

@@ -45,7 +45,7 @@ import java.util.List;
 
 public class CreateNewItemViewModel extends AndroidViewModel
 {
-    private boolean mIsCreating = false;
+    private MutableLiveData<Boolean> mIsCreating;
     private int mItemCategory = 0;
     private String mItemName = "";
     private String mItemDescription = "";
@@ -57,12 +57,14 @@ public class CreateNewItemViewModel extends AndroidViewModel
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private MutableLiveData<String> mLocationResult;
     private Geocoder mGeocoder;
+    private boolean mIsGettingLocation = false;
 
     public CreateNewItemViewModel(@NonNull @NotNull Application application) {
         super(application);
 
         mLocationResult = new MutableLiveData<>();
         mFinishedUploadError = new MutableLiveData<>();
+        mIsCreating = new MutableLiveData<>(false);
         mPhotoUris = new ArrayList<>();
         for(int i = 0; i < StorageManager.MAX_ITEM_PICTURES; i++)
         {
@@ -83,20 +85,31 @@ public class CreateNewItemViewModel extends AndroidViewModel
         return mFinishedUploadError;
     }
 
-
+    public MutableLiveData<Boolean> getIsCreating()
+    {
+        return mIsCreating;
+    }
 
     public void createItem()
     {
-        if(!mIsCreating)
+        if(!mIsCreating.getValue())
         {
-            boolean isAnyFieldEmpty = mItemName.isEmpty() && mItemDescription.isEmpty() && mItemLocation.isEmpty();
+            boolean isAnyFieldEmpty = mItemName.isEmpty() || mItemDescription.isEmpty() || mItemLocation.isEmpty();
             boolean isUserPickedPicture = (mPhotoUris.get(0).getValue() == null);
             if(!isAnyFieldEmpty)
             {
                 if(!isUserPickedPicture)
                 {
-                    mIsCreating = true;
-                    createAndSendItemToUpload();
+                    if(!mIsGettingLocation)
+                    {
+                        mIsCreating.postValue(true);
+                        createAndSendItemToUpload();
+                    }
+                    else
+                    {
+                        String error = getApplication().getString(R.string.fetching_location);
+                        postError(error);
+                    }
                 }
                 else
                 {
@@ -134,7 +147,7 @@ public class CreateNewItemViewModel extends AndroidViewModel
 
         Item newItem = new Item(
                 UserRepository.getInstance().getCurrentUser().getUserId(),
-                mItemName, mItemDescription, mItemCategory, GregorianCalendar.getInstance().getTime().toString(),
+                mItemName, mItemDescription, mItemCategory, GregorianCalendar.getInstance().getTimeInMillis(),
                 null, mItemLatitude, mItemLongitude);
 
         Intent intent = new Intent(getApplication().getBaseContext(),ServerUploadService.class);
@@ -213,7 +226,8 @@ public class CreateNewItemViewModel extends AndroidViewModel
                 {
                     postError(task.getException().getMessage());
                 }
-                mIsCreating = false;
+
+                mIsCreating.postValue(false);
             }
         };
     }
@@ -228,6 +242,7 @@ public class CreateNewItemViewModel extends AndroidViewModel
     }
 
     public void getLocation(Context iContext){
+        mIsGettingLocation = true;
         mGeocoder = new Geocoder(iContext);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(iContext);
         LocationCallback callback = new LocationCallback() {
@@ -244,6 +259,7 @@ public class CreateNewItemViewModel extends AndroidViewModel
                     Address bestAddress = addressList.get(0);
                     mItemLocation = bestAddress.getAdminArea();
                     mLocationResult.postValue(mItemLocation);
+                    mIsGettingLocation = false;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

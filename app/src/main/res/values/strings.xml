@@ -56,4 +56,5 @@
     <string name="guest_user_cannot_use_this">Guest user cannot use this function.</string>
     <string name="set_my_location">Set location</string>
     <string name="location">Location</string>
+    <string name="fetching_location">Fetching location</string>
 </resources>

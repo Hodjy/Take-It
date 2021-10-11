@@ -84,10 +84,10 @@
         <action
             android:id="@+id/action_to_itemDescriptionFragment"
             app:destination="@id/itemDescriptionFragment"
-            app:enterAnim="@anim/from_down"
-            app:exitAnim="@anim/to_up"
-            app:popEnterAnim="@anim/from_up"
-            app:popExitAnim="@anim/to_down" />
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_to_createNewItemFragment"
             app:destination="@id/createNewItemFragment"
