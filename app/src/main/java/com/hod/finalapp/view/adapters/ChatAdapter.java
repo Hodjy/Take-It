@@ -91,7 +91,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         if(isChatroomHasUnreadMessageForUser)
         {
             holder.itemView.setBackgroundColor(mRootView.getResources().
-                    getColor(R.color.blue, mRootView.getContext().getTheme()));
+                    getColor(R.color.blue_dark, mRootView.getContext().getTheme()));
         }
         else
         {
