@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,10 +68,14 @@ public class UserRepository
 
     public void sendRegistrationToServer(String iToken)
     {
-        String uID = mAuthenticationManager.getCurrentLoggedInUser().getUid();
-        if(uID != null)
+        FirebaseUser user = mAuthenticationManager.getCurrentLoggedInUser();
+        if(user != null)
         {
-            mUserTable.child(uID).child("token").setValue(iToken);
+            String uID = user.getUid();
+            if(uID != null)
+            {
+                mUserTable.child(uID).child("token").setValue(iToken);
+            }
         }
     }
 
