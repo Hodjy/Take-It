@@ -96,10 +96,10 @@
             app:popEnterAnim="@anim/from_down"
             app:popExitAnim="@anim/to_up" />
         <action
-            android:id="@+id/action_to_signInFragment"
-            app:destination="@id/signInFragment"
+            android:id="@+id/action_to_welcomeScreenFragment"
+            app:destination="@id/welcomeScreenFragment"
+            app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
             app:popUpTo="@id/userMainScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -172,10 +172,10 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
         <action
-            android:id="@+id/action_to_signInFragment"
-            app:destination="@id/signInFragment"
+            android:id="@+id/action_to_welcomeScreenFragment"
+            app:destination="@id/welcomeScreenFragment"
+            app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
             app:popUpTo="@id/userMainScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>

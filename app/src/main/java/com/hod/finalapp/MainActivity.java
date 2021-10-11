@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void goToLogIn() {
-        mNavController.navigate(R.id.action_to_signInFragment);
+        mNavController.navigate(R.id.action_to_welcomeScreenFragment);
     }
 
     @Override
