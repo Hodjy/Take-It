@@ -14,7 +14,7 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_centerHorizontal="true"
-            android:layout_margin="30dp" />
+            android:layout_margin="10dp" />
 
         <RelativeLayout
             android:id="@+id/fragment_item_description_all_text_container"
@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:layout_below="@id/fragment_item_description_picture_rv"
+            android:layout_below="@id/fragment_item_description_fab"
             android:background="?attr/colorSecondaryVariant">
 
             <com.google.android.material.textview.MaterialTextView
@@ -153,10 +153,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_below="@id/fragment_item_description_picture_rv"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:contentDescription="@string/msg_or_edit"
+            app:tint="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorPrimary"
             android:src="@drawable/outline_question_answer_24"
             app:fabSize="auto" />
 

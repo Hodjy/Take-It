@@ -32,8 +32,7 @@
     <style name="materialButtonStyle.Finalapp"
         parent="Widget.MaterialComponents.Button">
         <item name="textAllCaps">false</item>
-        <item name="backgroundTint">?attr/colorSecondary</item>
-        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textStyle">bold</item>
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">2dp</item>
     </style>
