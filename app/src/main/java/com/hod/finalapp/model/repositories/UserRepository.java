@@ -1,65 +1,274 @@
 package com.hod.finalapp.model.repositories;
 
-import android.content.Context;
-import android.widget.Toast;
+import android.app.Activity;
+import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.hod.finalapp.model.FirebaseHandler;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.hod.finalapp.model.database_objects.User;
+import com.hod.finalapp.model.firebase.AuthenticationManager;
+import com.hod.finalapp.model.firebase.DatabaseManager;
+import com.hod.finalapp.model.firebase.StorageManager;
+import com.hod.finalapp.model.firebase.enums.eFirebaseDataTypes;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.Executor;
+
 public class UserRepository
 {
+    private static UserRepository mUserRepository;
     private final DatabaseReference mUserTable;
 
-    public UserRepository()
+    private AuthenticationManager mAuthenticationManager;
+    private OnCompleteListener mUserChangedListener;
+
+    private User mCurrentUser;
+
+    private UserRepository()
     {
-        mUserTable = FirebaseDatabase.getInstance("https://socialapp-67e7d-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("Users");
+        mAuthenticationManager = AuthenticationManager.getInstance();
+
+        mUserTable = DatabaseManager.getInstance().getFirebaseDatabaseInstance()
+                .getReference(eFirebaseDataTypes.USERS.mTypeName);
     }
 
-    public void registerNewUser(Context iContext, String iEmail, String iPassword,
-                                  String iFirstName, String iLastName)
+    public static UserRepository getInstance()
     {
-        User newUser = new User(iEmail, iPassword,null,
-                iFirstName,iLastName,null);
+        if(mUserRepository == null)
+        {
+            mUserRepository = new UserRepository();
+        }
 
-        FirebaseHandler.getInstance().signUpUser(newUser.getUsername(), newUser.getPassword(),
-                new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<AuthResult> task)
+        return  mUserRepository;
+    }
+
+    public void registerNewUser(String iUsername, String iPassword, OnCompleteListener iListener)
+    {
+        mAuthenticationManager.getAuth().createUserWithEmailAndPassword(iUsername, iPassword).addOnCompleteListener(iListener);
+        //TODO if we do need the user firstname in the authentication account, check the ver 0.1 "initUserData" method call on UserRepositoryClass.
+    }
+
+    public void signInUser(String iUsername, String iPassword, OnCompleteListener iListener)
+    {
+        mAuthenticationManager.getAuth().signInWithEmailAndPassword(iUsername, iPassword).addOnCompleteListener(iListener);
+    }
+
+    public void sendRegistrationToServer(String iToken)
+    {
+        FirebaseUser user = mAuthenticationManager.getCurrentLoggedInUser();
+        if(user != null)
+        {
+            String uID = user.getUid();
+            if(uID != null)
+            {
+                mUserTable.child(uID).child("token").setValue(iToken);
+            }
+        }
+    }
+
+    public void updateCurrentUserToken()
+    {
+        FirebaseMessaging.getInstance().getToken()
+        .addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<String> task) {
+                if(task.isSuccessful())
+                {
+                    sendRegistrationToServer(task.getResult());
+                }
+            }
+        });
+    }
+
+    /** Fetch new user instance from firebase **/
+    public void updateCurrentUser(User user) {
+        mAuthenticationManager.updateCurrentUser();
+        mCurrentUser = user;
+    }
+
+    /** push user to firebase **/
+    public void pushUserToDatabase(User user){
+        mAuthenticationManager.updateCurrentUser();
+        user.setUserId(mAuthenticationManager.getCurrentLoggedInUser().getUid());
+        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).setValue(user);
+    }
+
+    public User getCurrentUser()
+    {
+        return mCurrentUser;
+    }
+
+    public boolean isUserLoggedIn()
+    {
+        boolean isLoggedIn = false;
+
+        if(mAuthenticationManager.getAuth().getCurrentUser() != null)
+        {
+            isLoggedIn = true;
+        }
+
+        return  isLoggedIn;
+    }
+
+    public void initUserInfo(OnCompleteListener iOnCompleteListener)
+    {
+        mUserChangedListener = iOnCompleteListener;
+        mAuthenticationManager.updateCurrentUser();
+        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).addValueEventListener(getUserListener());
+    }
+
+
+    private ValueEventListener getUserListener()
+    {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    mCurrentUser = snapshot.getValue(User.class);
+                    if(mUserChangedListener != null)
                     {
-                        if(task.isSuccessful())
-                        {
+                        mUserChangedListener.onComplete(new Task() {
+                            @Override
+                            public boolean isComplete() {
+                                return true;
+                            }
 
-                            FirebaseHandler.getInstance().updateUserData(new UserProfileChangeRequest
-                                            .Builder()
-                                            .setDisplayName(newUser.getFirstName()).build(),
-                                    new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull @NotNull Task<Void> task)
-                                        {
-                                            Toast.makeText(iContext, "Registered!", Toast.LENGTH_SHORT).show();
-                                            newUser.setUserId(FirebaseHandler.getInstance().getCurrentUser().getUid());
-                                            mUserTable.child(newUser.getUserId()).setValue(newUser);
-                                        }
-                                    });
-                        }
-                        else
-                        {
-                            Toast.makeText(iContext, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                            @Override
+                            public boolean isSuccessful() {
+                                return true;
+                            }
+
+                            @Override
+                            public boolean isCanceled() {
+                                return false;
+                            }
+
+                            @Nullable
+                            @org.jetbrains.annotations.Nullable
+                            @Override
+                            public Object getResult() {
+                                return mCurrentUser;
+                            }
+
+                            @Nullable
+                            @org.jetbrains.annotations.Nullable
+                            @Override
+                            public Object getResult(@NonNull @NotNull Class aClass) throws Throwable {
+                                return mCurrentUser;
+                            }
+
+                            @Nullable
+                            @org.jetbrains.annotations.Nullable
+                            @Override
+                            public Exception getException() {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnSuccessListener(@NonNull @NotNull OnSuccessListener onSuccessListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnSuccessListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnSuccessListener onSuccessListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnSuccessListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnSuccessListener onSuccessListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnFailureListener(@NonNull @NotNull OnFailureListener onFailureListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnFailureListener(@NonNull @NotNull Executor executor, @NonNull @NotNull OnFailureListener onFailureListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @NotNull
+                            @Override
+                            public Task addOnFailureListener(@NonNull @NotNull Activity activity, @NonNull @NotNull OnFailureListener onFailureListener) {
+                                return null;
+                            }
+                        });
+                        mUserChangedListener = null;
                     }
-                });
+                    Log.d("UserTest", mCurrentUser.getFirstName());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
+    }
+
+    public void signUserOut()
+    {
+        sendRegistrationToServer("");
+        mAuthenticationManager.getAuth().signOut();
+        setCurrentUserDataNull();
+    }
+
+    private void setCurrentUserDataNull()
+    {
+        mCurrentUser = null;
+        mAuthenticationManager.updateCurrentUser();
+    }
+
+    public void updateCurrentUserPhotoPath(String path) {
+        mCurrentUser.setPictureUrl(path);
+        mUserTable.child(mAuthenticationManager.getCurrentLoggedInUser().getUid()).child("pictureUrl").setValue(path);
+        mAuthenticationManager.updateCurrentUser();
+    }
+
+    public void changeUserProfilePicture(Uri iImageUri, OnCompleteListener<Uri> urlListener){
+        StorageManager.getInstance().uploadUserProfilePicture(iImageUri, mAuthenticationManager.getCurrentLoggedInUser().getUid(), urlListener);
+    }
+
+    public void getUserTokenByUseId(String iUserId, OnCompleteListener iListener)
+    {
+        mUserTable.child(iUserId).child("token").get().addOnCompleteListener(iListener);
+    }
+
+    public void getUserById(String iUserId,OnCompleteListener<DataSnapshot> listener)
+    {
+        mUserTable.child(iUserId).get().addOnCompleteListener(listener);
+    }
+
+
+    public static void closeRepository()
+    {
+        mUserRepository = null;
     }
 }

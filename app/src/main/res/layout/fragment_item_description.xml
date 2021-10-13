@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/fragment_item_description_view_sc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_item_description_picture_rv"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp" />
+
+        <RelativeLayout
+            android:id="@+id/fragment_item_description_all_text_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@id/fragment_item_description_fab"
+            android:background="?attr/colorSecondaryVariant">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_item_description_item_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/rounded_shape"
+                android:gravity="center"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="40sp" />
+
+            <LinearLayout
+                android:id="@+id/fragment_item_description_owner_name_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_item_description_item_name_tv"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_shape"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/outline_person_24"
+                    android:tint="?attr/colorOnSecondary" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/fragment_item_description_owner_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_item_description_location_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_item_description_owner_name_container"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_shape"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="20"
+                    android:background="@drawable/rounded_shape"
+                    android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/outline_place_24"
+                    android:tint="?attr/colorOnSecondary" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/fragment_item_description_item_location_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="20sp" />
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="20"
+                    android:background="@drawable/rounded_shape"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/outline_schedule_24"
+                        android:tint="?attr/colorOnSecondary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fragment_item_description_item_uploaded_time_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_item_description_description_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_item_description_location_container"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_shape"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/outline_description_24"
+                    android:tint="?attr/colorOnSecondary" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/fragment_item_description_item_description_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fragment_item_description_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/fragment_item_description_picture_rv"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/msg_or_edit"
+            app:tint="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorPrimary"
+            android:src="@drawable/outline_question_answer_24"
+            app:fabSize="auto" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_item_description_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_item_description_all_text_container"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:text="@string/back" />
+
+    </RelativeLayout>
+</ScrollView>

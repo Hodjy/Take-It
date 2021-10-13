@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/fragment_create_new_item_pictures_container_LL"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/fragment_create_new_item_photo_1_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_image_shape" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/fragment_create_new_item_photo_2_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_image_shape" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/fragment_create_new_item_photo_3_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_image_shape" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/fragment_create_new_item_photo_4_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_image_shape" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_create_new_item_name_textfield"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_create_new_item_pictures_container_LL"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:hint="@string/item_name"
+            android:textColor="?attr/colorOnSecondary"
+            android:textColorHint="?attr/colorOnSecondary"
+            app:boxBackgroundColor="?attr/colorSecondaryVariant"
+            app:boxStrokeColor="?attr/colorSecondary"
+            app:hintTextColor="?attr/colorSecondary"
+            app:startIconDrawable="@drawable/outline_badge_24"
+            app:startIconTint="?attr/colorOnSecondary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragment_create_new_item_name_et"
+                style="Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:textColor="?attr/colorOnSecondary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_create_new_item_description_textfield"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_create_new_item_name_textfield"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:hint="@string/item_description"
+            android:textColor="?attr/colorOnSecondary"
+            android:textColorHint="?attr/colorOnSecondary"
+            app:boxBackgroundColor="?attr/colorSecondaryVariant"
+            app:hintTextColor="?attr/colorSecondary"
+            app:startIconDrawable="@drawable/outline_description_24"
+            app:startIconTint="?attr/colorOnSecondary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragment_create_new_item_description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnSecondary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fragment_create_new_item_location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_create_new_item_description_textfield"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"
+            android:textColor="?attr/colorSecondary"
+            android:textStyle="bold"
+            android:hint="@string/location"
+            android:textSize="20sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_create_new_item_set_location_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_create_new_item_description_textfield"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:text="@string/set_my_location"
+            app:icon="@drawable/outline_location_on_24"
+            app:iconTint="?attr/colorOnSecondary" />
+
+        <RelativeLayout
+            android:id="@+id/fragment_create_new_item_category_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSecondaryVariant"
+            android:layout_margin="10dp"
+            android:layout_below="@id/fragment_create_new_item_set_location_btn">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/outline_category_24"
+                android:layout_marginStart="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:tint="?attr/colorOnSecondary"
+                android:id="@+id/fragment_create_new_item_category_icon"/>
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fragment_create_new_item_category_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/fragment_create_new_item_category_icon"
+                android:textColor="?attr/colorOnSecondary"
+                android:layout_margin="10dp"
+                android:text="@string/category"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/fragment_create_new_item_category_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="10dp" />
+        </RelativeLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_create_new_item_create_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_create_new_item_category_container"
+            android:layout_centerHorizontal="true"
+            android:text="@string/create" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_create_new_item_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_create_new_item_create_btn"
+            android:layout_centerHorizontal="true"
+            android:text="@string/back" />
+    </RelativeLayout>
+</ScrollView>

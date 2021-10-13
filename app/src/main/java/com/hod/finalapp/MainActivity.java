@@ -4,28 +4,43 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.ActivityNavigator;
 import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseUser;
-import com.hod.finalapp.fragments.WelcomeScreenFragment;
-import com.hod.finalapp.model.FirebaseHandler;
+import com.google.android.material.snackbar.Snackbar;
+import com.hod.finalapp.model.listeners.ISnackbarLogInActionListener;
+import com.hod.finalapp.model.repositories.RepoInitializer;
+import com.hod.finalapp.model.repositories.UserRepository;
+import com.hod.finalapp.view.fragments.CatalogMainScreenFragment;
+import com.hod.finalapp.view.fragments.chat.ChatRoomFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity
+        implements CatalogMainScreenFragment.ICatalogMainScreenFragmentListener,
+        ISnackbarLogInActionListener, ChatRoomFragment.IChatRoomListener
 {
-    private DrawerLayout m_DrawerLayout;
+    private DrawerLayout mDrawerLayout;
+    private ActionBar mActionBar;
+    private MenuItem mSignInOutItem;
+    private MenuItem mProfileItem;
+    private MenuItem mChatsItem;
+    private MenuItem mAddItemMenuItem;
+    private NavController mNavController;
+    private boolean mIsUserAtCatalog = false;
+    private boolean mIsUserAtChatroom = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,43 +48,155 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        m_DrawerLayout = findViewById(R.id.activity_main_drawer_layout);
+        mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
         NavigationView navigationView = findViewById(R.id.activity_main_navigation_view);
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager()
                                             .findFragmentById(R.id.activity_main_nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
+        mNavController = navHostFragment.getNavController();
+
+        mSignInOutItem = navigationView.getMenu().findItem(R.id.drawer_menu_log_out_item);
+        mProfileItem = navigationView.getMenu().findItem(R.id.drawer_menu_profile);
+        mChatsItem = navigationView.getMenu().findItem(R.id.drawer_menu_chats);
 
         Toolbar appToolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(appToolbar);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar = getSupportActionBar();
+
+        mActionBar.setDisplayHomeAsUpEnabled(false);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item)
-            {
-                if(item.getItemId() == R.id.drawer_menu_log_out_item)
+            {//TODO make it better or at least try to (maybe stragey design pattern).
+                switch(item.getItemId())
                 {
-                    FirebaseHandler.getInstance().signUserOut();
-                    navController.navigate(R.id.action_to_welcomeScreenFragment);
+                    case R.id.drawer_menu_profile:
+                        mNavController.navigate(R.id.action_userMainScreenFragment_to_userProfileFragment);
+                        break;
+                    case R.id.drawer_menu_chats:
+                        mNavController.navigate(R.id.action_userMainScreenFragment_to_userChatsFragment);
+                        break;
+                    case R.id.drawer_menu_log_out_item:
+                        if(UserRepository.getInstance().isUserLoggedIn())
+                        {
+                            UserRepository.getInstance().signUserOut();
+                            RepoInitializer.closeAllRepo();
+                            mNavController.navigate(R.id.action_to_welcomeScreenFragment);
+                        }
+                        else
+                        {
+                            goToLogIn();
+                        }
+                        break;
                 }
-                m_DrawerLayout.closeDrawers();
+                mDrawerLayout.closeDrawers();
                 return false;
             }
         });
-
-
     }
 
     @SuppressLint("WrongConstant")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        if(item.getItemId() == android.R.id.home)
+        switch (item.getItemId())
         {
-            m_DrawerLayout.openDrawer(Gravity.START);
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(Gravity.START);
+                break;
+            case R.id.toolbar_menu_add_new_item:
+                addItemWasPressed();
+                break;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addItemWasPressed() {
+        if(UserRepository.getInstance().isUserLoggedIn())
+        {
+            mNavController.navigate(R.id.action_to_createNewItemFragment);
+        }
+        else
+        {
+            View fragmentContainer = findViewById(R.id.activity_main_nav_host_fragment); // dummy view for snackbar.
+            ISnackbarLogInActionListener callback = this;
+            String error = getString(R.string.guest_user_cannot_use_this);
+            Snackbar.make(fragmentContainer,error,Snackbar.LENGTH_LONG)
+                    .setAction(R.string.sign_in, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            callback.goToLogIn();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    @Override
+    public void fragmentActiveStateChanged(boolean iIsActive) // toggle hamburger icon if entered or left item catalog fragment.
+    {
+        mIsUserAtCatalog = iIsActive;
+        mActionBar.setDisplayHomeAsUpEnabled(iIsActive);
+
+        if(mAddItemMenuItem != null)
+        {
+            mAddItemMenuItem.setVisible(iIsActive);
+        }
+
+
+        if(iIsActive)
+        {
+            String signMessage = getResources().getString(R.string.sign_out);
+            Drawable icon = ResourcesCompat.getDrawable(getResources(),R.drawable.outline_logout_24,getTheme());
+            boolean isUserLoggedIn = UserRepository.getInstance().isUserLoggedIn();
+            if(!isUserLoggedIn)
+            {
+                signMessage = getResources().getString(R.string.sign_in);
+                icon = ResourcesCompat.getDrawable(getResources(),R.drawable.outline_login_24,getTheme());
+            }
+
+            setMenuItems(isUserLoggedIn, signMessage, icon);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
+        else
+        {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+            if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+            {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+        }
+    }
+
+    private void setMenuItems(boolean iIsUserLoggedIn, String iSignInOutTitle, Drawable iIcon)
+    {
+        mSignInOutItem.setTitle(iSignInOutTitle);
+        mSignInOutItem.setIcon(iIcon);
+        mProfileItem.setVisible(iIsUserLoggedIn);
+        mChatsItem.setVisible(iIsUserLoggedIn);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        mAddItemMenuItem = menu.findItem(R.id.toolbar_menu_add_new_item);
+        mAddItemMenuItem.setVisible(mIsUserAtCatalog);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void goToLogIn() {
+        mNavController.navigate(R.id.action_to_welcomeScreenFragment);
+    }
+
+    @Override
+    public void chatRoomFragmentActiveStateChanged(boolean iIsActive) {
+        mIsUserAtChatroom = iIsActive;
     }
 }

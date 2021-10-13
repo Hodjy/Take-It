@@ -5,28 +5,85 @@ import android.os.Parcelable;
 
 public class ChatMessage implements Parcelable
 {
-    private String mText;
+    private String mMessageText;
     private String mSenderUserId;
     private String mReceiverUserId;
+    private String mMessagePictureUrl;
+    private String mMessageSentTime;
 
-    public ChatMessage(String iText, String iSenderUserId, String iReceiverUserId)
+    public ChatMessage()
     {
-        mText = iText;
+        mMessageText = null;
+        mSenderUserId = null;
+        mReceiverUserId = null;
+        mMessagePictureUrl = null;
+        mMessageSentTime = null;
+    }
+
+    public ChatMessage(String iMessageText, String iSenderUserId, String iReceiverUserId, String iMessagePictureUrl, String iMessageSentTime)
+    {
+        mMessageText = iMessageText;
         mSenderUserId = iSenderUserId;
+        mReceiverUserId = iReceiverUserId;
+        mMessagePictureUrl = iMessagePictureUrl;
+        mMessageSentTime = iMessageSentTime;
+    }
+
+    public String getMessageSentTime() {
+        return mMessageSentTime;
+    }
+
+    public void setMessageSentTime(String mMessageSentTime) {
+        this.mMessageSentTime = mMessageSentTime;
+    }
+
+    public String getMessageText() {
+        return mMessageText;
+    }
+
+    public void setMessageText(String iMessageText) {
+        mMessageText = iMessageText;
+    }
+
+    public String getSenderUserId() {
+        return mSenderUserId;
+    }
+
+    public void setSenderUserId(String iSenderUserId) {
+        mSenderUserId = iSenderUserId;
+    }
+
+    public String getReceiverUserId() {
+        return mReceiverUserId;
+    }
+
+    public void setReceiverUserId(String iReceiverUserId) {
         mReceiverUserId = iReceiverUserId;
     }
 
+    public String getMessagePictureUrl() {
+        return mMessagePictureUrl;
+    }
+
+    public void setMessagePictureUrl(String iMessagePictureUrl) {
+        mMessagePictureUrl = iMessagePictureUrl;
+    }
+
     protected ChatMessage(Parcel in) {
-        mText = in.readString();
+        mMessageText= in.readString();
         mSenderUserId = in.readString();
         mReceiverUserId = in.readString();
+        mMessagePictureUrl = in.readString();
+        mMessageSentTime = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mText);
+        dest.writeString(mMessageText);
         dest.writeString(mSenderUserId);
         dest.writeString(mReceiverUserId);
+        dest.writeString(mMessagePictureUrl);
+        dest.writeString(mMessageSentTime);
     }
 
     @Override

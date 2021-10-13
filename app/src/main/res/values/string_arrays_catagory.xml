@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories">
+        <item>@string/category_animals</item>
+        <item>@string/category_books</item>
+        <item>@string/category_childcare</item>
+        <item>@string/category_clothes</item>
+        <item>@string/category_electric_product</item>
+        <item>@string/category_food</item>
+        <item>@string/category_furniture</item>
+        <item>@string/category_hobbies</item>
+        <item>@string/category_media</item>
+        <item>@string/category_social_assistance</item>
+        <item>@string/category_other</item>
+    </string-array>
+</resources>
