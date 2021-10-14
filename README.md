@@ -44,7 +44,7 @@ Deleting an item will remove it entierly from the database, and update realtime 
 User can enter an item description in order to send a message requesting that item from another user.       
             
 ![XboxNotificationNew](https://user-images.githubusercontent.com/62711261/137302689-7e569281-ff54-43cb-a699-c569c0dfe03d.gif)
-![XboxMsgingNew](https://user-images.githubusercontent.com/62711261/137302717-52bf50b1-f418-4122-8e3e-9a4480fb9cdf.gif)
+![XboxMsgingNew](https://user-images.githubusercontent.com/62711261/137302717-52bf50b1-f418-4122-8e3e-9a4480fb9cdf.gif)                                                 
 If the user left the app and receives a message, he will receive a notification with the message contents and the sender's name.        
 The chatrooms with unread messages will be highlighted in a different color than the other chatrooms.
 Messaging are realtime and are handeld by the realtime database.
