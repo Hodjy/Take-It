@@ -18,6 +18,7 @@ import com.hod.finalapp.model.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
@@ -101,7 +102,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
         holder.chatNameTv.setText(chat.getChatName());
         int lastIndex = chat.getChatMessages().size();
-        holder.chatLastSentMessageTime.setText(chat.getChatMessages().get(lastIndex - 1).getMessageSentTime());
+        String time = getLocalTimeFromMillis(chat.getChatMessages().get(lastIndex - 1).getMessageSentTime());
+        holder.chatLastSentMessageTime.setText(time);
         loadUriImage(holder, chat);
     }
 
@@ -116,5 +118,21 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public int getItemCount() {
         return mChats.size();
+    }
+
+    private String getLocalTimeFromMillis(long iMessageTime)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(iMessageTime);
+        int hour = calendar.get(Calendar.HOUR);
+        int minute = calendar.get(Calendar.MINUTE);
+        String time = hour + ":";
+        if(minute < 10)
+        {
+            time += "0";
+        }
+        time += minute;
+
+        return time;
     }
 }

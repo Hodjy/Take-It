@@ -18,6 +18,7 @@ import com.hod.finalapp.model.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
@@ -83,7 +84,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
 
         holder.messageTextTv.setText(message.getMessageText());
-        holder.messageTimeTextTv.setText(message.getMessageSentTime());
+        holder.messageTimeTextTv.setText(getLocalTimeFromMillis(message.getMessageSentTime()));
         loadUriImage(holder, message);
     }
 
@@ -98,5 +99,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public int getItemCount() {
         return messages.size();
+    }
+
+    private String getLocalTimeFromMillis(long iMessageTime)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(iMessageTime);
+        int hour = calendar.get(Calendar.HOUR);
+        int minute = calendar.get(Calendar.MINUTE);
+        String time = hour + ":";
+        if(minute < 10)
+        {
+            time += "0";
+        }
+        time += minute;
+
+        return time;
     }
 }

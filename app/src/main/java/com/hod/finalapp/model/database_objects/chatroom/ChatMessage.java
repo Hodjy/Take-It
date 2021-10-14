@@ -9,7 +9,7 @@ public class ChatMessage implements Parcelable
     private String mSenderUserId;
     private String mReceiverUserId;
     private String mMessagePictureUrl;
-    private String mMessageSentTime;
+    private long mMessageSentTime;
 
     public ChatMessage()
     {
@@ -17,10 +17,10 @@ public class ChatMessage implements Parcelable
         mSenderUserId = null;
         mReceiverUserId = null;
         mMessagePictureUrl = null;
-        mMessageSentTime = null;
+        mMessageSentTime = 0;
     }
 
-    public ChatMessage(String iMessageText, String iSenderUserId, String iReceiverUserId, String iMessagePictureUrl, String iMessageSentTime)
+    public ChatMessage(String iMessageText, String iSenderUserId, String iReceiverUserId, String iMessagePictureUrl, long iMessageSentTime)
     {
         mMessageText = iMessageText;
         mSenderUserId = iSenderUserId;
@@ -29,11 +29,11 @@ public class ChatMessage implements Parcelable
         mMessageSentTime = iMessageSentTime;
     }
 
-    public String getMessageSentTime() {
+    public long getMessageSentTime() {
         return mMessageSentTime;
     }
 
-    public void setMessageSentTime(String mMessageSentTime) {
+    public void setMessageSentTime(long mMessageSentTime) {
         this.mMessageSentTime = mMessageSentTime;
     }
 
@@ -74,7 +74,7 @@ public class ChatMessage implements Parcelable
         mSenderUserId = in.readString();
         mReceiverUserId = in.readString();
         mMessagePictureUrl = in.readString();
-        mMessageSentTime = in.readString();
+        mMessageSentTime = in.readLong();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ChatMessage implements Parcelable
         dest.writeString(mSenderUserId);
         dest.writeString(mReceiverUserId);
         dest.writeString(mMessagePictureUrl);
-        dest.writeString(mMessageSentTime);
+        dest.writeLong(mMessageSentTime);
     }
 
     @Override

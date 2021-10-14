@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -125,9 +126,10 @@ public class ChatRoomViewModel extends ViewModel
 
     public void sendMessage(String iMessageText)
     {
+        Long timeInMillis = Calendar.getInstance().getTimeInMillis();
         ChatMessage newChatMessage = new ChatMessage(iMessageText, mCurrentUserId,
                 mOtherUserId, UserRepository.getInstance().getCurrentUser().getPictureUrl(),
-                getTimeHrMin());
+                timeInMillis);
 
         if(isThisChatRoomNew)
         {
